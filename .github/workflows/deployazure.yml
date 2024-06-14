@@ -20,7 +20,7 @@ jobs:
       - name: Deploy to Azure VM
         run: |
           ssh -v -o StrictHostKeyChecking=no ${{ secrets.AZURE_VM_USERNAME }}@${{ secrets.AZURE_VM_IP }} << 'EOF'
-            cd test/CVAISotuken
+            cd test/CVAISotukenBackend
             git switch main
             git pull origin main
             npm install
