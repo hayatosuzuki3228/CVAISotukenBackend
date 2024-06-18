@@ -1,5 +1,5 @@
 // const connect = require("../database/Connection.js");
-const connect = require("../database/Pool.js").pool();
+const connect = require("../database/Connection.js").Connection;
 
 
 async function updateprofile(args) {

@@ -15,12 +15,12 @@ server.use(express.json()); // JSONデータのパースも許可
   
 // リクエストに対して応答する関数を指定
 const requests = {
-  registration: require("./function/account/Registration").registration,
-  authentication: require("./function/account/Auchentication").authentication,
-  user_profile: require("./function/account/Profile").profile,
-  update_profile: require("./function/account/UpdateProfile").updateprofile,
-  company_information: require("./function/company/Information").information,
-  company_search: require("./function/company/Search").search,
+  registration: require("./account/Registration").registration,
+  authentication: require("./account/Auchentication").authentication,
+  user_profile: require("./account/Profile").profile,
+  update_profile: require("./account/UpdateProfile").updateprofile,
+  company_information: require("./company/Information").information,
+  company_search: require("./company/Search").search,
 };
  
 // /apiに対するpostリクエストに応答
