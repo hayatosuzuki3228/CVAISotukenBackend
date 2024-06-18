@@ -1,4 +1,4 @@
-const connect = require("../database/Connection.js");
+const connect = require("../database/Connection.js").Connection;
 
 async function search(args) {
     // 必要な値が与えられなければエラーを返す
@@ -45,25 +45,26 @@ async function search(args) {
     
     return new Promise((resolve, reject) => {
         // sqlと接続
-        const connection = connect.connect("user");
-        
-        // 送信
-        connection.execute(
-            sql,
-            keywords,
-            (error, results) => {
-                // 送信失敗時にエラーを送信
-                if (error) {
-                    connection.rollback(() => {
-                        reject(error); // エラーがあればrejectする
-                        });
-                        return;
-                }
+        connect.getConnection((err, connection) => {
+            // 送信
+            connection.execute(
+                sql,
+                keywords,
+                (error, results) => {
+                    // 送信失敗時にエラーを送信
+                    if (error) {
+                        connection.rollback(() => {
+                            reject(error); // エラーがあればrejectする
+                            });
+                            return;
+                    }
 
-                // データの取得が終了したらresolveする
-                resolve({"status": true, "result":results});
-            }
-        );
+                    // データの取得が終了したらresolveする
+                    resolve({"status": true, "result":results});
+                }
+            );
+            connection.release();
+        });
     });
 }
 

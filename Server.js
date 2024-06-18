@@ -4,7 +4,7 @@ const cors = require("cors");
 const server = express();
 
 // ポート番号の指定
-const port = 3000;
+const port = 6666;
  
 // CORSを全てのリクエストで許可する
 server.use(cors());
