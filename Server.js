@@ -20,6 +20,7 @@ const requests = {
   user_profile: require("./account/Profile").profile,
   update_profile: require("./account/UpdateProfile").updateprofile,
   company_information: require("./company/Information").information,
+  company_registration: require("./company/Registration").registration,
   company_search: require("./company/Search").search,
 };
  

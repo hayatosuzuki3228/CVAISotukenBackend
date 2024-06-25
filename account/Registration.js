@@ -9,8 +9,8 @@ async function registration(args) {
     // 必要な値が与えられなければエラーを返す
     const requiredArgs = [
         args.password,
-        args.name,
         args.email,
+        args.name,
         args.furigana,
         args.sex,
         args.birthday,

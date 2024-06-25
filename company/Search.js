@@ -13,12 +13,6 @@ async function search(args) {
         }
     }
 
-    // 渡された検索対象を許可されたもの以外はじく
-    const allowedSubject = ["name", "code", "category", "office", "qualification"]
-    if(!(allowedSubject.includes(args.subject))) {
-        return({"status": false, "result": "Invalid subject."});
-    }
-
     // 得られた検索キーワードを整形
     const keywords = args.keyword.split(/\s+/);
 
@@ -27,12 +21,11 @@ async function search(args) {
     }
 
     // sql文の作成
-    let sql = "SELECT id, name"
+    let sql = "SELECT ?? FROM companies WHERE "
+    const colmuns = ['id', 'name']
     if(args.subject != "name") {
-        sql += ", " + args.subject;
+        colmuns.unshift(args.subject);
     }
-
-    sql += " FROM companies WHERE "
 
     for(let i = 0; i < Object.keys(keywords).length; i ++) {
         if(i !== 0) {
@@ -41,15 +34,15 @@ async function search(args) {
         sql += args.subject + " LIKE ?";
     }
     sql += ";";
-    console.log(sql);
     
     return new Promise((resolve, reject) => {
         // sqlと接続
         connect.getConnection((err, connection) => {
+        
             // 送信
-            connection.execute(
+            connection.query(
                 sql,
-                keywords,
+                [colmuns, ...keywords],
                 (error, results) => {
                     // 送信失敗時にエラーを送信
                     if (error) {
@@ -63,7 +56,6 @@ async function search(args) {
                     resolve({"status": true, "result":results});
                 }
             );
-            connection.release();
         });
     });
 }
