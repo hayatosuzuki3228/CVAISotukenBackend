@@ -56,6 +56,7 @@ async function search(args) {
                     resolve({"status": true, "result":results});
                 }
             );
+            connection.release();
         });
     });
 }

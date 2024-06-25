@@ -47,7 +47,6 @@ async function registration(args) {
             insertFieldsSql += ",";
         }
         insertFieldsSql += insertFields[j];
-        
     }
     console.log(insertFields);
     // 挿入対象のフィールドが存在しない場合はエラーをスロー

@@ -40,6 +40,7 @@ async function information(args) {
                     }
                 }
             );
+            connection.release();
         });
     });
 }

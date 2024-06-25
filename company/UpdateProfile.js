@@ -4,40 +4,36 @@ const connect = require("../database/Connection.js").Connection;
 
 async function updateprofile(args) {
     // user_idが入力されてないときにエラーを吐く
-    if (args.userId === undefined || args.userId === "") {
+    if (args.companyId === undefined || args.companyId === "") {
         throw new Error("Invalid arguments.");
     }
 
-    // SQLの作成(SETまで)
-    let sql = "UPDATE user_profile SET";
-
-
-    // 更新対象のフィールドのみを選択し、SQLクエリを構築
-    const data = {
-        name: args.name,
-        furigana: args.furigana,
-        sex: args.sex,
-        birthday: args.birthday,
-        residence: args.residence,
-        qualification: args.qualification,
+    // 連想配列のkeyの取得
+    const keys = [];
+    let count = 0;
+    for(const Column of Object.keys(args)){
+        if((count != 0) && (count != (Object.keys(args).length - 1))){
+            keys.push(Column);
+        }
+        count++;
     }
+
+    // SQLの作成(SETまで)
+    let sql = "UPDATE companies SET";
 
     // SQLを作成(SETからWHEREの間)
-    let cnt = 0;
+    let i;
     let updatedFields = [];
     const keywords = [];
-    for (let key of Object.keys(data)) {
-        if(data[key] !== undefined && data[key] !== "") {
-            console.log(key);
-            if(cnt !== 0){
+    for (i=0;i<keys.length;i++) {
+        if(args !== undefined && args !== "") {
+            if(i !== 0){
                 updatedFields += ",";
             }
-            updatedFields += key + " = ?";
-            keywords.push(data[key]);
-            cnt++;
+            updatedFields += keys[i] + " = ?";
+            keywords.push(args[keys[i]]);
         }
     }
-    console.log(updatedFields);
     console.log(keywords);
 
     // 更新対象のフィールドが存在しない場合はエラーをスロー
@@ -47,8 +43,8 @@ async function updateprofile(args) {
 
     // SQLを完成させる
     const updateSql = `${sql} ${updatedFields} WHERE id = ?;`;
+    console.log(args.companyId)
     console.log(updateSql);
-    
 
     return new Promise((resolve, reject) => {
         // sqlと接続
@@ -56,7 +52,7 @@ async function updateprofile(args) {
             // 送信
             connection.execute(
                 updateSql,
-                [...keywords, args.userId],
+                [...keywords, args.companyId],
                 (error, results) => {
                     // 送信失敗時にエラーを送信
                     if (error) {
