@@ -18,3 +18,7 @@ async function main() {
 }
 
 main();
+
+// インストールするもの
+//npm install @azure/keyvault-secrets
+//npm install @azure/identity

@@ -26,9 +26,10 @@ async function registration(args) {
     }
 
     // パスワードが8~14文字かつ不正な文字が使われていないかの判定
-    if (!((/^[A-Za-z\d]{8,14}$/).test(args.password))) {
-        console.log("Please enter between 8 and 14 characters.");
-        return {"status:":false, "message": "Please enter the password between 8 and 14 characters."};
+//    if (!((/^[A-Za-z\d]{8,14}$/).test(args.password))) {
+    if(!((/^(?=.*[a-zA-Z])(?=.*[0-9/-])[a-zA-Z0-9.?/-]{8,24}$/).test(args.password))){
+        console.log("Please enter the correct password.");
+        return {"status:":false, "message": "Please enter the correct password."};
     }
 
     // saltを生成し暗号化
