@@ -47,6 +47,7 @@ async function updateprofile(args) {
 
     // SQLを完成させる
     const updateSql = `${sql} ${updatedFields} WHERE id = ?;`;
+    console.log(updateSql);
     
 
     return new Promise((resolve, reject) => {
