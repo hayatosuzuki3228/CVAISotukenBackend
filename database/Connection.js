@@ -6,7 +6,8 @@ class Connection{
         connectionLimit : 10,
         host: "localhost",
         user: "user",
-        password: require("KeyVault"),
+        password: require("./KeyVault"),
+//        password: "pass",
         database: "sotsuken",
     });
 };
