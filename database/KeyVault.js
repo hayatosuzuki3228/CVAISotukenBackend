@@ -11,11 +11,15 @@ const credential = new DefaultAzureCredential();
 
 const secretName = "database-password"; //シークレットの名前
 
-const secretClient = new SecretClient(url, credential); //シークレット取得のためのclient
-const secretResult = await secretClient.getSecret(secretName); //シークレットの取得結果
-console.log("secret result: ",secretResult);
+async function main() {
+    const secretClient = new SecretClient(url, credential); //シークレット取得のためのclient
+    const secretResult = await secretClient.getSecret(secretName); //シークレットの取得結果
+    return secretResult;
+}
 
-exports.keyvault = secretResult.value;
+main();
+
+exports.keyvault = main();
 
 // インストールするもの
 //npm install @azure/keyvault-secrets
