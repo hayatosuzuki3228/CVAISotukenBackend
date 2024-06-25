@@ -1,4 +1,4 @@
-const connect = require("../database/Connection.js");
+const connect = require("../database/Connection.js").Connection;
 
 async function profile(args) {
     
@@ -15,31 +15,33 @@ async function profile(args) {
 
     return new Promise((resolve, reject) => {
         // sqlと接続
-        const connection = connect.connect();
+        connect.getConnection((err, connection) => {
 
-        const sql = "SELECT user_profile.* FROM user_profile JOIN authentication ON user_profile.id = authentication.id WHERE email = (?)";
+            const sql = "SELECT user_profile.* FROM user_profile JOIN authentication ON user_profile.id = authentication.id WHERE email = (?)";
 
-        // 送信
-        connection.execute(
-            sql,
-            [args.email],
-            (error, results) => {
-                // 送信失敗時にエラーを送信
-                if (error) {
-                    connection.rollback(() => {
-                        reject(error); // エラーがあればrejectする
-                        });
+            // 送信
+            connection.execute(
+                sql,
+                [args.email],
+                (error, results) => {
+                    // 送信失敗時にエラーを送信
+                    if (error) {
+                        connection.rollback(() => {
+                            reject(error); // エラーがあればrejectする
+                            });
+                            return;
+                    }
+
+                    if (results.length === 0) {
+                        resolve({"status": false, "result": "User not found :( "}); // ユーザーが見つからない場合はfalseを返す
                         return;
+                    } else {
+                        resolve({"status": true, "result": results[0]});
+                    }
                 }
-
-                if (results.length === 0) {
-                    resolve({"status": false, "result": "User not found :( "}); // ユーザーが見つからない場合はfalseを返す
-                    return;
-                } else {
-                    resolve({"status": true, "result": results[0]});
-                }
-            }
-        );
+            );
+            connection.release();
+        });
     });
 }
 
