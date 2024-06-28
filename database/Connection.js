@@ -1,15 +1,17 @@
 mysql = require("mysql2");
 
-class Connection{
+async function main() {
+    const password = await require("./KeyVault");
     // コネクションプールの作成
-    static pool = mysql.createPool({
+    pool = mysql.createPool({
         connectionLimit : 10,
         host: "localhost",
         user: "user",
-        password: require("./KeyVault"),
-//        password: "pass",
+        password: password,
         database: "sotsuken",
     });
-};
+    
+    exports.connection = pool;
+}
 
-exports.Connection = Connection.pool;
+main();

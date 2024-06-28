@@ -14,13 +14,9 @@ const secretName = "database-password"; //シークレットの名前
 async function main() {
     const secretClient = new SecretClient(url, credential); //シークレット取得のためのclient
     const secretResult = await secretClient.getSecret(secretName); //シークレットの取得結果
-    return secretResult;
+    return secretResult.value;
 }
 
 main();
 
-exports.keyvault = main();
-
-// インストールするもの
-//npm install @azure/keyvault-secrets
-//npm install @azure/identity
+exports.password = main();

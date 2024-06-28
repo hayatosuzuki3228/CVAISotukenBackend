@@ -1,6 +1,4 @@
-const connect = require("../database/Connection.js").Connection;
-
-async function search(args) {
+async function search(connect, args) {
     // 必要な値が与えられなければエラーを返す
     const requiredArgs = [
         args.subject,

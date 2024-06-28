@@ -1,7 +1,6 @@
-const connect = require("../database/Connection.js");
 const encryption = require("../database/Encryption.js");
 
-async function authentication(args) {
+async function authentication(connect, args) {
     
     // 必要な値が与えられなければエラーを返す
     const requiredArgs = [
