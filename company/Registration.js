@@ -1,7 +1,4 @@
-// もろもろインポート
-const connect = require("../database/Connection.js").Connection;
-
-async function registration(args) {
+async function registration(connect, args) {
     console.log(args)
     // 必要な値が与えられなければエラーを返す
     const requiredArgs = [

@@ -1,6 +1,4 @@
-const connect = require("../database/Connection.js").Connection;
-
-async function profile(args) {
+async function profile(connect, args) {
     
     // 必要な値が与えられなければエラーを返す
     const requiredArgs = [

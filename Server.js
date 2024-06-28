@@ -1,6 +1,7 @@
 // ライブラリ等読み込み
 const express = require("express");
 const cors = require("cors");
+const { Connection } = require("./database/Connection");
 const server = express();
 
 // ポート番号の指定
@@ -30,7 +31,8 @@ server.post("/api", async (req, res) => {
   console.log("リクエストだよ♡");
   try {
     // postされたうち、requestに設定された値の関数を実行
-    const result = await requests[req.body.request]({ ...req.body });
+    const connection = await require("./database/Connection").connection;
+    const result = await requests[req.body.request](connection, { ...req.body });
  
     // 結果を返す
     console.log("API Request successful: ", result);

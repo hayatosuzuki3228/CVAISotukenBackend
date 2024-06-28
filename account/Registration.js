@@ -1,11 +1,9 @@
 // もろもろインポート
 const crypto = require("crypto");
 
-// const connect = require("../database/Connection.js");
-const connect = require("../database/Connection.js").Connection;
 const encryption = require("../database/Encryption.js");
 
-async function registration(args) {
+async function registration(connect, args) {
     // 必要な値が与えられなければエラーを返す
     const requiredArgs = [
         args.password,

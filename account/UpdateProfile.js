@@ -1,8 +1,4 @@
-// const connect = require("../database/Connection.js");
-const connect = require("../database/Connection.js").Connection;
-
-
-async function updateprofile(args) {
+async function updateprofile(connect, args) {
     // user_idが入力されてないときにエラーを吐く
     if (args.userId === undefined || args.userId === "") {
         throw new Error("Invalid arguments.");
