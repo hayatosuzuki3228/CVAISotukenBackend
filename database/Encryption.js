@@ -1,7 +1,10 @@
+const crypto = require("crypto");
+const pepper = require("../database/KeyVault.js").pepper;
+
 function encryption(password, salt) {
-    const crypto = require("crypto");
     
-    const saltedPassword = password + salt;
+    
+    const saltedPassword = password + salt + pepper;
 
     const streching = 2;
 

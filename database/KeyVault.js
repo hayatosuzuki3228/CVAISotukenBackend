@@ -10,13 +10,22 @@ const url = `https://${vaultName}.vault.azure.net`;
 const credential = new DefaultAzureCredential();
 
 const secretName = "database-password"; //シークレットの名前
+const pepperName = "pepper";
 
-async function main() {
+async function getPassword() {
     const secretClient = new SecretClient(url, credential); //シークレット取得のためのclient
     const secretResult = await secretClient.getSecret(secretName); //シークレットの取得結果
     return secretResult.value;
 }
 
-main();
+async function getPepper() {
+    const secretClient = new SecretClient(url, credential); //シークレット取得のためのclient
+    const secretResult = await secretClient.getSecret(pepperName); //シークレットの取得結果
+    return secretResult.value;
+}
 
-exports.password = main();
+const password = getPassword();
+const pepper = getPepper();
+
+exports.password = password;
+exports.pepper = pepper;

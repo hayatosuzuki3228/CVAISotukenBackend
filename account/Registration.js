@@ -32,7 +32,7 @@ async function registration(connect, args) {
 
     // saltを生成し暗号化
     const salt = crypto.randomBytes(16).toString('hex');
-    const hashedPassword = encryption.encryption(args.password, salt)
+    const hashedPassword = encryption.encryption(args.password, salt);
 
     // 計算が成功しているのであればデータベースに送信
     if(!hashedPassword) return {"status" : false, "value": "unsuccessfully password hash"};
