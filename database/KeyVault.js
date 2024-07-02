@@ -19,17 +19,13 @@ async function getPassword() {
 }
 
 async function getPepper() {
-    /*
     const secretClient = new SecretClient(url, credential); //シークレット取得のためのclient
     const secretResult = await secretClient.getSecret(pepperName); //シークレットの取得結果
     return secretResult.value;
-    */
-    console.log('hoge');
-    return 'ytyuoihbjkahdf';
 }
 
-// const password = getPassword();
+const password = getPassword();
 const pepper = getPepper();
 
-// exports.password = password;
+exports.password = password;
 exports.pepper = pepper;
