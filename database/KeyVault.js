@@ -1,4 +1,4 @@
-/*const { SecretClient } = require("@azure/keyvault-secrets");
+const { SecretClient } = require("@azure/keyvault-secrets");
 const { DefaultAzureCredential } = require("@azure/identity");
 
 // Build the URL to reach your key vault
@@ -28,7 +28,4 @@ const password = getPassword();
 const pepper = getPepper();
 
 exports.password = password;
-exports.pepper = pepper;*/
-
-exports.password = "user";
-exports.papper = "papper";
+exports.pepper = pepper;
