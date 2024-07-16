@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "server": "NODE_OPTIONS='--max-old-space-size=8192' node Server.js",
+    "dev": "node Server.js"
   },
   "author": "",
   "license": "ISC",
@@ -14,5 +16,12 @@
     "express": "^4.19.2",
     "mysql2": "^3.9.7"
   },
-  "description": ""
+  "description": "",
+  "watch": [
+    "account/*.js",
+    "database/*.js",
+    "database/*.js"
+  ],
+  "ext": "js",
+  "exec": "node Server.js"
 }
