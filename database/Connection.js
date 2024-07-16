@@ -3,7 +3,7 @@ mysql = require("mysql2");
 async function main() {
     const password = await require("./KeyVault");
     // コネクションプールの作成
-    pool = mysql.createPool({
+    const pool = await mysql.createPool({
         connectionLimit : 10,
         host: "localhost",
         user: "user",
@@ -11,7 +11,9 @@ async function main() {
         database: "sotsuken",
     });
     
-    exports.connection = pool;
+    return pool
 }
 
-main();
+const pool = main();
+
+exports.connection = pool;
