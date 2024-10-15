@@ -49,18 +49,18 @@ model companies {
     work_location String
     working_hours String
     holiday String
-    4_year_course_basic_salary String
-    4_year_course_allowances String
-    4_year_course_salary_total String
-    3_year_course_basic_salary String
-	3_year_course_allowances String
-    3_year_course_salary_total String
-    2_year_course_basic_salary String
-    2_year_course_allowances String
-    2_year_course_salary_total String
-    1_year_course_basic_salary String
-    1_year_course_allowances String
-    1_year_course_salary_total String
+    four_year_course_basic_salary String
+    four_year_course_allowances String
+    four_year_course_salary_total String
+    three_year_course_basic_salary String
+	three_year_course_allowances String
+    three_year_course_salary_total String
+    two_year_course_basic_salary String
+    two_year_course_allowances String
+    two_year_course_salary_total String
+    one_year_course_basic_salary String
+    one_year_course_allowances String
+    one_year_course_salary_total String
     others String
     allowances String
     welfare String
