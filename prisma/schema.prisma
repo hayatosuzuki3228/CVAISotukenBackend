@@ -23,3 +23,47 @@ model user_profiles {
     residence String
     qualification Int
 }
+
+model companies {
+    id Int @id @default(autoincrement())
+    code Int
+    name String
+    website String
+    furigana String
+    category String
+    detail String
+    office String
+    representative String
+    foundation_date String
+    capital String
+    amount_of_sales String
+    number_of_employees String
+    phone_number String
+    email String
+    recruitment_numbers String
+    this_year_graduate_recruitment_results String
+    last_year_graduate_recruitment_results String
+    recruitment_grade String
+    qualification String
+    ideal_candidate_profile String
+    work_location String
+    working_hours String
+    holiday String
+    4_year_course_basic_salary String
+    4_year_course_allowances String
+    4_year_course_salary_total String
+    3_year_course_basic_salary String
+	3_year_course_allowances String
+    3_year_course_salary_total String
+    2_year_course_basic_salary String
+    2_year_course_allowances String
+    2_year_course_salary_total String
+    1_year_course_basic_salary String
+    1_year_course_allowances String
+    1_year_course_salary_total String
+    others String
+    allowances String
+    welfare String
+    corporate_philosophy String
+    appeal String
+}
