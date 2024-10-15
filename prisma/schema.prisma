@@ -1,0 +1,25 @@
+generator client {
+    provider = "prisma-client-js"
+}
+
+datasource db {
+    provider = "mysql"
+    url      = "mysql://user:user@localhost:3306/sotsukentest"
+}
+
+model authentications {
+    id Int @id @default(autoincrement())
+    email String
+    password String
+    active Boolean
+}
+
+model user_profiles {
+    id Int @id @default(autoincrement())
+    name String
+    furigana String
+    gender String @db.VarChar(1)
+    birthday DateTime @db.Date
+    residence String
+    qualification Int
+}
