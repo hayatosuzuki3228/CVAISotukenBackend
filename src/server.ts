@@ -1,4 +1,3 @@
-
 import { PrismaClient } from "@prisma/client";
 import express, { Request, Response, NextFunction } from "express";
 
@@ -21,6 +20,7 @@ app.use((req: Request, res: Response, next: NextFunction) => {
 
 // ルーティング
 app.use("/user", require("./routes/user"));
+app.use("/company", require("./routes/company"))
 
 // エラー処理
 app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
