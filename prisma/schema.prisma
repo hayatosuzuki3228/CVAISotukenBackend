@@ -12,15 +12,18 @@ model authentications {
     email String
     password String
     active Boolean
+    user_profiles user_profiles?
 }
 
 model user_profiles {
     id Int @id @default(autoincrement())
+    authentications authentications @relation(fields: [id], references: [id])
     name String
     furigana String
     gender String @db.VarChar(1)
     birthday DateTime @db.Date
     residence String
+    graduation_year Int @db.Year 
     qualification Int
 }
 

@@ -5,7 +5,7 @@ import { exist } from "../common/Validation";
 import { prisma } from "../server";
 
 // ルーティングモジュールを呼び出し
-var router = require("express").Router();
+const router = require("express").Router();
 
 router.post("/registration", async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -80,5 +80,22 @@ router.post("/authentication", async (req: Request, res: Response, next: NextFun
     }
 });
 
+router.post("user_search", async (req: Request, res: Response, next: NextFunction) => {
+    try{
+        exist(req.body.email);
 
+        // Eメールを元にユーザプロフィールを表示
+        const disp_profile = await prisma.authentications.findMany({
+            where: {
+                email: req.body.email,
+            },
+            include: {
+                user_profiles: true
+            }
+        });
+
+    } catch(e) {
+        next(e);
+    }
+});
 module.exports = router;
