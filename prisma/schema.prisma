@@ -9,7 +9,7 @@ datasource db {
 
 model authentications {
     id Int @id @default(autoincrement())
-    email String
+    email String 
     password String
     active Boolean
     user_profiles user_profiles?
