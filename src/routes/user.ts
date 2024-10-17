@@ -9,34 +9,17 @@ const router = require("express").Router();
 
 router.post("/find", async (req: Request, res: Response, next: NextFunction) => {
     try {
-        exist(req.body.email, req.body.password);
-        
-        if (await prisma.authentications.findFirst({
-            where: {
-                email: req.body.email
-            }
-        })) {
-            // メールアドレスが登録済みの場合はじく
-            throw new Error("Mail address is already used");
-        } else {
-            // 登録
-            const user = await prisma.authentications.create({
-                data: {
-                    email: req.body.email,
-                    password: await encryption(req.body.password),
-                    active: true,
-                },
+        if(req.session.userId) {
+            const data = await prisma.authentications.findFirst({
+                where: {
+                    id: req.session.userId
+                }
             });
 
-            // ログ出力
-            console.log(`A user account has been created with id: ${user.id}, email: ${user.email}, password: ${user.password}`);
-
-            // レスポンスを返す
-            res.json(
-                {message: "A user account has been created"}
-            );
+            res.json(data);
+        } else {
+            throw new Error("sesssion data not found");
         }
-
     } catch(e) {
         next(e);
     }
