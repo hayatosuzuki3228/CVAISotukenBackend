@@ -7,6 +7,13 @@ datasource db {
     url      = "mysql://user:user@localhost:3306/sotsukentest"
 }
 
+model Session {
+  id        String   @id
+  sid       String   @unique
+  data      String
+  expiresAt   DateTime
+}
+
 model authentications {
     id Int @id @default(autoincrement())
     email String 
