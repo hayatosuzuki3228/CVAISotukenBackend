@@ -45,10 +45,10 @@ POSTメソッドを用い、APIサーバー用ソフトウェアを起動した�
         password: 8-24文字、英数字によるパスワード
         name: 名前
         furigana: ふりがな
-        gender: 性別
+        gender: 性別 (0: 男性, 1: 女性, 9: その他)
         birthday:　誕生年月日
         residence: 居住地
-        graduation_year: 卒業年月
+        graduation_year: 卒業年
         qualification: 資格
         ```
     - 戻り値
@@ -60,6 +60,24 @@ POSTメソッドを用い、APIサーバー用ソフトウェアを起動した�
 
 ## User
 ユーザーアカウント操作を行います。
+- ./user/profile *
+    - 引数
+        ```
+        無し
+        ```
+    - 戻り値
+        ```
+        {
+            "id": number,
+            "name": string,
+            "furigana": string,
+            "gender": number,
+            "birthday": date,
+            "residence": string,
+            "graduation_year": date,
+            "qualification": int
+        }
+        ```
 
 ## Company
 会社情報操作を行います。

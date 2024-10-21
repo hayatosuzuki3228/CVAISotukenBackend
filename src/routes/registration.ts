@@ -41,7 +41,7 @@ router.post("/", async (req: Request, res: Response, next: NextFunction) => {
     }
 });
 
-router.post("/registrationall", async (req: Request, res: Response, next: NextFunction) => {
+router.post("/all", async (req: Request, res: Response, next: NextFunction) => {
     try {
         exist(req.body.email, req.body.password);
         exist(req.body.name, req.body.furigana, req.body.gender, req.body.birthday, req.body.residence, req.body.graduation_year, req.body.qualification);

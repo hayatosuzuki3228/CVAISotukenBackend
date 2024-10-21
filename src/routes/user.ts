@@ -1,5 +1,4 @@
 import { Request, Response, NextFunction } from "express";
-import { encryption } from "../common/Encryption";
 import { exist } from "../common/Validation";
 import { prisma } from "../server";
 
@@ -24,6 +23,23 @@ router.post("/find", async (req: Request, res: Response, next: NextFunction) => 
     }
 });
 
+router.post("/profile", async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        if(req.session.userId) {
+            const data = await prisma.user_profiles.findFirst({
+                where: {
+                    id: req.session.userId
+                }
+            });
+
+            res.json(data);
+        } else {
+            throw new Error("sesssion data not found");
+        }
+    } catch(e) {
+        next(e);
+    }
+});
 
 router.post("/user_search", async (req: Request, res: Response, next: NextFunction) => {
     try{
