@@ -8,20 +8,26 @@
 
 ## 仕様技術一覧
 ### フレームワーク
-<img alt="nodejs" src="https://img.shields.io/badge/-Node.js-339933.svg?logo=node.js">
+<div>
+    <img alt="nodejs" src="https://img.shields.io/badge/-Node.js-339933.svg?logo=node.js">
+</div>
 
 ### ミドルウェア
-<img alt="mysql" src="https://img.shields.io/badge/-Mysql-4479A1.svg?logo=mysql">
+<div>
+    <img alt="mysql" src="https://img.shields.io/badge/-Mysql-4479A1.svg?logo=mysql">
+</div>
 
 ### 言語
-<img alt="typescript" src="https://img.shields.io/badge/-Typescript-007ACC.svg?logo=typescript">
+<div>
+    <img alt="typescript" src="https://img.shields.io/badge/-Typescript-007ACC.svg?logo=typescript">
+</div>
 
 ### ライブラリ
 <div>
-<img alt="tsnode" src="https://img.shields.io/badge/-tsnode-3178C6.svg?logo=tsnode">
-<img alt="nodmeon" src="https://img.shields.io/badge/-nodemon-76D04B.svg?logo=nodemon">
-<img alt="express" src="https://img.shields.io/badge/-Express-000000.svg?logo=express">
-<img alt="prisma" src="https://img.shields.io/badge/-Prisma-2D3748.svg?logo=prisma">
+    <img alt="tsnode" src="https://img.shields.io/badge/-tsnode-3178C6.svg?logo=tsnode">
+    <img alt="nodmeon" src="https://img.shields.io/badge/-nodemon-76D04B.svg?logo=nodemon">
+    <img alt="express" src="https://img.shields.io/badge/-Express-000000.svg?logo=express">
+    <img alt="prisma" src="https://img.shields.io/badge/-Prisma-2D3748.svg?logo=prisma">
 </div>
 and more...
 
