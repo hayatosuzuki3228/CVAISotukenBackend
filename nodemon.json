@@ -3,5 +3,5 @@
         "src"
     ],
     "ext": "ts",
-    "exec": "ts-node ./src/server.ts"
+    "exec": "node --env-file=.env -r ts-node/register ./src/server.ts"
 }
