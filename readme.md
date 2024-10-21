@@ -8,20 +8,20 @@
 
 ## 仕様技術一覧
 ### フレームワーク
-<img src="https://img.shields.io/badge/-Node.js-339933.svg?logo=node.js">
+<img alt="nodejs" src="https://img.shields.io/badge/-Node.js-339933.svg?logo=node.js">
 
 ### ミドルウェア
-<img src="https://img.shields.io/badge/-Mysql-4479A1.svg?logo=mysql">
+<img alt="mysql" src="https://img.shields.io/badge/-Mysql-4479A1.svg?logo=mysql">
 
 ### 言語
-<img src="https://img.shields.io/badge/-Typescript-007ACC.svg?logo=typescript">
+<img alt="typescript" src="https://img.shields.io/badge/-Typescript-007ACC.svg?logo=typescript">
 
 ### ライブラリ
-<img src="https://img.shields.io/badge/-tsnode-3178C6.svg?logo=tsnode">
-<img src="https://img.shields.io/badge/-nodemon-76D04B.svg?logo=nodemon">
-<img src="https://img.shields.io/badge/-Express-000000.svg?logo=express">
-<img src="https://img.shields.io/badge/-Prisma-2D3748.svg?logo=prisma">
-等
+<img style="display:inline" alt="tsnode" src="https://img.shields.io/badge/-tsnode-3178C6.svg?logo=tsnode">
+<img alt="nodmeon" src="https://img.shields.io/badge/-nodemon-76D04B.svg?logo=nodemon">
+<img alt="express" src="https://img.shields.io/badge/-Express-000000.svg?logo=express">
+<img alt="prisma" src="https://img.shields.io/badge/-Prisma-2D3748.svg?logo=prisma">
+and more...
 
 ## 開発環境構築
 1. node-js, npm, mysqlのインストール
