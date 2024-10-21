@@ -30,13 +30,32 @@ POSTメソッドを用い、APIサーバー用ソフトウェアを起動した�
     - 引数  
         ```
         email: メールアドレス  
-        password: 8-12文字、英数字によるパスワード
+        password: 8-24文字、英数字によるパスワード
         ```
     - 戻り値  
         ```
         {
             "message": string
         }
+        ```
+- ./registration/all
+    - 引数
+        ```
+        email: メールアドレス  
+        password: 8-24文字、英数字によるパスワード
+        name: 名前
+        furigana: ふりがな
+        gender: 性別
+        birthday:　誕生年月日
+        residence: 居住地
+        graduation_year: 卒業年月
+        qualification: 資格
+        ```
+    - 戻り値
+        ```
+            {
+                "message": string
+            }
         ```
 
 ## User
