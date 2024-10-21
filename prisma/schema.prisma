@@ -4,7 +4,7 @@ generator client {
 
 datasource db {
     provider = "mysql"
-    url      = "mysql://user:user@localhost:3306/sotsukentest"
+    url      = env("DATABASE_URL")
 }
 
 model Session {

@@ -30,7 +30,7 @@ app.use(
         cookie: {
             maxAge: 1000 * 60 * 60
         },
-        secret: "secret",
+        secret: String(process.env.SECRET),
         resave: true,
         saveUninitialized: true,
         store: new PrismaSessionStore(
@@ -53,7 +53,15 @@ app.use(express.json());
 
 // アクセスログ出力
 app.use((req: Request, res: Response, next: NextFunction) => {
-    console.log(`Request recieved from ${req.ip} to ${req.path}`);
+    const date = new Date();
+    console.log(`${date.toLocaleDateString("en-US", {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit',
+            second: '2-digit'
+        })} : Request recieved from ${req.ip} to ${req.path}`);
     next();
 });
 
