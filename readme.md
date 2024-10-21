@@ -1,9 +1,3 @@
-<style>
-    img {
-        display:inline;
-    }
-</style>
-
 # CVAI合同卒研バックエンド
 マッチングアプリのバックエンドAPIサーバ用ソフトウェア
 
@@ -23,8 +17,11 @@
 <img src="https://img.shields.io/badge/-Typescript-007ACC.svg?logo=typescript">
 
 ### ライブラリ
-<img src="https://img.shields.io/badge/-Prisma-2D3748.svg?logo=prisma">
+<img src="https://img.shields.io/badge/-tsnode-3178C6.svg?logo=tsnode">
+<img src="https://img.shields.io/badge/-nodemon-76D04B.svg?logo=nodemon">
 <img src="https://img.shields.io/badge/-Express-000000.svg?logo=express">
+<img src="https://img.shields.io/badge/-Prisma-2D3748.svg?logo=prisma">
+等
 
 ## 開発環境構築
 1. node-js, npm, mysqlのインストール
