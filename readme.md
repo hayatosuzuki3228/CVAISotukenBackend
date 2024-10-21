@@ -18,7 +18,7 @@
 
 ### ライブラリ
 <img style="display:inline" alt="tsnode" src="https://img.shields.io/badge/-tsnode-3178C6.svg?logo=tsnode">
-<img alt="nodmeon" src="https://img.shields.io/badge/-nodemon-76D04B.svg?logo=nodemon">
+<img style="display:inline" alt="nodmeon" src="https://img.shields.io/badge/-nodemon-76D04B.svg?logo=nodemon">
 <img alt="express" src="https://img.shields.io/badge/-Express-000000.svg?logo=express">
 <img alt="prisma" src="https://img.shields.io/badge/-Prisma-2D3748.svg?logo=prisma">
 and more...
