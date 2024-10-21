@@ -7,9 +7,18 @@
 1. [実行](#実行)
 
 ## 仕様技術一覧
-<img src="https://img.shields.io/badge/-Node.js-339933.svg?logo=node.js&style=plastic">
-<img src="https://img.shields.io/badge/-Typescript-007ACC.svg?logo=typescript&style=plastic">
-<img src="https://img.shields.io/badge/-Mysql-4479A1.svg?logo=mysql&style=plastic">
+### フレームワーク
+<img src="https://img.shields.io/badge/-Node.js-339933.svg?logo=node.js">
+
+### ミドルウェア
+<img src="https://img.shields.io/badge/-Mysql-4479A1.svg?logo=mysql">
+
+### 言語
+<img src="https://img.shields.io/badge/-Typescript-007ACC.svg?logo=typescript">
+
+### ライブラリ
+<img src="https://img.shields.io/badge/-Prisma-2D3748.svg?logo=prisma">
+<img src="https://img.shields.io/badge/-Express-000000.svg?logo=express">
 
 ## 開発環境構築
 1. node-js, npm, mysqlのインストール
