@@ -1,3 +1,9 @@
+<style>
+    img {
+        display:inline;
+    }
+</style>
+
 # CVAI合同卒研バックエンド
 マッチングアプリのバックエンドAPIサーバ用ソフトウェア
 
