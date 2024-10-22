@@ -1,27 +1,33 @@
 {
   "name": "api",
   "version": "1.0.0",
-  "main": "index.js",
+  "description": "",
+  "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "server": "NODE_OPTIONS='--max-old-space-size=8192' node Index.js",
-    "dev": "node Server.js"
+    "server": "NODE_OPTIONS='--max-old-space-size=8192' npx ts-node --transpile-only src/server.ts"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@azure/identity": "^4.3.0",
-    "@azure/keyvault-secrets": "^4.8.0",
+    "@azure/identity": "^4.5.0",
+    "@azure/keyvault-secrets": "^4.9.0",
+    "@prisma/client": "^5.20.0",
+    "@quixo3/prisma-session-store": "^3.1.13",
+    "@types/express-session": "^1.18.0",
+    "bcrypt": "^5.1.1",
     "cors": "^2.8.5",
-    "express": "^4.19.2",
-    "mysql2": "^3.9.7"
+    "express": "^4.21.1",
+    "express-session": "^1.18.1",
+    "helmet": "^8.0.0",
+    "nodemon": "^3.1.7",
+    "prisma": "^5.20.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.6.3"
   },
-  "description": "",
-  "watch": [
-    "account/*.js",
-    "database/*.js",
-    "database/*.js"
-  ],
-  "ext": "js",
-  "exec": "node Server.js"
+  "devDependencies": {
+    "@types/bcrypt": "^5.0.2",
+    "@types/cors": "^2.8.17",
+    "@types/express": "^5.0.0"
+  }
 }
