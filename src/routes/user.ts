@@ -5,6 +5,7 @@ import { prisma } from "../server";
 // ルーティングモジュールを呼び出し
 const router = require("express").Router();
 
+/* session test
 router.post("/find", async (req: Request, res: Response, next: NextFunction) => {
     try {
         if(req.session.userId) {
@@ -21,9 +22,9 @@ router.post("/find", async (req: Request, res: Response, next: NextFunction) => 
     } catch(e) {
         next(e);
     }
-});
+});*/
 
-router.post("/profile", async (req: Request, res: Response, next: NextFunction) => {
+router.post("/profile/get", async (req: Request, res: Response, next: NextFunction) => {
     try {
         if(req.session.userId) {
             const data = await prisma.user_profiles.findFirst({
@@ -41,30 +42,60 @@ router.post("/profile", async (req: Request, res: Response, next: NextFunction) 
     }
 });
 
-router.post("/user_search", async (req: Request, res: Response, next: NextFunction) => {
-    try{
-        exist(req.body.email);
-
-        // Eメールを元にユーザプロフィールを表示
-        const disp_profile = await prisma.authentications.findMany({
-            where: {
-                email: req.body.email
-            },
-            include: {
-                user_profiles: true
-            }
-        }).then(console.log);
-        res.json({message: "Profile information is displayed", result: disp_profile});
-    } catch(e) {
-        next(e);
-    }
-});
-
-router.post("/create_profiles", async (req: Request, res: Response, next: NextFunction) => {
+router.post("/profile/set", async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const user_profiles = await prisma.user_profiles.findMany({
-            
-        });
+        exist(req.body.name, req.body.furigana, req.body.gender, req.body.birthday, req.body.residence, req.body.graduation_year, req.body.qualification);
+
+        if(req.session.userId)
+        {
+            if (await prisma.user_profiles.findFirst({
+                where:{
+                    authentication_id: Number(req.session.userId)
+                }
+            }))
+            {
+                // プロフィールが存在する場合
+                await prisma.user_profiles.update({
+                    where: {
+                        authentication_id: req.session.userId
+                    },
+                    data: {
+                        name: req.body.name,
+                        furigana: req.body.furigana,
+                        gender: req.body.gender,
+                        birthday: new Date(req.body.birthday),
+                        residence: req.body.residence,
+                        graduation_year: Number(req.body.graduation_year),
+                        qualification: Number(req.body.qualification)
+                    }
+                })
+            } else {
+                // プロフィールが存在しない場合
+                await prisma.authentications.update({
+                    where: {
+                        id: req.session.userId
+                    },
+                    data: {
+                        user_profiles: {
+                            create: {
+                                name: req.body.name,
+                                furigana: req.body.furigana,
+                                gender: req.body.gender,
+                                birthday: new Date(req.body.birthday),
+                                residence: req.body.residence,
+                                graduation_year: Number(req.body.graduation_year),
+                                qualification: Number(req.body.qualification)
+                            }
+                        }
+                    },
+                    include: {
+                        user_profiles: true
+                    }
+                });
+            }
+        }
+
+        res.json({message: "プロフィールの変更に成功しました。"})
     } catch (e) {
         next(e)
     }

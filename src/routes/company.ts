@@ -12,7 +12,7 @@ router.post("/information", async (req: Request, res: Response, next: NextFuncti
         // idから企業の情報を取得
         const data = await prisma.companies.findFirst({
             where: {
-                id: (Number)(req.body.id)
+                id: Number(req.body.id)
             }
         });
 

@@ -24,7 +24,6 @@ model authentications {
 
 model user_profiles {
     id Int @id @default(autoincrement())
-    authentications authentications @relation(fields: [id], references: [id])
     name String
     furigana String
     gender String @db.VarChar(1)
@@ -32,6 +31,8 @@ model user_profiles {
     residence String
     graduation_year Int @db.Year 
     qualification Int
+    authentication_id Int @unique
+    authentications authentications @relation(fields: [authentication_id], references: [id])
 }
 
 model companies {
