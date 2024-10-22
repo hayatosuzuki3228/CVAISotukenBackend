@@ -5,25 +5,6 @@ import { prisma } from "../server";
 // ルーティングモジュールを呼び出し
 const router = require("express").Router();
 
-/* session test
-router.post("/find", async (req: Request, res: Response, next: NextFunction) => {
-    try {
-        if(req.session.userId) {
-            const data = await prisma.authentications.findFirst({
-                where: {
-                    id: req.session.userId
-                }
-            });
-
-            res.json(data);
-        } else {
-            throw new Error("sesssion data not found");
-        }
-    } catch(e) {
-        next(e);
-    }
-});*/
-
 router.post("/profile/get", async (req: Request, res: Response, next: NextFunction) => {
     try {
         if(req.session.userId) {
