@@ -32,7 +32,7 @@ router.post("/profile", async (req: Request, res: Response, next: NextFunction) 
                 }
             });
 
-            res.json(data);
+            res.json({message: "情報の取得に成功しました。", result: data});
         } else {
             throw new Error("sesssion data not found");
         }

@@ -79,14 +79,17 @@ POSTメソッドを用い、APIサーバー用ソフトウェアを起動した�
     - 戻り値
         ```
         {
-            "id": number,
-            "name": string,
-            "furigana": string,
-            "gender": number,
-            "birthday": date,
-            "residence": string,
-            "graduation_year": date,
-            "qualification": int
+            "message": string
+            "result": {
+                "id": number,
+                "name": string,
+                "furigana": string,
+                "gender": number,
+                "birthday": date,
+                "residence": string,
+                "graduation_year": date,
+                "qualification": int
+            }
         }
         ```
 
