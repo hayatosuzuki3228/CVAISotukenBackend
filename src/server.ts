@@ -15,7 +15,7 @@ const app = express();
 export const prisma = new PrismaClient();
 
 // ポート番号の指定
-const port = 6666;
+const port = 8000;
 
 // cors許可設定
 app.use(cors());
