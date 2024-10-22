@@ -41,4 +41,22 @@ router.post("/", async (req: Request, res: Response, next: NextFunction) => {
     }
 });
 
+router.post("/logout", async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        if(req.session.userId) {
+            await prisma.user_profiles.delete({
+                where: {
+                    id: req.session.userId
+                }
+            });
+
+            res.json({message: "successfully logout"});
+        } else {
+            throw new Error("sesssion data not found");
+        }
+    } catch(e) {
+        next(e);
+    }
+});
+
 module.exports = router;
