@@ -18,22 +18,22 @@ router.post("/", async (req: Request, res: Response, next: NextFunction) => {
         }));
 
         if (accountData == null) {
-            throw new Error("Can't find account data");
+            throw new Error("アカウントデータが見つかりません");
         } else if (!accountData.active) {
-            throw new Error("Account is not active");
+            throw new Error("アカウントデータがアクティブではありません");
         } else if (accountData.password) {
             // エラー処理等
             if (await authentication(req.body.password, accountData.password)) {
                 // パスワードが正しかった場合セッションにユーザデータを登録
                 req.session.userId = accountData.id;
-                res.json({message: "Authentication was successful"});
+                res.json({message: "認証が成功しました"});
             } else {
                 // パスワードが間違っていた場合
-                throw new Error("Password is incorrect");
+                throw new Error("パスワードが正しくありません");
             }
         } else {
             // それ以外のエラー
-            throw new Error("Something wrong");
+            throw new Error("エラーが発生しました");
         }
 
     } catch(e) {
@@ -50,9 +50,9 @@ router.post("/logout", async (req: Request, res: Response, next: NextFunction) =
                 }
             });
 
-            res.json({message: "successfully logout"});
+            res.json({message: "ログアウトに成功しました"});
         } else {
-            throw new Error("sesssion data not found");
+            throw new Error("セッションデータが見つかりません");
         }
     } catch(e) {
         next(e);

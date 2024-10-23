@@ -16,7 +16,7 @@ router.post("/profile/get", async (req: Request, res: Response, next: NextFuncti
 
             res.json({message: "情報の取得に成功しました。", result: data});
         } else {
-            throw new Error("sesssion data not found");
+            throw new Error("セッションデータが見つかりませんでした");
         }
     } catch(e) {
         next(e);
