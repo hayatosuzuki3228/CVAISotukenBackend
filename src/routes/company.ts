@@ -12,16 +12,16 @@ router.post("/information", async (req: Request, res: Response, next: NextFuncti
         // idから企業の情報を取得
         const data = await prisma.companies.findFirst({
             where: {
-                id: (Number)(req.body.id)
+                id: Number(req.body.id)
             }
         });
 
         if (data) {
             // データが存在した場合、取得したデータを返す
-            res.json({message: "Correct request", result: data})
+            res.json({message: "リクエストが成功しました", result: data})
         } else {
             // 見つからなかった場合エラー
-            throw new Error("Company is not found");
+            throw new Error("会社が見つかりませんでした");
         }
         
     } catch(e) {
@@ -53,7 +53,7 @@ router.post("/search", async (req: Request, res: Response, next: NextFunction) =
             }
         });
 
-        res.json({message: "Request is correct", result: data});
+        res.json({message: "リクエストが成功しました", result: data});
     } catch (e) {
         next(e);
     }

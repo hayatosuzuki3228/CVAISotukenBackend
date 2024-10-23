@@ -16,7 +16,7 @@ router.post("/", async (req: Request, res: Response, next: NextFunction) => {
             }
         })) {
             // メールアドレスが登録済みの場合はじく
-            throw new Error("Mail address is already used");
+            throw new Error("そのメールアドレスはすでに使われています");
         } else {
             // 登録
             const user = await prisma.authentications.create({
@@ -28,11 +28,11 @@ router.post("/", async (req: Request, res: Response, next: NextFunction) => {
             });
 
             // ログ出力
-            console.log(`A user account has been created with id: ${user.id}, email: ${user.email}, password: ${user.password}`);
+            console.log(`ユーザアカウントの作成が完了しました。ユーザID: ${user.id}, Eメール: ${user.email}, パスワード: ${user.password}`);
 
             // レスポンスを返す
             res.json(
-                {message: "A user account has been created"}
+                {message: "ユーザアカウントの作成が完了しました"}
             );
         }
 
@@ -52,7 +52,7 @@ router.post("/all", async (req: Request, res: Response, next: NextFunction) => {
             }
         })) {
             // メールアドレスが登録済みの場合はじく
-            throw new Error("Mail address is already used");
+            throw new Error("そのメールアドレスは使われています");
         } else {
 
             // 登録
@@ -68,8 +68,8 @@ router.post("/all", async (req: Request, res: Response, next: NextFunction) => {
                                 gender: req.body.gender,
                                 birthday: new Date(req.body.birthday),
                                 residence: req.body.residence,
-                                graduation_year: (Number)(req.body.graduation_year),
-                                qualification: (Number)(req.body.qualification),
+                                graduation_year: Number(req.body.graduation_year),
+                                qualification: Number(req.body.qualification),
                         },
                     },
                 },
@@ -81,11 +81,11 @@ router.post("/all", async (req: Request, res: Response, next: NextFunction) => {
             console.log(req.body)
 
             // ログ出力
-            console.log(`A user account has been created with id: ${user.id}, email: ${user.email}, password: ${user.password}`);
+            console.log(`ユーザアカウントの作成が完了しました。ユーザID: ${user.id}, Eメール: ${user.email}, パスワード: ${user.password}`);
 
             // レスポンスを返す
             res.json(
-                {message: "A user account and profile has been created"}
+                {message: "ユーザアカウントの作成が完了しました"}
             );
         }
 
