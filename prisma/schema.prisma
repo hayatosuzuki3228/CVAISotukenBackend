@@ -14,15 +14,15 @@ model Session {
   expiresAt   DateTime
 }
 
-model authentications {
+model Authentications {
     id Int @id @default(autoincrement())
     email String 
     password String
     active Boolean
-    user_profiles user_profiles?
+    user_profiles User_Profiles?
 }
 
-model user_profiles {
+model User_Profiles {
     id Int @id
     name String
     furigana String
@@ -31,10 +31,10 @@ model user_profiles {
     residence String
     graduation_year Int @db.Year 
     qualification Int
-    authentications authentications @relation(fields: [id], references: [id])
+    authentications Authentications @relation(fields: [id], references: [id])
 }
 
-model companies {
+model Companies {
     id Int @id @default(autoincrement())
     code Int
     name String?

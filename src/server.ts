@@ -80,5 +80,5 @@ app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
 
 // リクエストの受付を開始
 app.listen(port, () => {
-    console.log("Server is now waiting connection on port " + port);
+    console.log("ポートに接続中です。ポート番号： " + port);
 });

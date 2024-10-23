@@ -6,7 +6,7 @@ const saltRounds = 5;
 export async function encryption(password: string): Promise<string> {
     // パスワードが8~14文字で英数混合である判別
     if(!((/^(?=.*[a-zA-Z])(?=.*[0-9/-])[a-zA-Z0-9.?/-]{8,24}$/).test( password ))){
-        throw new Error("This password is incorrect")
+        throw new Error("設定されたパスワードは不正です")
     }
     
     const pepperedPassword = password + pepper;
