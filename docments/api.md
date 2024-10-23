@@ -132,7 +132,7 @@ POSTメソッドを用い、APIサーバー用ソフトウェアを起動した�
             "result": 
             {
                 {
-                    "message": "Correct request",
+                    "message": string,
                     "result": {
                         "id": number,
                         "code": number,
