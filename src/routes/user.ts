@@ -31,14 +31,14 @@ router.post("/profile/set", async (req: Request, res: Response, next: NextFuncti
         {
             if (await prisma.user_profiles.findFirst({
                 where:{
-                    authentication_id: Number(req.session.userId)
+                    id: Number(req.session.userId)
                 }
             }))
             {
                 // プロフィールが存在する場合
                 await prisma.user_profiles.update({
                     where: {
-                        authentication_id: req.session.userId
+                        id: req.session.userId
                     },
                     data: {
                         name: req.body.name,

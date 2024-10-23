@@ -62,7 +62,7 @@ POSTメソッドを用い、APIサーバー用ソフトウェアを起動した�
         name: 名前
         furigana: ふりがな
         gender: 性別 (0: 男性, 1: 女性, 9: その他)
-        birthday:　誕生年月日
+        birthday: 誕生年月日
         residence: 居住地
         graduation_year: 卒業年
         qualification: 資格
@@ -105,11 +105,17 @@ POSTメソッドを用い、APIサーバー用ソフトウェアを起動した�
         ```
             name: 名前,
             furigana: ふりがな,
-            gender: 性別 0: 男性　1: 女性 9: その他,
-            birthday: 誕生日,
+            gender: 性別 0: 男性 1: 女性 9: その他,
+            birthday: 誕生日 format: yyyy-mm-dd,
             residence: 居住地,
-            graduation_year: 卒業年,
+            graduation_year: 卒業年 format: yyyy,
             qualification: 資格
+        ```
+    - 戻り値
+        ```
+            {
+                "message": string
+            }
         ```
 ## Company
 会社情報操作を行います。
