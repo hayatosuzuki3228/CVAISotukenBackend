@@ -11,7 +11,7 @@ POSTメソッドを用い、APIサーバー用ソフトウェアを起動した�
 ## Authentication
 認証を行います。  
 以下、*が記述されているリクエストはこの認証が必要になります。
-- ./authentication/  
+- ./authentication  
     認証を行い、サーバーに認証情報を保持します。  
     認証情報は1時間保持されます。
     - パラメータ  
@@ -40,7 +40,7 @@ POSTメソッドを用い、APIサーバー用ソフトウェアを起動した�
 
 ## Registration
 ユーザーアカウントを作成します。
-- ./registration/  
+- ./registration  
     パスワードとメールアドレスからユーザーアカウントを作成します。
     - パラメータ  
         ```
@@ -76,7 +76,7 @@ POSTメソッドを用い、APIサーバー用ソフトウェアを起動した�
 
 ## User
 ユーザーアカウント操作を行います。
-- ./user/profile *  
+- ./user/profile/set *  
     保持されている認証情報からユーザ情報を取得します。
     - パラメータ
         ```
@@ -119,7 +119,7 @@ POSTメソッドを用い、APIサーバー用ソフトウェアを起動した�
         ```
 ## Company
 会社情報操作を行います。
-- ./company/information/  
+- ./company/information  
     idから会社の詳細情報を取得します。
     - パラメータ  
         ```
@@ -131,11 +131,51 @@ POSTメソッドを用い、APIサーバー用ソフトウェアを起動した�
             "message": string,
             "result": 
             {
-                ...会社情報
+                "id": number,
+                "code": number,
+                "name": string,
+                "website": string,
+                "furigana": string,
+                "category": string,
+                "detail": string,
+                "office": string,
+                "representative": string,
+                "foundation_date": string,
+                "capital": string,
+                "amount_of_sales": string,
+                "number_of_employees": string,
+                "phone_number": string,
+                "email": string,
+                "recruitment_numbers": string,
+                "this_year_graduate_recruitment_results": string,
+                "last_year_graduate_recruitment_results": string,
+                "recruitment_grade": string,
+                "qualification": string,
+                "ideal_candidate_profile": string,
+                "work_location": string,
+                "working_hours": string,
+                "holiday": string,
+                "four_year_course_basic_salary": string,
+                "four_year_course_allowances": string,
+                "four_year_course_salary_total": string,
+                "three_year_course_basic_salary": string,
+                "three_year_course_allowances": string,
+                "three_year_course_salary_total": string,
+                "two_year_course_basic_salary": string,
+                "two_year_course_allowances": string,
+                "two_year_course_salary_total": string,
+                "one_year_course_basic_salary": string,
+                "one_year_course_allowances": string,
+                "one_year_course_salary_total": string,
+                "others": string,
+                "allowances": string,
+                "welfare": string,
+                "corporate_philosophy": string,
+                "appeal": string
             }
         }
         ```
-- ./company/search/  
+- ./company/search  
     検索対象とキーワードから会社を検索します。  
     検索対象は会社情報スキーマのカラム名から選択できます。  
     キーワードはスペース区切りにすることで、複数のキーワードをAND検索できます。
