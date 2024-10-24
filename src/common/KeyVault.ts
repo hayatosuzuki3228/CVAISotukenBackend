@@ -8,7 +8,7 @@ const url = `https://${vaultName}.vault.azure.net`;
 let credential: any = null;
 
 // Lastly, create our keys client and connect to the service
-if( process.env.ENVIROMENT != "dev" ) credential = new DefaultAzureCredential();
+if( process.platform !== "win32" ) credential = new DefaultAzureCredential();
 
 async function getPepper() {
     if (credential) {
@@ -16,7 +16,7 @@ async function getPepper() {
         const secretResult = await secretClient.getSecret("pepper"); //シークレットの取得結果
         return secretResult.value;
     }
-    return process.env.ENVIROMENT
+    return null
 }
 
 export const pepper = getPepper();
