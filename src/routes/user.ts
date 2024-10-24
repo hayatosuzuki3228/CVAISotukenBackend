@@ -8,7 +8,7 @@ const router = require("express").Router();
 router.post("/profile/get", async (req: Request, res: Response, next: NextFunction) => {
     try {
         if(req.session.userId) {
-            const data = await prisma.user_profiles.findFirst({
+            const data = await prisma.studentProfiles.findFirst({
                 where: {
                     id: req.session.userId
                 }
@@ -29,14 +29,14 @@ router.post("/profile/set", async (req: Request, res: Response, next: NextFuncti
 
         if(req.session.userId)
         {
-            if (await prisma.user_profiles.findFirst({
+            if (await prisma.studentProfiles.findFirst({
                 where:{
                     id: Number(req.session.userId)
                 }
             }))
             {
                 // プロフィールが存在する場合
-                await prisma.user_profiles.update({
+                await prisma.studentProfiles.update({
                     where: {
                         id: req.session.userId
                     },
@@ -52,12 +52,12 @@ router.post("/profile/set", async (req: Request, res: Response, next: NextFuncti
                 })
             } else {
                 // プロフィールが存在しない場合
-                await prisma.authentications.update({
+                await prisma.studentAuthentications.update({
                     where: {
                         id: req.session.userId
                     },
                     data: {
-                        user_profiles: {
+                        studentprofiles: {
                             create: {
                                 name: req.body.name,
                                 furigana: req.body.furigana,
@@ -70,7 +70,7 @@ router.post("/profile/set", async (req: Request, res: Response, next: NextFuncti
                         }
                     },
                     include: {
-                        user_profiles: true
+                        studentprofiles: true
                     }
                 });
             }
