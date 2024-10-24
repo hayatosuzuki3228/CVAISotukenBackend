@@ -1,35 +1,22 @@
-/*const { SecretClient } = require("@azure/keyvault-secrets");
+const { SecretClient } = require("@azure/keyvault-secrets");
 const { DefaultAzureCredential } = require("@azure/identity");
 
 // Build the URL to reach your key vault
 const vaultName = "nkc-labo24-aix23-kv"; //Key Vaultのリソース名
 const url = `https://${vaultName}.vault.azure.net`;
 
+let credential: any = null;
 
 // Lastly, create our keys client and connect to the service
-const credential = new DefaultAzureCredential();
-
-const secretName = "database-password"; //シークレットの名前
-const pepperName = "pepper";
-
-async function getPassword() {
-    const secretClient = new SecretClient(url, credential); //シークレット取得のためのclient
-    const secretResult = await secretClient.getSecret(secretName); //シークレットの取得結果
-    return secretResult.value;
-}
+if( process.env.ENVIROMENT != "dev" ) credential = new DefaultAzureCredential();
 
 async function getPepper() {
-    const secretClient = new SecretClient(url, credential); //シークレット取得のためのclient
-    const secretResult = await secretClient.getSecret(pepperName); //シークレットの取得結果
-    return secretResult.value;
+    if (credential) {
+        const secretClient = new SecretClient(url, credential); //シークレット取得のためのclient
+        const secretResult = await secretClient.getSecret("pepper"); //シークレットの取得結果
+        return secretResult.value;
+    }
+    return process.env.ENVIROMENT
 }
 
-const password = getPassword();
-const pepper = getPepper();
-
-exports.password = password;
-exports.pepper = pepper;*/
-const user = "user";
-const pepper = "papper";
-
-export { user, pepper };
+export const pepper = getPepper();

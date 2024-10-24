@@ -8,8 +8,8 @@ export async function encryption(password: string): Promise<string> {
     if(!((/^(?=.*[a-zA-Z])(?=.*[0-9/-])[a-zA-Z0-9.?/-]{8,24}$/).test( password ))){
         throw new Error("設定されたパスワードは不正です")
     }
-    
-    const pepperedPassword = password + pepper;
+
+    const pepperedPassword = password + await pepper;
 
     // ハッシュ化
     let passwordHash = await hashSync(pepperedPassword, saltRounds);
