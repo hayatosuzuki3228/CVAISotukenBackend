@@ -6,11 +6,11 @@ import { prisma } from "../server";
 // ルーティングモジュールを呼び出し
 const router = require("express").Router();
 
-router.post("/", async (req: Request, res: Response, next: NextFunction) => {
+router.post("/student", async (req: Request, res: Response, next: NextFunction) => {
     try {
         exist(req.body.email, req.body.password);
         
-        if (await prisma.authentications.findFirst({
+        if (await prisma.studentAuthentications.findFirst({
             where: {
                 email: req.body.email
             }
@@ -19,7 +19,7 @@ router.post("/", async (req: Request, res: Response, next: NextFunction) => {
             throw new Error("そのメールアドレスはすでに使われています");
         } else {
             // 登録
-            const user = await prisma.authentications.create({
+            const user = await prisma.studentAuthentications.create({
                 data: {
                     email: req.body.email,
                     password: await encryption(req.body.password),
@@ -28,7 +28,7 @@ router.post("/", async (req: Request, res: Response, next: NextFunction) => {
             });
 
             // ログ出力
-            console.log(`ユーザアカウントの作成が完了しました。ユーザID: ${user.id}, Eメール: ${user.email}, パスワード: ${user.password}`);
+            console.log(`ユーザアカウントの作成が完了しました。ユーザID: ${user.id}, Eメール: ${user.email}`);
 
             // レスポンスを返す
             res.json(
@@ -41,27 +41,27 @@ router.post("/", async (req: Request, res: Response, next: NextFunction) => {
     }
 });
 
-router.post("/all", async (req: Request, res: Response, next: NextFunction) => {
+router.post("/student/all", async (req: Request, res: Response, next: NextFunction) => {
     try {
         exist(req.body.email, req.body.password);
         exist(req.body.name, req.body.furigana, req.body.gender, req.body.birthday, req.body.residence, req.body.graduation_year, req.body.qualification);
         
-        if (await prisma.authentications.findFirst({
+        if (await prisma.studentAuthentications.findFirst({
             where: {
                 email: req.body.email
             }
         })) {
             // メールアドレスが登録済みの場合はじく
-            throw new Error("そのメールアドレスは使われています");
+            throw new Error("そのメールアドレスはすでに使われています");
         } else {
 
             // 登録
-            const user = await prisma.authentications.create({
+            const user = await prisma.studentAuthentications.create({
                 data: {
                     email: req.body.email,
                     password: await encryption(req.body.password),
                     active: true,
-                    user_profiles: {
+                    studentprofiles: {
                         create: {
                                 name: req.body.name,
                                 furigana: req.body.furigana,
@@ -74,18 +74,99 @@ router.post("/all", async (req: Request, res: Response, next: NextFunction) => {
                     },
                 },
                 include: {
-                    user_profiles: true,
+                    studentprofiles: true,
                 }
             });
 
             console.log(req.body)
 
             // ログ出力
-            console.log(`ユーザアカウントの作成が完了しました。ユーザID: ${user.id}, Eメール: ${user.email}, パスワード: ${user.password}`);
+            console.log(`ユーザアカウントおよびプロフィールの作成が完了しました。ユーザID: ${user.id}, Eメール: ${user.email}`);
 
             // レスポンスを返す
             res.json(
                 {message: "ユーザアカウントの作成が完了しました"}
+            );
+        }
+
+    } catch(e) {
+        next(e);
+    }
+});
+
+router.post("/company", async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        exist(req.body.email, req.body.password);
+
+        if(await prisma.companyAuthentications.findFirst({
+            where: {
+                email: req.body.email
+            },
+        })) {
+            throw new Error("そのメールアドレスはすでに使われています")
+        } else {
+            // 登録
+            const company = await prisma.companyAuthentications.create({
+                data: {
+                    email: req.body.email,
+                    password: await encryption(req.body.password),
+                    active: true,
+                },
+            });
+
+            // ログ出力
+            console.log(`企業用アカウントの作成が完了しました。ユーザID: ${company.id}, Eメール: ${company.email}`);
+
+            // レスポンスを返す
+            res.json(
+                {message: "企業用アカウントの作成が完了しました"}
+            );
+        }
+    } catch (e) {
+        next (e)       
+    }
+});
+
+
+router.post("/company/all", async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        exist(req.body.email, req.body.password);
+        exist(req.body.code);
+        
+        if (await prisma.companyAuthentications.findFirst({
+            where: {
+                email: req.body.email
+            }
+        })) {
+            // メールアドレスが登録済みの場合はじく
+            throw new Error("そのメールアドレスはすでに使われています");
+        } else {
+
+            // 登録
+            const company = await prisma.companyAuthentications.create({
+                data: {
+                    email: req.body.email,
+                    password: await encryption(req.body.password),
+                    active: true,
+                    companyprofiles: {
+                        create: {
+                            code: Number (req.body.code),
+                        },
+                    },
+                },
+                include: {
+                    companyprofiles: true,
+                }
+            });
+
+            console.log(req.body)
+
+            // ログ出力
+            console.log(`企業用アカウントおよびプロフィールの作成が完了しました。ユーザID: ${company.id}, Eメール: ${company.email}`);
+
+            // レスポンスを返す
+            res.json(
+                {message: "企業用アカウントの作成が完了しました"}
             );
         }
 

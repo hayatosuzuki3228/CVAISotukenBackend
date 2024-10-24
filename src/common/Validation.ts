@@ -4,7 +4,7 @@ export function exist(...args: string[]): void
     {
         if(arg == undefined)
         {
-            throw new Error("Argment is incorrect");
+            throw new Error("オーグメントが正しくありません");
         }
     }
 }
