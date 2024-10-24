@@ -11,8 +11,8 @@ POSTメソッドを用い、APIサーバー用ソフトウェアを起動した�
 ## Authentication
 認証を行います。  
 以下、*が記述されているリクエストはこの認証が必要になります。
-- ./authentication  
-    認証を行い、サーバーに認証情報を保持します。  
+- ./authentication/student  
+    学生ユーザーの認証を行い、サーバーに認証情報を保持します。  
     認証情報は1時間保持されます。
     - パラメータ  
         ```
@@ -25,8 +25,37 @@ POSTメソッドを用い、APIサーバー用ソフトウェアを起動した�
             "message": string
         }
         ```
-- ./authentication/logout *  
-    認証状態を解除します。
+
+- ./authentication/student/logout *  
+    学生ユーザーの認証状態を解除します。
+    - パラメータ  
+        ```
+        無し
+        ```
+    - 戻り値  
+        ```
+        {
+            "message": string
+        }
+        ```
+
+- ./authentication/company  
+    企業の認証を行い、サーバーに認証情報を保持します。  
+    認証情報は1時間保持されます。
+    - パラメータ  
+        ```
+        email: メールアドレス  
+        password: 8-24文字、英数字によるパスワード
+        ```
+    - 戻り値  
+        ```
+        {
+            "message": string
+        }
+        ```
+
+- ./authentication/compay/logout *  
+    企業の認証状態を解除します。
     - パラメータ  
         ```
         無し
@@ -40,8 +69,8 @@ POSTメソッドを用い、APIサーバー用ソフトウェアを起動した�
 
 ## Registration
 ユーザーアカウントを作成します。
-- ./registration  
-    パスワードとメールアドレスからユーザーアカウントを作成します。
+- ./registration/student  
+    パスワードとメールアドレスから学生ユーザーアカウントを作成します。
     - パラメータ  
         ```
         email: メールアドレス  
@@ -53,8 +82,42 @@ POSTメソッドを用い、APIサーバー用ソフトウェアを起動した�
             "message": string
         }
         ```
-- ./registration/all  
-    ユーザアカウントと同時にプロフィールを設定します。
+- ./registration/student/all  
+    学生ユーザーアカウントと同時にプロフィールを設定します。
+    - パラメータ
+        ```
+        email: メールアドレス  
+        password: 8-24文字、英数字によるパスワード
+        name: 名前
+        furigana: ふりがな
+        gender: 性別 (0: 男性, 1: 女性, 9: その他)
+        birthday: 誕生年月日
+        residence: 居住地
+        graduation_year: 卒業年
+        qualification: 資格
+        ```
+    - 戻り値
+        ```
+            {
+                "message": string
+            }
+        ```
+
+- ./registration/company  
+    パスワードとメールアドレスから企業ユーザアカウントを作成します。
+    - パラメータ  
+        ```
+        email: メールアドレス  
+        password: 8-24文字、英数字によるパスワード
+        ```
+    - 戻り値  
+        ```
+        {
+            "message": string
+        }
+        ```
+- ./registration/company/all  
+    企業ユーザアカウントと同時にプロフィールを設定します。
     - パラメータ
         ```
         email: メールアドレス  
@@ -76,7 +139,7 @@ POSTメソッドを用い、APIサーバー用ソフトウェアを起動した�
 
 ## User
 ユーザーアカウント操作を行います。
-- ./user/profile/set *  
+- ./user/profile/get *  
     保持されている認証情報からユーザ情報を取得します。
     - パラメータ
         ```
