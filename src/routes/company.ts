@@ -10,7 +10,7 @@ router.post("/information", async (req: Request, res: Response, next: NextFuncti
         exist(req.body.id);
 
         // idから企業の情報を取得
-        const data = await prisma.companies.findFirst({
+        const data = await prisma.companyProfiles.findFirst({
             where: {
                 id: Number(req.body.id)
             }
@@ -42,7 +42,7 @@ router.post("/search", async (req: Request, res: Response, next: NextFunction) =
         }
 
         // 一致するものを全て取得
-        const data = await prisma.companies.findMany({
+        const data = await prisma.companyProfiles.findMany({
             select: {
                 id: true,
                 name: true,

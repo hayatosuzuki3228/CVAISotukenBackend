@@ -4,9 +4,13 @@ import helmet from "helmet";
 import cors from "cors";
 import expressSession from "express-session";
 import { PrismaSessionStore } from "@quixo3/prisma-session-store";
+import { init } from "./common/Init";
+import { UserCategory } from "./common/UserCategory";
+
 
 declare module 'express-session' {
     export interface SessionData {
+        userCategory: UserCategory;
         userId: number;
     }
 }
@@ -16,6 +20,9 @@ export const prisma = new PrismaClient();
 
 // ポート番号の指定
 const port = 8000;
+
+// 初回起動処理
+init();
 
 // cors許可設定
 app.use(cors());
@@ -80,5 +87,5 @@ app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
 
 // リクエストの受付を開始
 app.listen(port, () => {
-    console.log("ポートに接続中です。ポート番号： " + port);
+    console.log(`ポート番号${port}番でサーバーを起動しました。`);
 });
