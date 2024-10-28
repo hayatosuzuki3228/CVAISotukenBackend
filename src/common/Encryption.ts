@@ -18,5 +18,5 @@ export async function encryption(password: string): Promise<string> {
 };
 
 export async function authentication(password: string, passwordHash: string): Promise<boolean> {
-    return await compareSync(password + pepper, passwordHash);
+    return await compareSync(password + await pepper, passwordHash);
 }
