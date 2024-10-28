@@ -79,37 +79,20 @@ router.post("/company", async (req: Request, res: Response, next: NextFunction) 
     }
 });
 
-router.post("/logout/student", async (req: Request, res: Response, next: NextFunction) => {
+router.post("/logout", async (req: Request, res: Response, next: NextFunction) => {
     try {
         if(req.session.userId) {
-            await prisma.studentProfiles.delete({
-                where: {
-                    id: req.session.userId
+            req.session.destroy((err) => {
+                if(!err) {
+                    res.json({message: "ログアウトに成功しました"}).send();
+                } else {
+                    throw new Error("情報の破棄に失敗しました");
                 }
             });
-
-            res.json({message: "ログアウトに成功しました"});
         } else {
             throw new Error("セッションデータが見つかりません");
         }
-    } catch(e) {
-        next(e);
-    }
-});
-
-router.post("/logout/company", async (req: Request, res: Response, next: NextFunction) => {
-    try {
-        if(req.session.userId) {
-            await prisma.companyProfiles.delete({
-                where: {
-                    id: req.session.userId
-                }
-            });
-
-            res.json({message: "ログアウトに成功しました"});
-        } else {
-            throw new Error("セッションデータが見つかりません");
-        }
+    
     } catch(e) {
         next(e);
     }
