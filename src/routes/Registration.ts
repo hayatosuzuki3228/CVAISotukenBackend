@@ -174,6 +174,7 @@ router.post("/company/all", async (req: Request, res: Response, next: NextFuncti
     }
 });
 
+
 module.exports = router;
 function next(e: unknown) {
     throw new Error("Function not implemented.");
