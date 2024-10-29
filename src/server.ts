@@ -79,6 +79,7 @@ app.use("/registration", require("./routes/Registration"));
 app.use("/authentication", require("./routes/Authentication"));
 app.use("/user", require("./routes/User"));
 app.use("/company", require("./routes/Company"));
+app.use("/echo", require("./routes/Echo"))
 
 // エラー処理
 app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
