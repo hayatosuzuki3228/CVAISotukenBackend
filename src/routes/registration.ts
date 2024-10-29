@@ -63,12 +63,12 @@ router.post("/student/all", async (req: Request, res: Response, next: NextFuncti
                     active: true,
                     studentprofiles: {
                         create: {
-                                name: req.body.name,
-                                furigana: req.body.furigana,
-                                gender: req.body.gender,
-                                birthday: new Date(req.body.birthday),
-                                residence: req.body.residence,
-                                graduation_year: Number(req.body.graduation_year),
+                            name: req.body.name,
+                            furigana: req.body.furigana,
+                            gender: req.body.gender,
+                            birthday: new Date(req.body.birthday),
+                            residence: req.body.residence,
+                            graduation_year: Number(req.body.graduation_year),
                         },
                     },
                 },

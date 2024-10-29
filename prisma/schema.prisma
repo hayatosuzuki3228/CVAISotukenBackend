@@ -44,7 +44,7 @@ model StudentQualification {
     id Int @id @default (autoincrement())
     userId Int
     studentprofiles StudentProfiles @relation(fields: [userId], references: [id])
-    qualificationmaster QualificationMaster @relation(field: [id], references: [id])
+    qualificationmaster QualificationMaster @relation(fields: [id], references: [id])
 }
 
 model CompanyAuthentications {
