@@ -1,0 +1,102 @@
+generator client {
+    provider = "prisma-client-js"
+}
+
+datasource db {
+    provider = "mysql"
+    url      = env("DATABASE_URL")
+}
+
+model Session {
+  id        String   @id
+  sid       String   @unique
+  data      String
+  expiresAt   DateTime
+}
+
+model QualificationMaster {
+    id Int @id @default(autoincrement())
+    name String
+    studentqualifications StudentQualification[]
+}
+
+model StudentAuthentications {
+    id Int @id @default(autoincrement())
+    email String @unique
+    password String
+    active Boolean
+    studentprofiles StudentProfiles?
+}
+
+model StudentProfiles {
+    id Int @id
+    name String
+    furigana String
+    gender String @db.VarChar(1)
+    birthday DateTime @db.Date
+    residence String
+    graduation_year Int @db.Year 
+    studentauthentications StudentAuthentications @relation(fields: [id], references: [id])
+    studentqualifications StudentQualification[]
+}
+
+model StudentQualification {
+    id Int @id @default (autoincrement())
+    userId Int
+    studentprofiles StudentProfiles @relation(fields: [userId], references: [id])
+    qualificationmaster QualificationMaster @relation(fields: [id], references: [id])
+}
+
+model CompanyAuthentications {
+    id Int @id @default(autoincrement())
+    email String
+    password String
+    active Boolean
+    companyprofiles CompanyProfiles?
+}
+
+model CompanyProfiles {
+    id Int @id @default(autoincrement())
+    companyId Int @unique
+    companyauthentications CompanyAuthentications @relation(fields: [companyId], references: [id])
+    code Int
+    name String?
+    website String?
+    furigana String?
+    category String?
+    detail String?
+    office String?
+    representative String?
+    foundation_date String?
+    capital String?
+    amount_of_sales String?
+    number_of_employees String?
+    phone_number String?
+    email String?
+    recruitment_numbers String?
+    this_year_graduate_recruitment_results String?
+    last_year_graduate_recruitment_results String?
+    recruitment_grade String?
+    qualification String?
+    ideal_candidate_profile String?
+    work_location String?
+    working_hours String?
+    holiday String?
+    four_year_course_basic_salary String?
+    four_year_course_allowances String?
+    four_year_course_salary_total String?
+    three_year_course_basic_salary String?
+	three_year_course_allowances String?
+    three_year_course_salary_total String?
+    two_year_course_basic_salary String?
+    two_year_course_allowances String?
+    two_year_course_salary_total String?
+    one_year_course_basic_salary String?
+    one_year_course_allowances String?
+    one_year_course_salary_total String?
+    others String?
+    allowances String?
+    welfare String?
+    corporate_philosophy String?
+    appeal String?
+}
