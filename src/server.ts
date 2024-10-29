@@ -74,10 +74,11 @@ app.use((req: Request, res: Response, next: NextFunction) => {
 });
 
 // ルーティング
-app.use("/registration", require("./routes/registration"))
-app.use("/authentication", require("./routes/authentication"))
-app.use("/user", require("./routes/user"));
-app.use("/company", require("./routes/company"));
+app.use("/admin", require("./routes/Admin"));
+app.use("/registration", require("./routes/Registration"));
+app.use("/authentication", require("./routes/Authentication"));
+app.use("/user", require("./routes/User"));
+app.use("/company", require("./routes/Company"));
 
 // エラー処理
 app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
