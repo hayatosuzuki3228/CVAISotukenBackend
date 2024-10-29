@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import { prisma } from "../server";
 import { exist } from "../common/Validation";
+import { isAwaitKeyword } from "typescript";
 
 // ルーティングモジュールを呼び出し
 const router = require("express").Router();
@@ -29,6 +30,7 @@ router.post("/information", async (req: Request, res: Response, next: NextFuncti
     }
 
 });
+
 
 router.post("/search", async (req: Request, res: Response, next: NextFunction) => {
     try {

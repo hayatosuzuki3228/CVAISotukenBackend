@@ -47,7 +47,7 @@ router.post("/profile/set", async (req: Request, res: Response, next: NextFuncti
                         birthday: new Date(req.body.birthday),
                         residence: req.body.residence,
                         graduation_year: Number(req.body.graduation_year),
-                        qualification: Number(req.body.qualification)
+                        // qualification: Number(req.body.qualification)
                     }
                 })
             } else {
@@ -65,7 +65,7 @@ router.post("/profile/set", async (req: Request, res: Response, next: NextFuncti
                                 birthday: new Date(req.body.birthday),
                                 residence: req.body.residence,
                                 graduation_year: Number(req.body.graduation_year),
-                                qualification: Number(req.body.qualification)
+                                // qualification: Number(req.body.qualification)
                             }
                         }
                     },
@@ -74,11 +74,54 @@ router.post("/profile/set", async (req: Request, res: Response, next: NextFuncti
                     }
                 });
             }
-        }
+        } 
 
         res.json({message: "プロフィールの変更に成功しました。"})
     } catch (e) {
         next(e)
+    }
+});
+
+router.post('/qualifications/set/', async (req: Request, res: Response, next: NextFunction) => {
+    exist(req.body.qualificationId);
+
+    try {
+        /*const studentQualifications = await prisma.studentQualification.createMany({
+            data: req.body.qualificationId.map((qualificationId: number) => (
+            {
+                userId: req.session.userId,// userIdを整数に変換
+                qualificationId: qualificationId
+            }))
+        });*/
+        await prisma.studentProfiles.update({
+            where: {
+                id: req.session.userId
+            },
+            data: {
+                studentqualifications: {
+                    create: [
+                        {
+                            qualificationmaster: {
+                                connect: {id: 0}
+                            }
+                        },
+                        {
+                            qualificationmaster: {
+                                connect: {id: 1}
+                            }
+                        }
+                    ]
+                }
+            },
+            include: {
+                studentqualifications: true
+            }
+        })
+
+        res.json();
+        
+    } catch (e) {
+        next(e);
     }
 });
 

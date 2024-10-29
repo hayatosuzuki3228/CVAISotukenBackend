@@ -44,7 +44,7 @@ router.post("/student", async (req: Request, res: Response, next: NextFunction) 
 router.post("/student/all", async (req: Request, res: Response, next: NextFunction) => {
     try {
         exist(req.body.email, req.body.password);
-        exist(req.body.name, req.body.furigana, req.body.gender, req.body.birthday, req.body.residence, req.body.graduation_year, req.body.qualification);
+        exist(req.body.name, req.body.furigana, req.body.gender, req.body.birthday, req.body.residence, req.body.graduation_year);
         
         if (await prisma.studentAuthentications.findFirst({
             where: {
@@ -69,7 +69,6 @@ router.post("/student/all", async (req: Request, res: Response, next: NextFuncti
                                 birthday: new Date(req.body.birthday),
                                 residence: req.body.residence,
                                 graduation_year: Number(req.body.graduation_year),
-                                qualification: Number(req.body.qualification),
                         },
                     },
                 },
@@ -176,3 +175,7 @@ router.post("/company/all", async (req: Request, res: Response, next: NextFuncti
 });
 
 module.exports = router;
+function next(e: unknown) {
+    throw new Error("Function not implemented.");
+}
+

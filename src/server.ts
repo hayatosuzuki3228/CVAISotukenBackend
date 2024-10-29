@@ -54,7 +54,7 @@ app.use(
 );
 
 // フォームデータの解析
-app.use(express.urlencoded({ extended: false }));
+// app.use(express.urlencoded({ extended: false }));
 
 // JSONデータのパースも許可
 app.use(express.json());
