@@ -7,6 +7,7 @@ const url = `https://${vaultName}.vault.azure.net`;
 
 let credential: any = null;
 
+
 // Lastly, create our keys client and connect to the service
 if( process.platform !== "win32" ) credential = new DefaultAzureCredential();
 
