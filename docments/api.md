@@ -1,5 +1,5 @@
 # API利用ドキュメント
-POSTメソッドを用い、APIサーバー用ソフトウェアを起動したサーバーのIPアドレスのポート8000番に対し、POSTメソッドでリクエストを送信してください。 
+POSTメソッドを用い、APIサーバー用ソフトウェアを起動したサーバーのIPアドレスのポート8000番に対し、POSTメソッドでリクエストを送信してください。   
 リクエストパラメータはJSON形式で送信してください。   
 ステータスが200の場合、リクエストが成功しており、500の場合、何らかの理由で失敗しています。
 パラメータに?が付いている場合、必須ではありません。
@@ -182,18 +182,18 @@ POSTメソッドを用い、APIサーバー用ソフトウェアを起動した�
     認証しているユーザのプロフィールを作成若しくは上書きします。
     - パラメータ
         ```
-        name: string,                           // 名前
-        furigana: string,                       // ふりがな
-        gender: string,                         // 性別 0: 男性, 1: 女性, 9: その他
-        birthday: date,                         // 誕生日 format: yyyy-mm-dd or yyyy/mm/dd
-        residence: string,                      // 居住地
-        graduation_year: number,                // 卒業年 format: yyyy
-        qualification: number                   // 資格
+        name: string,                               // 名前
+        furigana: string,                           // ふりがな
+        gender: string,                             // 性別 0: 男性, 1: 女性, 9: その他
+        birthday: date,                             // 誕生日 format: yyyy-mm-dd or yyyy/mm/dd
+        residence: string,                          // 居住地
+        graduation_year: number,                    // 卒業年 format: yyyy
+        qualification: number                       // 資格
         ```
     - 戻り値
         ```
         {
-            "message": string                   // 応答結果
+            "message": string                       // 応答結果
         }
         ```
 
@@ -202,22 +202,22 @@ POSTメソッドを用い、APIサーバー用ソフトウェアを起動した�
     企業アカウントに紐づいたメッセージを作成します。
     - パラメータ
         ```
-        title: string,                          // メッセージタイトル
-        content: string,                        // メッセージ内容
-        published: boolean?                     // 公開状況　省略した場合true 
+        title: string,                              // メッセージタイトル
+        content: string,                            // メッセージ内容
+        published: boolean?                         // 公開状況　省略した場合true 
         ```
     - 戻り値
         ```
         {
-            "message": string                   // 応答結果
-            "result":                           // メッセージリスト
+            "message": string                       // 応答結果
+            "result":                               // メッセージリスト
             [
                 {
-                    "id": string,               // メッセージUUID
-                    "companyId": number,        // 企業ID
-                    "publicshed": boolean,      // 公開状況
-                    "title": string,            // メッセージタイトル
-                    "content": string,          // メッセージ内容
+                    "id": string,                   // メッセージUUID
+                    "companyId": number,            // 企業ID
+                    "publicshed": boolean,          // 公開状況
+                    "title": string,                // メッセージタイトル
+                    "content": string,              // メッセージ内容
                 }, ...
             ]
         }
@@ -233,7 +233,7 @@ POSTメソッドを用い、APIサーバー用ソフトウェアを起動した�
     - 戻り値
         ```
         {
-            "message": string                   // 応答結果
+            "message": string                       // 応答結果
         }
         ```
 
@@ -242,14 +242,14 @@ POSTメソッドを用い、APIサーバー用ソフトウェアを起動した�
     企業アカウントに紐づいたメッセージを更新します。
     - パラメータ
         ```
-        id: string,                             // メッセージUUID
-        title: string?,                         // メッセージタイトル
-        content: string?,                       // メッセージ内容 
+        id: string,                                 // メッセージUUID
+        title: string?,                             // メッセージタイトル
+        content: string?,                           // メッセージ内容 
         ```
     - 戻り値
         ```
         {
-            "message": string                   // 応答結果
+            "message": string                       // 応答結果
         }
         ```
 
@@ -258,12 +258,12 @@ POSTメソッドを用い、APIサーバー用ソフトウェアを起動した�
     企業アカウントに紐づいたメッセージを削除します。
     - パラメータ
         ```
-        id: string,                             // メッセージUUID
+        id: string,                                 // メッセージUUID
         ```
     - 戻り値
         ```
         {
-            "message": string                   // 応答結果
+            "message": string                       // 応答結果
         }
         ```
 
@@ -272,12 +272,12 @@ POSTメソッドを用い、APIサーバー用ソフトウェアを起動した�
     企業アカウントに紐づいたメッセージを公開します。
     - パラメータ
         ```
-        id: string,                             // メッセージUUID
+        id: string,                                 // メッセージUUID
         ```
     - 戻り値
         ```
         {
-            "message": string                   // 応答結果
+            "message": string                       // 応答結果
         }
         ```
 
@@ -286,12 +286,12 @@ POSTメソッドを用い、APIサーバー用ソフトウェアを起動した�
     企業アカウントに紐づいたメッセージを非公開にします。
     - パラメータ
         ```
-        id: string,                             // メッセージUUID
+        id: string,                                 // メッセージUUID
         ```
     - 戻り値
         ```
         {
-            "message": string                   // 応答結果
+            "message": string                       // 応答結果
         }
         ```
 
@@ -381,7 +381,7 @@ POSTメソッドを用い、APIサーバー用ソフトウェアを起動した�
     会社のIDから公開されているメッセージを取得します。
     - パラメータ  
         ```
-        id: int // 会社ID
+        id: int                                     // 会社ID
         ```
     - 戻り値  
         ```
