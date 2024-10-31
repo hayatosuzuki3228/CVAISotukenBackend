@@ -118,6 +118,7 @@ router.post("/admin", async (req: Request, res: Response, next: NextFunction) =>
 router.post("/logout", async (req: Request, res: Response, next: NextFunction) => {
     try {
         if(req.session.userId) {
+            // セッション情報が存在する場合セッション情報を破棄
             req.session.destroy((err) => {
                 if(!err) {
                     res.json({message: "ログアウトに成功しました"}).send();

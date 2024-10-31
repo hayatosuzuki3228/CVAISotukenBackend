@@ -61,8 +61,9 @@ router.post("/search", async (req: Request, res: Response, next: NextFunction) =
 
 router.post("/message/list", async (req: Request, res: Response, next: NextFunction) => {
     try {
-        exist(req.body.companyId);
-
+        exist(req.body.id);
+        
+        // idに一致する会社のメッセージを全て取得
         const messages = await prisma.companyMessage.findMany(
             {
                 select:{

@@ -21,13 +21,15 @@ router.use(async (req: Request, res: Response, next: NextFunction) => {
 
 router.post("/student/list", async (req: Request, res: Response, next: NextFunction) => {
     try {
+        // 学生の一覧を取得
         const result = await prisma.studentAuthentications.findMany({
             select: {
                 id: true,
                 studentprofiles: {select: {name: true},},
                 active: true,
             }
-        }).then((result) => 
+        }).then((result) =>
+            // データを整形
             result.map((result) => 
                 ({
                     id: result.id,
@@ -47,6 +49,7 @@ router.post("/student/list", async (req: Request, res: Response, next: NextFunct
 router.post("/student/activate", async (req: Request, res: Response, next: NextFunction) => {
     exist(req.body.id);
     try {
+        // 学生ユーザーアカウントを有効化
         await prisma.studentAuthentications.update({
             where: {
                 id: req.body.id
@@ -65,6 +68,7 @@ router.post("/student/activate", async (req: Request, res: Response, next: NextF
 router.post("/student/deactivate", async (req: Request, res: Response, next: NextFunction) => {
     exist(req.body.id);
     try {
+        // 学生ユーザアカウントを無効化
         await prisma.studentAuthentications.update({
             where: {
                 id: req.body.id
@@ -82,13 +86,15 @@ router.post("/student/deactivate", async (req: Request, res: Response, next: Nex
 
 router.post("/company/list", async (req: Request, res: Response, next: NextFunction) => {
     try {
+        // 会社の一覧を取得
         const result = await prisma.companyAuthentications.findMany({
             select: {
                 id: true,
                 companyprofiles: {select: {name: true},},
                 active: true,
             }
-        }).then((result) => 
+        }).then((result) =>
+            // データを整形
             result.map((result) => 
                 ({
                     id: result.id,
@@ -108,7 +114,7 @@ router.post("/company/list", async (req: Request, res: Response, next: NextFunct
 router.post("/company/activate", async (req: Request, res: Response, next: NextFunction) => {
     try {
         exist(req.body.id);
-
+        // 会社ユーザーアカウントを有効化
         await prisma.companyAuthentications.update({
             where: {
                 id: req.body.id
@@ -127,7 +133,7 @@ router.post("/company/activate", async (req: Request, res: Response, next: NextF
 router.post("/company/deactivate", async (req: Request, res: Response, next: NextFunction) => {
     try {
         exist(req.body.id);
-
+        // 企業ユーザーアカウントを無効化
         await prisma.companyAuthentications.update({
             where: {
                 id: req.body.id

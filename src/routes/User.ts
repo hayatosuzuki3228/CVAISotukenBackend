@@ -157,6 +157,7 @@ router.post("/company/message/new", async (req: Request, res: Response, next: Ne
     try {
         exist(req.body.title, req.body.content);
 
+        // メッセージの作成
         await prisma.companyMessage.create({
             data: {
                 title: req.body.title,
@@ -179,13 +180,12 @@ router.post("/company/message/new", async (req: Request, res: Response, next: Ne
 
 router.post("/company/message/list", async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const messages = await prisma.companyMessage.findMany(
-            {
-                where: {
-                    companyId: req.session.userId
-                }
+        // セッションに格納されているuserIdからメッセージを全て取得
+        const messages = await prisma.companyMessage.findMany({
+            where: {
+                companyId: req.session.userId
             }
-        );
+        });
 
         res.json({message: "メッセージの取得に成功しました", result: messages});
 
@@ -198,6 +198,7 @@ router.post("/company/message/edit", async (req: Request, res: Response, next: N
     try {
         exist(req.body.id);
 
+        // パラメータから取得したIDのメッセージのタイトル、コンテンツの更新
         await prisma.companyMessage.update({
             where: {
                 companyId: req.session.userId,
@@ -220,6 +221,7 @@ router.post("/company/message/delete", async (req: Request, res: Response, next:
     try {
         exist(req.body.id);
 
+        // パラメータから取得したIDのメッセージを削除
         await prisma.companyMessage.delete({
             where: {
                 companyId: req.session.userId,
@@ -238,6 +240,7 @@ router.post("/company/message/publish", async (req: Request, res: Response, next
     try {
         exist(req.body.id);
 
+        // パラメータから取得したIDのメッセージを公開
         await prisma.companyMessage.update({
             where: {
                 companyId: req.session.userId,
@@ -259,6 +262,7 @@ router.post("/company/message/private", async (req: Request, res: Response, next
     try {
         exist(req.body.id);
 
+        // パラメータから取得したメッセージを非公開
         await prisma.companyMessage.update({
             where: {
                 companyId: req.session.userId,
