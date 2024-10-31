@@ -1,9 +1,4 @@
-export function exist(...args: string[]): void
+export function exist(...args: any[]): void
 {
-    for(const arg in args ) {
-        if(arg == undefined)
-        {
-            throw new Error("引数が正しくありません");
-        }
-    }
+    if (args.includes(undefined)) throw new Error("引数が正しくありません");
 }
