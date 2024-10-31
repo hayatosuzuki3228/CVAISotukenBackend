@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import { prisma } from "../server";
 import { exist } from "../common/Validation";
+import { isAwaitKeyword } from "typescript";
 
 // ルーティングモジュールを呼び出し
 const router = require("express").Router();
@@ -27,7 +28,6 @@ router.post("/information", async (req: Request, res: Response, next: NextFuncti
     } catch(e) {
         next(e);
     }
-
 });
 
 router.post("/search", async (req: Request, res: Response, next: NextFunction) => {
@@ -54,6 +54,32 @@ router.post("/search", async (req: Request, res: Response, next: NextFunction) =
         });
 
         res.json({message: "リクエストが成功しました", result: data});
+    } catch (e) {
+        next(e);
+    }
+});
+
+router.post("/message/list", async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        exist(req.body.id);
+        
+        // idに一致する会社のメッセージを全て取得
+        const messages = await prisma.companyMessage.findMany(
+            {
+                select:{
+                    id: true,
+                    title: true,
+                    content: true
+                },
+                where: {
+                    companyId: req.body.companyId,
+                    publicshed: true
+                }
+            }
+        );
+
+        res.json({message: "メッセージの取得に成功しました", result: messages});
+
     } catch (e) {
         next(e);
     }

@@ -1,10 +1,4 @@
-export function exist(...args: string[]): void
+export function exist(...args: any[]): void
 {
-    for(const arg of args )
-    {
-        if(arg == undefined)
-        {
-            throw new Error("オーグメントが正しくありません");
-        }
-    }
+    if (args.includes(undefined)) throw new Error("引数が正しくありません");
 }

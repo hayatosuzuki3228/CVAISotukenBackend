@@ -14,20 +14,18 @@ model Session {
   expiresAt   DateTime
 }
 
+model QualificationMaster {
+    id Int @id @default(autoincrement())
+    name String
+    studentqualifications StudentQualification[]
+}
+
 model StudentAuthentications {
     id Int @id @default(autoincrement())
-    email String 
+    email String @unique
     password String
     active Boolean
     studentprofiles StudentProfiles?
-}
-
-model CompanyAuthentications {
-    id Int @id @default(autoincrement())
-    email String
-    password String
-    active Boolean
-    companyprofiles CompanyProfiles?
 }
 
 model StudentProfiles {
@@ -38,8 +36,24 @@ model StudentProfiles {
     birthday DateTime @db.Date
     residence String
     graduation_year Int @db.Year 
-    qualification Int
     studentauthentications StudentAuthentications @relation(fields: [id], references: [id])
+    studentqualifications StudentQualification[]
+}
+
+model StudentQualification {
+    id Int @id @default (autoincrement())
+    userId Int
+    studentprofiles StudentProfiles @relation(fields: [userId], references: [id])
+    qualificationmaster QualificationMaster @relation(fields: [id], references: [id])
+}
+
+model CompanyAuthentications {
+    id Int @id @default(autoincrement())
+    email String
+    password String
+    active Boolean
+    companyprofiles CompanyProfiles?
+    messsages CompanyMessage[]
 }
 
 model CompanyProfiles {
@@ -86,4 +100,20 @@ model CompanyProfiles {
     welfare String?
     corporate_philosophy String?
     appeal String?
+}
+
+model CompanyMessage {
+    id String @id @default(uuid())
+    companyId Int
+    company CompanyAuthentications @relation(fields: [companyId], references: [id])
+    publicshed Boolean @default(true)
+    title String
+    content String
+}
+
+model AdminAuthentications {
+    id Int @id @default(autoincrement())
+    email String
+    password String
+    active Boolean
 }
