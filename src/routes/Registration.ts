@@ -2,6 +2,7 @@ import { Request, Response, NextFunction } from "express";
 import { encryption } from "../common/Encryption";
 import { exist } from "../common/Validation";
 import { prisma } from "../server";
+import { verifyAdmin } from "../common/Verify";
 
 // ルーティングモジュールを呼び出し
 const router = require("express").Router();
@@ -45,7 +46,7 @@ router.post("/student/all", async (req: Request, res: Response, next: NextFuncti
     try {
         exist(req.body.email, req.body.password);
         exist(req.body.name, req.body.furigana, req.body.gender, req.body.birthday, req.body.residence, req.body.graduation_year);
-        
+
         if (await prisma.studentAuthentications.findFirst({
             where: {
                 email: req.body.email
@@ -175,8 +176,40 @@ router.post("/company/all", async (req: Request, res: Response, next: NextFuncti
 });
 
 
-module.exports = router;
-function next(e: unknown) {
-    throw new Error("Function not implemented.");
-}
+router.post("/admin", async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        verifyAdmin(req.session.userCategory);
+        exist(req.body.email, req.body.password);
+        
+        if (await prisma.adminAuthentications.findFirst({
+            where: {
+                email: req.body.email
+            }
+        })) {
+            // メールアドレスが登録済みの場合はじく
+            throw new Error("そのメールアドレスはすでに使われています");
+        } else {
+            // 登録
+            const user = await prisma.adminAuthentications.create({
+                data: {
+                    email: req.body.email,
+                    password: await encryption(req.body.password),
+                    active: true,
+                },
+            });
 
+            // ログ出力
+            console.log(`管理者アカウントの作成が完了しました。ユーザID: ${user.id}, Eメール: ${user.email}`);
+
+            // レスポンスを返す
+            res.json(
+                {message: "管理者アカウントの作成が完了しました"}
+            );
+        }
+
+    } catch(e) {
+        next(e);
+    }
+});
+
+module.exports = router;
