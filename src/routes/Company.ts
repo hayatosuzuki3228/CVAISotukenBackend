@@ -28,9 +28,7 @@ router.post("/information", async (req: Request, res: Response, next: NextFuncti
     } catch(e) {
         next(e);
     }
-
 });
-
 
 router.post("/search", async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -56,6 +54,31 @@ router.post("/search", async (req: Request, res: Response, next: NextFunction) =
         });
 
         res.json({message: "リクエストが成功しました", result: data});
+    } catch (e) {
+        next(e);
+    }
+});
+
+router.post("/message/list", async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        exist(req.body.companyId);
+
+        const messages = await prisma.companyMessage.findMany(
+            {
+                select:{
+                    id: true,
+                    title: true,
+                    content: true
+                },
+                where: {
+                    companyId: req.body.companyId,
+                    publicshed: true
+                }
+            }
+        );
+
+        res.json({message: "メッセージの取得に成功しました", result: messages});
+
     } catch (e) {
         next(e);
     }

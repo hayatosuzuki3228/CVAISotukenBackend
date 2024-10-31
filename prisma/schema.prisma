@@ -53,6 +53,7 @@ model CompanyAuthentications {
     password String
     active Boolean
     companyprofiles CompanyProfiles?
+    messsages CompanyMessage[]
 }
 
 model CompanyProfiles {
@@ -99,6 +100,15 @@ model CompanyProfiles {
     welfare String?
     corporate_philosophy String?
     appeal String?
+}
+
+model CompanyMessage {
+    id String @id @default(uuid())
+    companyId Int
+    company CompanyAuthentications @relation(fields: [companyId], references: [id])
+    publicshed Boolean @default(true)
+    title String
+    content String
 }
 
 model AdminAuthentications {
