@@ -1,8 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import { exist } from "../utils/Validation";
 import { prisma } from "../server";
-import { authentication, encryption } from "../utils/Encryption";
-import { UserCategory } from "../utils/UserCategory";
 import { verifyAdmin } from "../utils/Verify";
 
 // ルーティングモジュールを呼び出し

@@ -1,7 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import { prisma } from "../server";
 import { exist } from "../utils/Validation";
-import { isAwaitKeyword } from "typescript";
 
 // ルーティングモジュールを呼び出し
 const router = require("express").Router();
