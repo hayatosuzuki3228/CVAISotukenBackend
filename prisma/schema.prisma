@@ -105,6 +105,8 @@ model CompanyProfiles {
 model CompanyMessage {
     id String @id @default(uuid())
     companyId Int
+    postAt DateTime @default(now())
+    updateAt DateTime @updatedAt
     company CompanyAuthentications @relation(fields: [companyId], references: [id])
     publicshed Boolean @default(true)
     title String

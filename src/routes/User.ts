@@ -1,8 +1,8 @@
 import { Request, Response, NextFunction } from "express";
-import { exist } from "../common/Validation";
+import { exist } from "../utils/Validation";
 import { prisma } from "../server";
-import { verify, verifyCompany, verifyStudent } from "../common/Verify";
-import { UserCategory } from "../common/UserCategory";
+import { verify, verifyCompany, verifyStudent } from "../utils/Verify";
+import { UserCategory } from "../utils/UserCategory";
 
 // ルーティングモジュールを呼び出し
 const router = require("express").Router();
@@ -180,10 +180,19 @@ router.post("/company/message/new", async (req: Request, res: Response, next: Ne
 
 router.post("/company/message/list", async (req: Request, res: Response, next: NextFunction) => {
     try {
+        // 取得する情報の制御
+        const skip = (req.body.perPage ? req.body.perPage : 10) * (req.body.page ? req.body.page : 0);
+        const take = (req.body.perPage ? req.body.perPage : 10) * (req.body.page ? req.body.page + 1 : 1);
+
         // セッションに格納されているuserIdからメッセージを全て取得
         const messages = await prisma.companyMessage.findMany({
             where: {
                 companyId: req.session.userId
+            },
+            skip: skip,
+            take: take,
+            orderBy: {
+                postAt: 'asc'
             }
         });
 

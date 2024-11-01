@@ -1,8 +1,8 @@
 import { Request, Response, NextFunction } from "express";
-import { encryption } from "../common/Encryption";
-import { exist } from "../common/Validation";
+import { encryption } from "../utils/Encryption";
+import { exist } from "../utils/Validation";
 import { prisma } from "../server";
-import { verifyAdmin } from "../common/Verify";
+import { verifyAdmin } from "../utils/Verify";
 
 // ルーティングモジュールを呼び出し
 const router = require("express").Router();
