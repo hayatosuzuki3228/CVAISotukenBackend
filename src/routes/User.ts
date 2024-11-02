@@ -117,121 +117,104 @@ router.post("/profile/set", async (req: Request, res: Response, next: NextFuncti
 
             case UserCategory.company:
                 // ユーザが企業アカウントの場合
-                if (await prisma.companyProfiles.findFirst({
-                    where:{
-                        companyId: Number(req.session.userId)
-                    }
-                }))
-                {
-                    // プロフィールが存在する場合
-                    await prisma.companyProfiles.update({
-                        where: {
-                            companyId: req.session.userId
-                        },
-                        data: {
-                            code: req.body.code,
-                            name: req.body.name,
-                            furigana: req.body.furigana,
-                            website: req.body.website,
-                            category: req.body.category,
-                            detail: req.body.detail,
-                            office: req.body.office,
-                            representative: req.body.representative,
-                            foundation_date: req.body.foundation_date,
-                            capital: req.body.capital,
-                            amount_of_sales: req.body.amount_of_sales,
-                            number_of_employees: req.body.number_of_employees,
-                            phone_number: req.body.phone_number,
-                            email: req.body.email,
-                            recruitment_numbers: req.body.recruitment_numbers,
-                            this_year_graduate_recruitment_results: req.body.this_year_graduate_recruitment_results,
-                            last_year_graduate_recruitment_results: req.body.last_year_graduate_recruitment_results,
-                            recruitment_grade: req.body.recruitment_grade,
-                            qualification: req.body.qualification,
-                            ideal_candidate_profile: req.body.ideal_candidate_profile,
-                            work_location: req.body.work_location,
-                            working_hours: req.body.working_hours,
-                            holiday: req.body.holiday,
-                            four_year_course_basic_salary: req.body.four_year_course_basic_salary,
-                            four_year_course_allowances: req.body.four_year_course_allowances,
-                            four_year_course_salary_total: req.body.four_year_course_salary_total,
-                            three_year_course_basic_salary: req.body.three_year_course_basic_salary,
-                            three_year_course_allowances: req.body.three_year_course_allowances,
-                            three_year_course_salary_total: req.body.three_year_course_salary_total,
-                            two_year_course_basic_salary: req.body.two_year_course_basic_salary,
-                            two_year_course_allowances: req.body.two_year_course_allowances,
-                            two_year_course_salary_total: req.body.two_year_course_salary_total,
-                            one_year_course_basic_salary: req.body.one_year_course_basic_salary,
-                            one_year_course_allowances: req.body.one_year_course_allowances,
-                            one_year_course_salary_total: req.body.one_year_course_salary_total,
-                            others: req.body.others,
-                            allowances: req.body.allowances,
-                            welfare: req.body.welfare,
-                            corporate_philosophy: req.body.corporate_philosophy,
-                            appeal: req.body.appeal
-                        }
-                    });
-                } else {
-                    // プロフィールが存在しない場合
-                    exist(req.body.code);
-                    await prisma.companyAuthentications.update({
-                        where: {
-                            id: req.session.userId
-                        },
-                        data: {
-                            companyprofiles: {
-                                create: {
-                                    code: req.body.code,
-                                    name: req.body.name,
-                                    furigana: req.body.furigana,
-                                    website: req.body.website,
-                                    category: req.body.category,
-                                    detail: req.body.detail,
-                                    office: req.body.office,
-                                    representative: req.body.representative,
-                                    foundation_date: req.body.foundation_date,
-                                    capital: req.body.capital,
-                                    amount_of_sales: req.body.amount_of_sales,
-                                    number_of_employees: req.body.number_of_employees,
-                                    phone_number: req.body.phone_number,
-                                    email: req.body.email,
-                                    recruitment_numbers: req.body.recruitment_numbers,
-                                    this_year_graduate_recruitment_results: req.body.this_year_graduate_recruitment_results,
-                                    last_year_graduate_recruitment_results: req.body.last_year_graduate_recruitment_results,
-                                    recruitment_grade: req.body.recruitment_grade,
-                                    qualification: req.body.qualification,
-                                    ideal_candidate_profile: req.body.ideal_candidate_profile,
-                                    work_location: req.body.work_location,
-                                    working_hours: req.body.working_hours,
-                                    holiday: req.body.holiday,
-                                    four_year_course_basic_salary: req.body.four_year_course_basic_salary,
-                                    four_year_course_allowances: req.body.four_year_course_allowances,
-                                    four_year_course_salary_total: req.body.four_year_course_salary_total,
-                                    three_year_course_basic_salary: req.body.three_year_course_basic_salary,
-                                    three_year_course_allowances: req.body.three_year_course_allowances,
-                                    three_year_course_salary_total: req.body.three_year_course_salary_total,
-                                    two_year_course_basic_salary: req.body.two_year_course_basic_salary,
-                                    two_year_course_allowances: req.body.two_year_course_allowances,
-                                    two_year_course_salary_total: req.body.two_year_course_salary_total,
-                                    one_year_course_basic_salary: req.body.one_year_course_basic_salary,
-                                    one_year_course_allowances: req.body.one_year_course_allowances,
-                                    one_year_course_salary_total: req.body.one_year_course_salary_total,
-                                    others: req.body.others,
-                                    allowances: req.body.allowances,
-                                    welfare: req.body.welfare,
-                                    corporate_philosophy: req.body.corporate_philosophy,
-                                    appeal: req.body.appeal
-                                }
+                await prisma.companyProfiles.upsert({
+                    where: {
+                        id: req.session.userId
+                    },
+                    update:{
+                        code: req.body.code,
+                        name: req.body.name,
+                        furigana: req.body.furigana,
+                        website: req.body.website,
+                        category: req.body.category,
+                        detail: req.body.detail,
+                        office: req.body.office,
+                        representative: req.body.representative,
+                        foundation_date: req.body.foundation_date,
+                        capital: req.body.capital,
+                        amount_of_sales: req.body.amount_of_sales,
+                        number_of_employees: req.body.number_of_employees,
+                        phone_number: req.body.phone_number,
+                        email: req.body.email,
+                        recruitment_numbers: req.body.recruitment_numbers,
+                        this_year_graduate_recruitment_results: req.body.this_year_graduate_recruitment_results,
+                        last_year_graduate_recruitment_results: req.body.last_year_graduate_recruitment_results,
+                        recruitment_grade: req.body.recruitment_grade,
+                        qualification: req.body.qualification,
+                        ideal_candidate_profile: req.body.ideal_candidate_profile,
+                        work_location: req.body.work_location,
+                        working_hours: req.body.working_hours,
+                        holiday: req.body.holiday,
+                        four_year_course_basic_salary: req.body.four_year_course_basic_salary,
+                        four_year_course_allowances: req.body.four_year_course_allowances,
+                        four_year_course_salary_total: req.body.four_year_course_salary_total,
+                        three_year_course_basic_salary: req.body.three_year_course_basic_salary,
+                        three_year_course_allowances: req.body.three_year_course_allowances,
+                        three_year_course_salary_total: req.body.three_year_course_salary_total,
+                        two_year_course_basic_salary: req.body.two_year_course_basic_salary,
+                        two_year_course_allowances: req.body.two_year_course_allowances,
+                        two_year_course_salary_total: req.body.two_year_course_salary_total,
+                        one_year_course_basic_salary: req.body.one_year_course_basic_salary,
+                        one_year_course_allowances: req.body.one_year_course_allowances,
+                        one_year_course_salary_total: req.body.one_year_course_salary_total,
+                        others: req.body.others,
+                        allowances: req.body.allowances,
+                        welfare: req.body.welfare,
+                        corporate_philosophy: req.body.corporate_philosophy,
+                        appeal: req.body.appeal
+                    },
+                    create: {
+                        code: req.body.code,
+                        name: req.body.name,
+                        furigana: req.body.furigana,
+                        website: req.body.website,
+                        category: req.body.category,
+                        detail: req.body.detail,
+                        office: req.body.office,
+                        representative: req.body.representative,
+                        foundation_date: req.body.foundation_date,
+                        capital: req.body.capital,
+                        amount_of_sales: req.body.amount_of_sales,
+                        number_of_employees: req.body.number_of_employees,
+                        phone_number: req.body.phone_number,
+                        email: req.body.email,
+                        recruitment_numbers: req.body.recruitment_numbers,
+                        this_year_graduate_recruitment_results: req.body.this_year_graduate_recruitment_results,
+                        last_year_graduate_recruitment_results: req.body.last_year_graduate_recruitment_results,
+                        recruitment_grade: req.body.recruitment_grade,
+                        qualification: req.body.qualification,
+                        ideal_candidate_profile: req.body.ideal_candidate_profile,
+                        work_location: req.body.work_location,
+                        working_hours: req.body.working_hours,
+                        holiday: req.body.holiday,
+                        four_year_course_basic_salary: req.body.four_year_course_basic_salary,
+                        four_year_course_allowances: req.body.four_year_course_allowances,
+                        four_year_course_salary_total: req.body.four_year_course_salary_total,
+                        three_year_course_basic_salary: req.body.three_year_course_basic_salary,
+                        three_year_course_allowances: req.body.three_year_course_allowances,
+                        three_year_course_salary_total: req.body.three_year_course_salary_total,
+                        two_year_course_basic_salary: req.body.two_year_course_basic_salary,
+                        two_year_course_allowances: req.body.two_year_course_allowances,
+                        two_year_course_salary_total: req.body.two_year_course_salary_total,
+                        one_year_course_basic_salary: req.body.one_year_course_basic_salary,
+                        one_year_course_allowances: req.body.one_year_course_allowances,
+                        one_year_course_salary_total: req.body.one_year_course_salary_total,
+                        others: req.body.others,
+                        allowances: req.body.allowances,
+                        welfare: req.body.welfare,
+                        corporate_philosophy: req.body.corporate_philosophy,
+                        appeal: req.body.appeal,
+                        companyauthentications: {
+                            connect: {
+                                id: req.session.userId
                             }
-                        },
-                        include: {
-                            companyprofiles: true
                         }
-                    });
-                }
-
-            res.json({message: "情報の更新に成功しました"});
+                    }
+                });
+                break;
         }
+
+        res.json({message: "情報の更新に成功しました"});
         
     } catch (e) {
         next(e);
