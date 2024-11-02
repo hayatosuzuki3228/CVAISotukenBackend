@@ -1,8 +1,9 @@
 import { Request, Response, NextFunction } from "express";
-import { exist } from "../utils/Validation";
 import { prisma } from "../server";
 import { verify, verifyCompany, verifyStudent } from "../utils/Verify";
 import { UserCategory } from "../utils/UserCategory";
+import { exist } from "../utils/Validation";
+
 
 // ルーティングモジュールを呼び出し
 const router = require("express").Router();
@@ -31,20 +32,29 @@ router.use("/company", async (req: Request, res: Response, next: NextFunction) =
 
 router.post("/profile/get", async (req: Request, res: Response, next: NextFunction) => {
     try {
-        // 認証情報が
-        verify(req.session.userCategory, UserCategory.student, UserCategory.student);
+        verify(req.session.userCategory, UserCategory.student, UserCategory.company);
 
-        if(req.session.userId) {
-            const data = await prisma.studentProfiles.findFirst({
-                where: {
-                    id: req.session.userId
-                }
-            });
+        let data;
+        switch(req.session.userCategory) {
+            case UserCategory.student: 
+                data = await prisma.studentProfiles.findFirst({
+                    where: {
+                        id: req.session.userId
+                    }
+                });
+                break;
+            
+            case UserCategory.company:
+                data = await prisma.companyProfiles.findFirst({
+                    where: {
+                        companyId: req.session.userId
+                    }
+                })
 
-            res.json({message: "情報の取得に成功しました。", result: data});
-        } else {
-            throw new Error("セッションデータが見つかりませんでした");
+                break;
         }
+        res.json({message: "情報の取得に成功しました。", result: data});
+        
     } catch(e) {
         next(e);
     }
@@ -52,101 +62,176 @@ router.post("/profile/get", async (req: Request, res: Response, next: NextFuncti
 
 router.post("/profile/set", async (req: Request, res: Response, next: NextFunction) => {
     try {
-        verify(req.session.userCategory, UserCategory.student, UserCategory.student);
-        exist(req.body.name, req.body.furigana, req.body.gender, req.body.birthday, req.body.residence, req.body.graduation_year, req.body.qualification);
+        verify(req.session.userCategory, UserCategory.student, UserCategory.company);
 
-        if(req.session.userId)
-        {
-            if (await prisma.studentProfiles.findFirst({
-                where:{
-                    id: Number(req.session.userId)
-                }
-            }))
-            {
-                // プロフィールが存在する場合
-                await prisma.studentProfiles.update({
-                    where: {
-                        id: req.session.userId
-                    },
-                    data: {
-                        name: req.body.name,
-                        furigana: req.body.furigana,
-                        gender: req.body.gender,
-                        birthday: new Date(req.body.birthday),
-                        residence: req.body.residence,
-                        graduation_year: Number(req.body.graduation_year),
-                        // qualification: Number(req.body.qualification)
+        switch(req.session.userCategory) {
+            case UserCategory.student:
+                // ユーザが生徒アカウントの場合
+                if (await prisma.studentProfiles.findFirst({
+                    where:{
+                        id: Number(req.session.userId)
                     }
-                })
-            } else {
-                // プロフィールが存在しない場合
-                await prisma.studentAuthentications.update({
-                    where: {
-                        id: req.session.userId
-                    },
-                    data: {
-                        studentprofiles: {
-                            create: {
-                                name: req.body.name,
-                                furigana: req.body.furigana,
-                                gender: req.body.gender,
-                                birthday: new Date(req.body.birthday),
-                                residence: req.body.residence,
-                                graduation_year: Number(req.body.graduation_year),
-                                // qualification: Number(req.body.qualification)
-                            }
+                }))
+                {
+                    // プロフィールが存在する場合
+                    await prisma.studentProfiles.update({
+                        where: {
+                            id: req.session.userId
+                        },
+                        data: {
+                            name: req.body.name,
+                            furigana: req.body.furigana,
+                            gender: req.body.gender,
+                            birthday: (req.body.birthday ? new Date(req.body.birthday) : undefined),
+                            residence: req.body.residence,
+                            graduation_year: (req.body.graduation_year ? Number(req.body.graduation_year) : undefined),
+                            // qualification: Number(req.body.qualification)
                         }
-                    },
-                    include: {
-                        studentprofiles: true
-                    }
-                });
-            }
-        } 
-
-        res.json({message: "プロフィールの変更に成功しました。"})
-    } catch (e) {
-        next(e)
-    }
-});
-
-router.post('/qualifications/set/', async (req: Request, res: Response, next: NextFunction) => {
-    exist(req.body.qualificationId);
-
-    try {
-        /*const studentQualifications = await prisma.studentQualification.createMany({
-            data: req.body.qualificationId.map((qualificationId: number) => (
-            {
-                userId: req.session.userId,// userIdを整数に変換
-                qualificationId: qualificationId
-            }))
-        });*/
-        await prisma.studentProfiles.update({
-            where: {
-                id: req.session.userId
-            },
-            data: {
-                studentqualifications: {
-                    create: [
-                        {
-                            qualificationmaster: {
-                                connect: {id: 0}
+                    })
+                } else {
+                    // プロフィールが存在しない場合
+                    exist(req.body.name, req.body.furigana, req.body.gender, req.body.birthday, req.body.residence, req.body.graduation_year);
+                    await prisma.studentAuthentications.update({
+                        where: {
+                            id: req.session.userId
+                        },
+                        data: {
+                            studentprofiles: {
+                                create: {
+                                    name: req.body.name,
+                                    furigana: req.body.furigana,
+                                    gender: req.body.gender,
+                                    birthday: new Date(req.body.birthday),
+                                    residence: req.body.residence,
+                                    graduation_year: Number(req.body.graduation_year),
+                                    // qualification: Number(req.body.qualification)
+                                }
                             }
                         },
-                        {
-                            qualificationmaster: {
-                                connect: {id: 1}
-                            }
+                        include: {
+                            studentprofiles: true
                         }
-                    ]
+                    });
                 }
-            },
-            include: {
-                studentqualifications: true
-            }
-        })
+                break;
 
-        res.json();
+            case UserCategory.company:
+                // ユーザが企業アカウントの場合
+                if (await prisma.companyProfiles.findFirst({
+                    where:{
+                        companyId: Number(req.session.userId)
+                    }
+                }))
+                {
+                    // プロフィールが存在する場合
+                    await prisma.companyProfiles.update({
+                        where: {
+                            companyId: req.session.userId
+                        },
+                        data: {
+                            code: req.body.code,
+                            name: req.body.name,
+                            furigana: req.body.furigana,
+                            website: req.body.website,
+                            category: req.body.category,
+                            detail: req.body.detail,
+                            office: req.body.office,
+                            representative: req.body.representative,
+                            foundation_date: req.body.foundation_date,
+                            capital: req.body.capital,
+                            amount_of_sales: req.body.amount_of_sales,
+                            number_of_employees: req.body.number_of_employees,
+                            phone_number: req.body.phone_number,
+                            email: req.body.email,
+                            recruitment_numbers: req.body.recruitment_numbers,
+                            this_year_graduate_recruitment_results: req.body.this_year_graduate_recruitment_results,
+                            last_year_graduate_recruitment_results: req.body.last_year_graduate_recruitment_results,
+                            recruitment_grade: req.body.recruitment_grade,
+                            qualification: req.body.qualification,
+                            ideal_candidate_profile: req.body.ideal_candidate_profile,
+                            work_location: req.body.work_location,
+                            working_hours: req.body.working_hours,
+                            holiday: req.body.holiday,
+                            four_year_course_basic_salary: req.body.four_year_course_basic_salary,
+                            four_year_course_allowances: req.body.four_year_course_allowances,
+                            four_year_course_salary_total: req.body.four_year_course_salary_total,
+                            three_year_course_basic_salary: req.body.three_year_course_basic_salary,
+                            three_year_course_allowances: req.body.three_year_course_allowances,
+                            three_year_course_salary_total: req.body.three_year_course_salary_total,
+                            two_year_course_basic_salary: req.body.two_year_course_basic_salary,
+                            two_year_course_allowances: req.body.two_year_course_allowances,
+                            two_year_course_salary_total: req.body.two_year_course_salary_total,
+                            one_year_course_basic_salary: req.body.one_year_course_basic_salary,
+                            one_year_course_allowances: req.body.one_year_course_allowances,
+                            one_year_course_salary_total: req.body.one_year_course_salary_total,
+                            others: req.body.others,
+                            allowances: req.body.allowances,
+                            welfare: req.body.welfare,
+                            corporate_philosophy: req.body.corporate_philosophy,
+                            appeal: req.body.appeal
+                        }
+                    });
+                } else {
+                    // プロフィールが存在しない場合
+                    exist(req.body.code);
+                    await prisma.companyAuthentications.update({
+                        where: {
+                            id: req.session.userId
+                        },
+                        data: {
+                            companyprofiles: {
+                                create: {
+                                    code: req.body.code,
+                                    name: req.body.name,
+                                    furigana: req.body.furigana,
+                                    website: req.body.website,
+                                    category: req.body.category,
+                                    detail: req.body.detail,
+                                    office: req.body.office,
+                                    representative: req.body.representative,
+                                    foundation_date: req.body.foundation_date,
+                                    capital: req.body.capital,
+                                    amount_of_sales: req.body.amount_of_sales,
+                                    number_of_employees: req.body.number_of_employees,
+                                    phone_number: req.body.phone_number,
+                                    email: req.body.email,
+                                    recruitment_numbers: req.body.recruitment_numbers,
+                                    this_year_graduate_recruitment_results: req.body.this_year_graduate_recruitment_results,
+                                    last_year_graduate_recruitment_results: req.body.last_year_graduate_recruitment_results,
+                                    recruitment_grade: req.body.recruitment_grade,
+                                    qualification: req.body.qualification,
+                                    ideal_candidate_profile: req.body.ideal_candidate_profile,
+                                    work_location: req.body.work_location,
+                                    working_hours: req.body.working_hours,
+                                    holiday: req.body.holiday,
+                                    four_year_course_basic_salary: req.body.four_year_course_basic_salary,
+                                    four_year_course_allowances: req.body.four_year_course_allowances,
+                                    four_year_course_salary_total: req.body.four_year_course_salary_total,
+                                    three_year_course_basic_salary: req.body.three_year_course_basic_salary,
+                                    three_year_course_allowances: req.body.three_year_course_allowances,
+                                    three_year_course_salary_total: req.body.three_year_course_salary_total,
+                                    two_year_course_basic_salary: req.body.two_year_course_basic_salary,
+                                    two_year_course_allowances: req.body.two_year_course_allowances,
+                                    two_year_course_salary_total: req.body.two_year_course_salary_total,
+                                    one_year_course_basic_salary: req.body.one_year_course_basic_salary,
+                                    one_year_course_allowances: req.body.one_year_course_allowances,
+                                    one_year_course_salary_total: req.body.one_year_course_salary_total,
+                                    others: req.body.others,
+                                    allowances: req.body.allowances,
+                                    welfare: req.body.welfare,
+                                    corporate_philosophy: req.body.corporate_philosophy,
+                                    appeal: req.body.appeal
+                                }
+                            }
+                        },
+                        include: {
+                            companyprofiles: true
+                        }
+                    });
+                }
+
+            res.json({message: "情報の更新に成功しました"});
+        }
         
     } catch (e) {
         next(e);

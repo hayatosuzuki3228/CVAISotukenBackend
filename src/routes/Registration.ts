@@ -110,7 +110,7 @@ router.post("/company", async (req: Request, res: Response, next: NextFunction) 
                 data: {
                     email: req.body.email,
                     password: await encryption(req.body.password),
-                    active: true,
+                    active: true
                 },
             });
 

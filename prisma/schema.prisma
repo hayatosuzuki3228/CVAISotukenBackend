@@ -60,7 +60,7 @@ model CompanyProfiles {
     id Int @id @default(autoincrement())
     companyId Int @unique
     companyauthentications CompanyAuthentications @relation(fields: [companyId], references: [id])
-    code Int
+    code Int?
     name String?
     website String?
     furigana String?
