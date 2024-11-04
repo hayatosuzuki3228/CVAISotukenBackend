@@ -4,7 +4,7 @@
 1. [Registration](registration.md)
 1. [User](user.md)
 1. [Company](company.md)
-1. [Admin](#admin)
+1. [Admin](admin.md)
 
 ## Company
 会社情報操作を行います。
