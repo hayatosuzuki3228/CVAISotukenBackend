@@ -7,9 +7,9 @@
 1. [Admin](admin.md)
 
 ## 目次
-1. [./company/information](#companyinformation)
-1. [./company/search](#companysearch)
-1. [./company/message/list](#companymessagelist)
+1. [/company/information](#companyinformation)
+1. [/company/search](#companysearch)
+1. [/company/message/list](#companymessagelist)
 
 ## Company
 会社情報操作を行います。

@@ -7,10 +7,10 @@
 1. [Admin](admin.md)
 
 ## 目次
-1. [./registration/student](#registrationstudent)
-1. [./registration/student/all](#registrationstudentall)
-1. [./registration/company](#registrationcompany)
-1. [./registration/admin]
+1. [/registration/student](#registrationstudent)
+1. [/registration/student/all](#registrationstudentall)
+1. [/registration/company](#registrationcompany)
+1. [/registration/admin]
 
 ## Registration
 ユーザーアカウントを作成します。

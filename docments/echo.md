@@ -7,7 +7,7 @@
 1. [Admin](admin.md)
 
 ## 目次
-1. [./echo](#echo-1)
+1. [/echo](#echo-1)
 
 ## Echo
 サーバーの起動及び動作確認を行います。

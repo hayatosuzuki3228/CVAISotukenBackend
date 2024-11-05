@@ -7,14 +7,14 @@
 1. [Admin](admin.md)
 
 ## 目次
-1. [./user/profile/get](#userprofileget-)
-1. [./user/profile/set](#userprofileset-)
-1. [./user/company/message/new](#usercompanymessagenew-)
-1. [./user/company/message/list](#usercompanymessagelist-)
-1. [./user/company/message/edit](#usercompanymessageedit-)
-1. [./user/company/message/delete](#usercompanymessagedelete-)
-1. [./user/company/message/publish](#usercompanymessagepublish-)
-1. [./user/company/message/private](#usercompanymessageprivate-)
+1. [/user/profile/get](#userprofileget-)
+1. [/user/profile/set](#userprofileset-)
+1. [/user/company/message/new](#usercompanymessagenew-)
+1. [/user/company/message/list](#usercompanymessagelist-)
+1. [/user/company/message/edit](#usercompanymessageedit-)
+1. [/user/company/message/delete](#usercompanymessagedelete-)
+1. [/user/company/message/publish](#usercompanymessagepublish-)
+1. [/user/company/message/private](#usercompanymessageprivate-)
 
 ## User
 ユーザーアカウント操作を行います。

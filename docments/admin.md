@@ -7,19 +7,19 @@
 1. [Admin](admin.md)
 
 ## 目次
-1. [./admin/student/list](#adminstudentlist-)
-1. [./admin/student/activate](#adminstudentactivate-)
-1. [./admin/student/deactivate](#adminstudentdeactivate-)
-1. [./admin/company/list](#adminstudentlist-)
-1. [./admin/company/activate](#admincompanyactivate-)
-1. [./admin/company/deactivate](#admincompanydeactivate-)
-1. [./admin/list](#adminlist-)
-1. [./admin/activate](#adminactivate-)
-1. [./admin/deactivate](#admindeactivate-)
-1. [./admin/qualification/list](#adminqualificationlist-)
-1. [./admin/qualification/add](#adminqualificationadd-)
-1. [./admin/qualification/edit](#adminqualificationedit-)
-1. [./admin/qualification/delete](#adminqualificationdelete-)
+1. [/admin/student/list](#adminstudentlist-)
+1. [/admin/student/activate](#adminstudentactivate-)
+1. [/admin/student/deactivate](#adminstudentdeactivate-)
+1. [/admin/company/list](#adminstudentlist-)
+1. [/admin/company/activate](#admincompanyactivate-)
+1. [/admin/company/deactivate](#admincompanydeactivate-)
+1. [/admin/list](#adminlist-)
+1. [/admin/activate](#adminactivate-)
+1. [/admin/deactivate](#admindeactivate-)
+1. [/admin/qualification/list](#adminqualificationlist-)
+1. [/admin/qualification/add](#adminqualificationadd-)
+1. [/admin/qualification/edit](#adminqualificationedit-)
+1. [/admin/qualification/delete](#adminqualificationdelete-)
 
 ## Admin
 管理者による操作を行います。

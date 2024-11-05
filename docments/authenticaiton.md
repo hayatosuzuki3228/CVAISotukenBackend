@@ -7,9 +7,9 @@
 1. [Admin](admin.md)
 
 ## 目次
-1. [./authentication/student](#authenticationstudent)
-1. [./authentication/company](#authenticationcompany)
-1. [./authentication/admin](#authenticationadmin)
+1. [/authentication/student](#authenticationstudent)
+1. [/authentication/company](#authenticationcompany)
+1. [/authentication/admin](#authenticationadmin)
 
 ## Authentication
 認証を行います。  
