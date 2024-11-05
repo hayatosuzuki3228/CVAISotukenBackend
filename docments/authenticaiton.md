@@ -6,9 +6,14 @@
 1. [Company](company.md)
 1. [Admin](admin.md)
 
+## 目次
+1. [./authentication/student](#authenticationstudent)
+1. [./authentication/company](#authenticationcompany)
+1. [./authentication/admin](#authenticationadmin)
+
 ## Authentication
 認証を行います。  
-- ./authentication/student  
+- ### ./authentication/student  
     学生ユーザーの認証を行い、サーバーに認証情報を保持します。  
     認証情報は1時間保持されます。
     - パラメータ  
@@ -23,7 +28,7 @@
         }
         ```
 
-- ./authentication/company  
+- ### ./authentication/company  
     企業の認証を行い、サーバーに認証情報を保持します。  
     認証情報は1時間保持されます。
     - パラメータ  
@@ -38,7 +43,7 @@
         }
         ```
 
-- ./authentication/admin  
+- ### ./authentication/admin  
     企業の認証を行い、サーバーに認証情報を保持します。  
     認証情報は1時間保持されます。
     - パラメータ  

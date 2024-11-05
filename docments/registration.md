@@ -6,9 +6,15 @@
 1. [Company](company.md)
 1. [Admin](admin.md)
 
+## 目次
+1. [./registration/student](#registrationstudent)
+1. [./registration/student/all](#registrationstudentall)
+1. [./registration/company](#registrationcompany)
+1. [./registration/admin]
+
 ## Registration
 ユーザーアカウントを作成します。
-- ./registration/student  
+- ### ./registration/student  
     パスワードとメールアドレスから学生ユーザーアカウントを作成します。
     - パラメータ  
         ```
@@ -22,7 +28,7 @@
         }
         ```
 
-- ./registration/student/all  
+- ### ./registration/student/all  
     学生ユーザーアカウントと同時にプロフィールを設定します。
     - パラメータ
         ```
@@ -43,7 +49,7 @@
             }
         ```
 
-- ./registration/company  
+- ### ./registration/company  
     パスワードとメールアドレスから企業ユーザアカウントを作成します。
     - パラメータ  
         ```
@@ -57,7 +63,7 @@
         }
         ```
 
-- ./registration/admin *  
+- ### ./registration/admin *  
     パスワードとメールアドレスから管理者アカウントを作成します。
     管理者アカウントの認証状態でのみ実行できます。
     - パラメータ  
