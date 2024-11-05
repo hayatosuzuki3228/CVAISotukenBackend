@@ -151,3 +151,62 @@
             "message": string                       // 応答結果
         }
         ```
+
+- ./admin/qualification/list *
+    登録されている資格マスタの一覧を取得します
+    - パラメータ
+        ```
+        perPage?: number                            // ページごとの取得コンテンツ数
+        page?: number                               // 取得開始ページ数
+        ```
+    - 戻り値
+        ```
+        {
+            "message": string,                      // 応答結果
+            "result":                               // 資格リスト
+            [
+                "id": number,                       // 資格ID
+                "name": string                      // 資格名
+            ]
+        }
+        ```
+
+- ./admin/qualification/add *
+    資格マスタに新しい資格を追加します
+    - パラメータ
+        ```
+        "name": string                              // 資格名
+        ```
+    - 戻り値
+        ```
+        {
+            "message": string                       // 応答結果
+        }
+        ```
+
+- ./admin/qualification/edit *
+    資格マスタに登録されている情報を編集します
+    - パラメータ
+        ```
+        "id": number,                               // 資格ID
+        "name": string                              // 資格名
+        ```
+    - 戻り値
+        ```
+        {
+            "message": string                       // 応答結果
+        }
+        ```
+
+- ./admin/qualification/delete *
+    資格マスタから資格を削除します
+    - パラメータ
+        ```
+        "id": number                                // 資格名
+        ```
+    - 戻り値
+        ```
+        {
+            "message": string                       // 応答結果
+        }
+        ```
