@@ -16,7 +16,44 @@ APIサーバー用ソフトウェアを起動したサーバーのIPアドレス
 ## 目次
 ### echo
 1. [/echo](echo.md#echo-1)
+
 ### authentication
 1. [/authentication/student](authenticaiton.md#authenticationstudent)
 1. [/authentication/company](authenticaiton.md#authenticationcompany)
 1. [/authentication/admin](authenticaiton.md#authenticationadmin)
+
+### registration
+1. [/registration/student](registration.md#registrationstudent)
+1. [/registration/student/all](registration.md#registrationstudentall)
+1. [/registration/company](registration.md#registrationcompany)
+1. [/registration/admin](registration.md#registrationadmin-)
+
+### user
+1. [/user/profile/get](user.md#userprofileget-)
+1. [/user/profile/set](user.md#userprofileset-)
+1. [/user/company/message/new](user.md#usercompanymessagenew-)
+1. [/user/company/message/list](user.md#usercompanymessagelist-)
+1. [/user/company/message/edit](user.md#usercompanymessageedit-)
+1. [/user/company/message/delete](user.md#usercompanymessagedelete-)
+1. [/user/company/message/publish](user.md#usercompanymessagepublish-)
+1. [/user/company/message/private](user.md#usercompanymessageprivate-)
+
+### company
+1. [/company/information](company.md#companyinformation)
+1. [/company/search](company.md#companysearch)
+1. [/company/message/list](company.md#companymessagelist)
+
+### admin
+1. [/admin/student/list](admin.md#adminstudentlist-)
+1. [/admin/student/activate](admin.md#adminstudentactivate-)
+1. [/admin/student/deactivate](admin.md#adminstudentdeactivate-)
+1. [/admin/company/list](admin.md#adminstudentlist-)
+1. [/admin/company/activate](admin.md#admincompanyactivate-)
+1. [/admin/company/deactivate](admin.md#admincompanydeactivate-)
+1. [/admin/list](admin.md#adminlist-)
+1. [/admin/activate](admin.md#adminactivate-)
+1. [/admin/deactivate](admin.md#admindeactivate-)
+1. [/admin/qualification/list](admin.md#adminqualificationlist-)
+1. [/admin/qualification/add](admin.md#adminqualificationadd-)
+1. [/admin/qualification/edit](admin.md#adminqualificationedit-)
+1. [/admin/qualification/delete](admin.md#adminqualificationdelete-)
