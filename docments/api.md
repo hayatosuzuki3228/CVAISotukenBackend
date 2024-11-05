@@ -31,6 +31,8 @@ APIサーバー用ソフトウェアを起動したサーバーのIPアドレス
 ### [user](user.md)
 1. [/user/profile/get](user.md#userprofileget-)
 1. [/user/profile/set](user.md#userprofileset-)
+1. [/user/student/qualification/list](user.md#userstudentqualificationlist-)
+1. [/user/student/qualification/add](user.md#userstudentqualificationadd-)
 1. [/user/company/message/new](user.md#usercompanymessagenew-)
 1. [/user/company/message/list](user.md#usercompanymessagelist-)
 1. [/user/company/message/edit](user.md#usercompanymessageedit-)

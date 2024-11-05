@@ -9,6 +9,8 @@
 ## 目次
 1. [/user/profile/get](#userprofileget-)
 1. [/user/profile/set](#userprofileset-)
+1. [/user/student/qualification/list](#userstudentqualificationlist-)
+1. [/user/student/qualification/add](#userstudentqualificationadd-)
 1. [/user/company/message/new](#usercompanymessagenew-)
 1. [/user/company/message/list](#usercompanymessagelist-)
 1. [/user/company/message/edit](#usercompanymessageedit-)
@@ -19,7 +21,7 @@
 ## User
 ユーザーアカウント操作を行います。
 - ### ./user/profile/get *  
-    保持されている認証情報からユーザ情報を取得します。
+    保持されている認証情報からユーザー情報を取得します。
     - パラメータ
         ```
         無し
@@ -91,10 +93,10 @@
         ```
 
 - ### ./user/profile/set *  
-    認証しているユーザのプロフィールを作成若しくは上書きします。
+    認証しているユーザーのプロフィールを作成若しくは上書きします。
     - パラメータ
         ```
-        // 認証が学生ユーザの場合
+        // 認証が学生ユーザーの場合
         name: string,                                           // 名前
         furigana: string,                                       // ふりがな
         gender: string,                                         // 性別 0: 男性, 1: 女性, 9: その他
@@ -103,7 +105,7 @@
         graduation_year: number,                                // 卒業年 format: yyyy
         qualification: number                                   // 資格
 
-        // 認証が企業ユーザの場合
+        // 認証が企業ユーザーの場合
         "code": number?,                                        // 会社コード
         "name": string?,                                        // 会社名
         "website": string?,                                     // 会社ウェブサイトURL
@@ -152,8 +154,39 @@
         }
         ```
 
+- ### ./user/student/qualification/list *
+    学生ユーザーアカウントでの認証状態でのみ利用可能です。  
+    学生ユーザーが設定している資格情報を取得します。
+    - パラメータ
+        ```
+        perPage?: number                            // ページごとの取得コンテンツ数
+        page?: number                               // 開始ページ数
+        ```
+    - 戻り値
+        ```
+        "message": string                           // 応答結果
+        "result": [
+            {
+                "id": number,                       // 資格情報ID
+                "name": string                      // 資格名
+            }
+        ]
+        ```
+
+- ### ./user/student/qualification/add *
+    学生ユーザーアカウントでの認証状態でのみ利用可能です。  
+    学生ユーザーに資格情報を追加します
+    - パラメータ
+        ```
+        id: string                                  // 資格ID
+        ```
+    - 戻り値
+        ```
+        "message": string                           // 応答結果
+        ```
+
 - ### ./user/company/message/new *  
-    企業ユーザアカウントでの認証状態でのみ利用可能です。
+    企業ユーザーアカウントでの認証状態でのみ利用可能です。
     企業アカウントに紐づいたメッセージを作成します。
     - パラメータ
         ```
@@ -179,7 +212,7 @@
         ```
 
 - ### ./user/company/message/list *  
-    企業ユーザアカウントでの認証状態でのみ利用可能です。
+    企業ユーザーアカウントでの認証状態でのみ利用可能です。
     企業アカウントに紐づいたメッセージを取得します。
     - パラメータ
         ```
@@ -194,7 +227,7 @@
         ```
 
 - ### ./user/company/message/edit *  
-    企業ユーザアカウントでの認証状態でのみ利用可能です。
+    企業ユーザーアカウントでの認証状態でのみ利用可能です。
     企業アカウントに紐づいたメッセージを更新します。
     - パラメータ
         ```
@@ -210,7 +243,7 @@
         ```
 
 - ### ./user/company/message/delete *  
-    企業ユーザアカウントでの認証状態でのみ利用可能です。
+    企業ユーザーアカウントでの認証状態でのみ利用可能です。
     企業アカウントに紐づいたメッセージを削除します。
     - パラメータ
         ```
@@ -224,7 +257,7 @@
         ```
 
 - ### ./user/company/message/publish *  
-    企業ユーザアカウントでの認証状態でのみ利用可能です。
+    企業ユーザーアカウントでの認証状態でのみ利用可能です。
     企業アカウントに紐づいたメッセージを公開します。
     - パラメータ
         ```
@@ -238,7 +271,7 @@
         ```
 
 - ### ./user/company/message/private *  
-    企業ユーザアカウントでの認証状態でのみ利用可能です。
+    企業ユーザーアカウントでの認証状態でのみ利用可能です。
     企業アカウントに紐づいたメッセージを非公開にします。
     - パラメータ
         ```
