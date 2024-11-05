@@ -3,7 +3,7 @@ import { prisma } from "../server";
 import { verify, verifyCompany, verifyStudent } from "../utils/Verify";
 import { UserCategory } from "../utils/UserCategory";
 import { exist } from "../utils/Validation";
-
+import { Prisma } from "@prisma/client";
 
 // ルーティングモジュールを呼び出し
 const router = require("express").Router();
@@ -220,6 +220,110 @@ router.post("/profile/set", async (req: Request, res: Response, next: NextFuncti
         next(e);
     }
 });
+
+router.post("/student/qualification/add", async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        exist(req.body.qualificationId);
+
+        const existIdObject = await prisma.studentQualification.findMany({
+            where: {
+                userId: req.session.userId
+            },
+            select: {
+                qualificationId: true
+            }
+        });
+
+        const existIdArray = existIdObject.map(item => item.qualificationId);
+
+        const data: Prisma.StudentQualificationCreateWithoutStudentprofilesInput[] = [];
+        for(let qualificationId of req.body.qualificationId){
+            if(!(existIdArray.includes(qualificationId))){
+                data.push(
+                    {
+                        qualificationmaster: {
+                            connect: {
+                                id: qualificationId
+                            }
+                        }
+                    }
+                )
+            };
+        };
+
+        // 資格の種類とユーザIDの追加
+        await prisma.studentProfiles.update({
+            where: {
+                id: req.session.userId
+            },
+            data: {
+                studentqualifications: {
+                    create: data
+                }
+            }
+        });
+
+        res.json({message: "ユーザの資格情報を追加しました"});
+        
+
+    } catch (e) {
+        next(e);
+    }    
+
+});
+
+router.post("/student/qualification/list", async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        // 取得する情報量を制御
+        const skip = (req.body.perPage ? req.body.perPage : 10) * (req.body.page ? req.body.page : 0);
+        const take = (req.body.perPage ? req.body.perPage : 10) * (req.body.page ? req.body.page + 1 : 1);        
+
+        const result = await prisma.studentQualification.findMany({
+            where: {
+                userId: req.session.userId,
+            },
+            include: {
+                qualificationmaster: true
+            },
+            take: take,
+            skip: skip
+        }).then((result) =>
+            // データを整形
+            result.map((result) =>  
+                ({
+                    id: result.id,
+                    qualificationId: result.qualificationId,
+                    name: result.qualificationmaster?.name
+                })
+            )
+        );
+
+        console.log(result);
+
+        res.json({message: "データの取得に成功しました", result: result});
+    } catch (e) {
+        next(e);
+    }
+});
+
+router.post("/student/qualification/delete", async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        await prisma.studentQualification.deleteMany({
+            where:{
+                userId: req.session.userId,
+                qualificationId: {
+                    in: req.body.qualificationId
+                }
+            }
+        });
+
+        res.json({message: "選択された資格情報が削除されました"});
+    } catch (e) {
+        next(e);
+    }    
+
+});
+
 
 router.post("/company/message/new", async (req: Request, res: Response, next: NextFunction) => {
     try {
