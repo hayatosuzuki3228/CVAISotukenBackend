@@ -14,7 +14,7 @@ APIサーバー用ソフトウェアを起動したサーバーのIPアドレス
 1. [Admin](admin.md)
 
 ## 目次
-### echo
+### [echo](echo.md)
 1. [/echo](echo.md#echo-1)
 
 ### [authentication](authenticaiton.md)
