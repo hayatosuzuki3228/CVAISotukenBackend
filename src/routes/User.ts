@@ -223,7 +223,7 @@ router.post("/profile/set", async (req: Request, res: Response, next: NextFuncti
 
 router.post("/student/qualification/add", async (req: Request, res: Response, next: NextFunction) => {
     try {
-        exist(req.body.qualificationId);
+        exist(req.body.id);
 
         const existIdObject = await prisma.studentQualification.findMany({
             where: {
@@ -232,22 +232,22 @@ router.post("/student/qualification/add", async (req: Request, res: Response, ne
             select: {
                 qualificationId: true
             }
-        });
-
-        const existIdArray = existIdObject.map(item => item.qualificationId);
+        }).then((result) => 
+            result.map((result) =>
+                result.qualificationId
+            )
+        );
 
         const data: Prisma.StudentQualificationCreateWithoutStudentprofilesInput[] = [];
-        for(let qualificationId of req.body.qualificationId){
-            if(!(existIdArray.includes(qualificationId))){
-                data.push(
-                    {
-                        qualificationmaster: {
-                            connect: {
-                                id: qualificationId
-                            }
+        for(let qualificationId of req.body.id){
+            if(!(existIdObject.includes(qualificationId))) {
+                data.push({
+                    qualificationmaster: {
+                        connect: {
+                            id: qualificationId
                         }
                     }
-                )
+                })
             };
         };
 
@@ -282,8 +282,13 @@ router.post("/student/qualification/list", async (req: Request, res: Response, n
             where: {
                 userId: req.session.userId,
             },
-            include: {
-                qualificationmaster: true
+            select: {
+                id: true,
+                qualificationmaster: {
+                    select: {
+                        name: true
+                    }
+                }
             },
             take: take,
             skip: skip
@@ -292,13 +297,10 @@ router.post("/student/qualification/list", async (req: Request, res: Response, n
             result.map((result) =>  
                 ({
                     id: result.id,
-                    qualificationId: result.qualificationId,
                     name: result.qualificationmaster?.name
                 })
             )
         );
-
-        console.log(result);
 
         res.json({message: "データの取得に成功しました", result: result});
     } catch (e) {
