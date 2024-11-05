@@ -43,7 +43,7 @@ APIサーバー用ソフトウェアを起動したサーバーのIPアドレス
 1. [/company/search](company.md#companysearch)
 1. [/company/message/list](company.md#companymessagelist)
 
-### admin
+### [admin](admin.md)
 1. [/admin/student/list](admin.md#adminstudentlist-)
 1. [/admin/student/activate](admin.md#adminstudentactivate-)
 1. [/admin/student/deactivate](admin.md#adminstudentdeactivate-)
