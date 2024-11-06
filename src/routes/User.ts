@@ -321,8 +321,7 @@ router.post("/student/qualification/delete", async (req: Request, res: Response,
         res.json({message: "選択された資格情報が削除されました"});
     } catch (e) {
         next(e);
-    }    
-
+    }
 });
 
 router.post("/student/bookmark/list", async (req: Request, res: Response, next: NextFunction) => {
