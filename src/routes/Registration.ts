@@ -11,7 +11,7 @@ router.post("/student", async (req: Request, res: Response, next: NextFunction) 
     try {
         exist(req.body.email, req.body.password);
         
-        if (await prisma.studentAuthentications.findFirst({
+        if (await prisma.student.findFirst({
             where: {
                 email: req.body.email
             }
@@ -20,7 +20,7 @@ router.post("/student", async (req: Request, res: Response, next: NextFunction) 
             throw new Error("そのメールアドレスはすでに使われています");
         } else {
             // 登録
-            const user = await prisma.studentAuthentications.create({
+            const user = await prisma.student.create({
                 data: {
                     email: req.body.email,
                     password: await encryption(req.body.password),
@@ -47,7 +47,7 @@ router.post("/student/all", async (req: Request, res: Response, next: NextFuncti
         exist(req.body.email, req.body.password);
         exist(req.body.name, req.body.furigana, req.body.gender, req.body.birthday, req.body.residence, req.body.graduation_year);
 
-        if (await prisma.studentAuthentications.findFirst({
+        if (await prisma.student.findFirst({
             where: {
                 email: req.body.email
             }
@@ -57,12 +57,12 @@ router.post("/student/all", async (req: Request, res: Response, next: NextFuncti
         } else {
 
             // 登録
-            const user = await prisma.studentAuthentications.create({
+            const user = await prisma.student.create({
                 data: {
                     email: req.body.email,
                     password: await encryption(req.body.password),
                     active: true,
-                    studentprofiles: {
+                    profile: {
                         create: {
                             name: req.body.name,
                             furigana: req.body.furigana,
@@ -74,7 +74,7 @@ router.post("/student/all", async (req: Request, res: Response, next: NextFuncti
                     },
                 },
                 include: {
-                    studentprofiles: true,
+                    profile: true,
                 }
             });
 
@@ -98,7 +98,7 @@ router.post("/company", async (req: Request, res: Response, next: NextFunction) 
     try {
         exist(req.body.email, req.body.password);
 
-        if(await prisma.companyAuthentications.findFirst({
+        if(await prisma.company.findFirst({
             where: {
                 email: req.body.email
             },
@@ -106,7 +106,7 @@ router.post("/company", async (req: Request, res: Response, next: NextFunction) 
             throw new Error("そのメールアドレスはすでに使われています")
         } else {
             // 登録
-            const company = await prisma.companyAuthentications.create({
+            const company = await prisma.company.create({
                 data: {
                     email: req.body.email,
                     password: await encryption(req.body.password),
@@ -133,7 +133,7 @@ router.post("/company/all", async (req: Request, res: Response, next: NextFuncti
         exist(req.body.email, req.body.password);
         exist(req.body.code);
         
-        if (await prisma.companyAuthentications.findFirst({
+        if (await prisma.company.findFirst({
             where: {
                 email: req.body.email
             }
@@ -143,19 +143,19 @@ router.post("/company/all", async (req: Request, res: Response, next: NextFuncti
         } else {
 
             // 登録
-            const company = await prisma.companyAuthentications.create({
+            const company = await prisma.company.create({
                 data: {
                     email: req.body.email,
                     password: await encryption(req.body.password),
                     active: true,
-                    companyprofiles: {
+                    profile: {
                         create: {
                             code: Number (req.body.code),
                         },
                     },
                 },
                 include: {
-                    companyprofiles: true,
+                    profile: true,
                 }
             });
 
@@ -181,7 +181,7 @@ router.post("/admin", async (req: Request, res: Response, next: NextFunction) =>
         verifyAdmin(req.session.userCategory);
         exist(req.body.email, req.body.password);
         
-        if (await prisma.adminAuthentications.findFirst({
+        if (await prisma.admin.findFirst({
             where: {
                 email: req.body.email
             }
@@ -190,7 +190,7 @@ router.post("/admin", async (req: Request, res: Response, next: NextFunction) =>
             throw new Error("そのメールアドレスはすでに使われています");
         } else {
             // 登録
-            const user = await prisma.adminAuthentications.create({
+            const user = await prisma.admin.create({
                 data: {
                     email: req.body.email,
                     password: await encryption(req.body.password),

@@ -24,10 +24,10 @@ router.post("/student/list", async (req: Request, res: Response, next: NextFunct
         const take = (req.body.perPage ? req.body.perPage : 10) * (req.body.page ? req.body.page + 1 : 1);
 
         // 学生の一覧を取得
-        const result = await prisma.studentAuthentications.findMany({
+        const result = await prisma.student.findMany({
             select: {
                 id: true,
-                studentprofiles: {select: {name: true},},
+                profile: {select: {name: true},},
                 active: true,
             },
             skip: skip,
@@ -37,7 +37,7 @@ router.post("/student/list", async (req: Request, res: Response, next: NextFunct
             result.map((result) => 
                 ({
                     id: result.id,
-                    name: result.studentprofiles?.name,
+                    name: result.profile?.name,
                     active: result.active
                 })
             )
@@ -54,7 +54,7 @@ router.post("/student/activate", async (req: Request, res: Response, next: NextF
     exist(req.body.id);
     try {
         // 学生ユーザーアカウントを有効化
-        await prisma.studentAuthentications.update({
+        await prisma.student.update({
             where: {
                 id: req.body.id
             },
@@ -73,7 +73,7 @@ router.post("/student/deactivate", async (req: Request, res: Response, next: Nex
     exist(req.body.id);
     try {
         // 学生ユーザアカウントを無効化
-        await prisma.studentAuthentications.update({
+        await prisma.student.update({
             where: {
                 id: req.body.id
             },
@@ -95,10 +95,10 @@ router.post("/company/list", async (req: Request, res: Response, next: NextFunct
         const take = (req.body.perPage ? req.body.perPage : 10) * (req.body.page ? req.body.page + 1 : 1);
 
         // 会社の一覧を取得
-        const result = await prisma.companyAuthentications.findMany({
+        const result = await prisma.company.findMany({
             select: {
                 id: true,
-                companyprofiles: {select: {name: true},},
+                profile: {select: {name: true},},
                 active: true,
             },
             skip: skip,
@@ -108,7 +108,7 @@ router.post("/company/list", async (req: Request, res: Response, next: NextFunct
             result.map((result) => 
                 ({
                     id: result.id,
-                    name: result.companyprofiles?.name,
+                    name: result.profile?.name,
                     active: result.active
                 })
             )
@@ -126,7 +126,7 @@ router.post("/company/activate", async (req: Request, res: Response, next: NextF
         exist(req.body.id);
 
         // 会社ユーザーアカウントを有効化
-        await prisma.companyAuthentications.update({
+        await prisma.company.update({
             where: {
                 id: req.body.id
             },
@@ -146,7 +146,7 @@ router.post("/company/deactivate", async (req: Request, res: Response, next: Nex
         exist(req.body.id);
 
         // 企業ユーザーアカウントを無効化
-        await prisma.companyAuthentications.update({
+        await prisma.company.update({
             where: {
                 id: req.body.id
             },
@@ -168,7 +168,7 @@ router.post("/list", async (req: Request, res: Response, next: NextFunction) => 
         const take = (req.body.perPage ? req.body.perPage : 10) * (req.body.page ? req.body.page + 1 : 1);
 
         // 会社の一覧を取得
-        const result = await prisma.adminAuthentications.findMany({
+        const result = await prisma.admin.findMany({
             select: {
                 id: true,
                 active: true,
@@ -189,7 +189,7 @@ router.post("/activate", async (req: Request, res: Response, next: NextFunction)
         exist(req.body.id);
 
         // 会社ユーザーアカウントを有効化
-        await prisma.adminAuthentications.update({
+        await prisma.admin.update({
             where: {
                 id: req.body.id
             },
@@ -209,7 +209,7 @@ router.post("/deactivate", async (req: Request, res: Response, next: NextFunctio
         exist(req.body.id);
         
         // 企業ユーザーアカウントを無効化
-        await prisma.adminAuthentications.update({
+        await prisma.admin.update({
             where: {
                 id: req.body.id
             },

@@ -37,7 +37,7 @@ router.post("/profile/get", async (req: Request, res: Response, next: NextFuncti
         let data;
         switch(req.session.userCategory) {
             case UserCategory.student: 
-                data = await prisma.studentProfiles.findFirst({
+                data = await prisma.studentProfile.findFirst({
                     where: {
                         id: req.session.userId
                     }
@@ -45,7 +45,7 @@ router.post("/profile/get", async (req: Request, res: Response, next: NextFuncti
                 break;
             
             case UserCategory.company:
-                data = await prisma.companyProfiles.findFirst({
+                data = await prisma.companyProfile.findFirst({
                     where: {
                         companyId: req.session.userId
                     }
@@ -67,14 +67,14 @@ router.post("/profile/set", async (req: Request, res: Response, next: NextFuncti
         switch(req.session.userCategory) {
             case UserCategory.student:
                 // ユーザが生徒アカウントの場合
-                if (await prisma.studentProfiles.findFirst({
+                if (await prisma.studentProfile.findFirst({
                     where:{
                         id: Number(req.session.userId)
                     }
                 }))
                 {
                     // プロフィールが存在する場合
-                    await prisma.studentProfiles.update({
+                    await prisma.studentProfile.update({
                         where: {
                             id: req.session.userId
                         },
@@ -91,12 +91,12 @@ router.post("/profile/set", async (req: Request, res: Response, next: NextFuncti
                 } else {
                     // プロフィールが存在しない場合
                     exist(req.body.name, req.body.furigana, req.body.gender, req.body.birthday, req.body.residence, req.body.graduation_year);
-                    await prisma.studentAuthentications.update({
+                    await prisma.student.update({
                         where: {
                             id: req.session.userId
                         },
                         data: {
-                            studentprofiles: {
+                            profile: {
                                 create: {
                                     name: req.body.name,
                                     furigana: req.body.furigana,
@@ -109,7 +109,7 @@ router.post("/profile/set", async (req: Request, res: Response, next: NextFuncti
                             }
                         },
                         include: {
-                            studentprofiles: true
+                            profile: true
                         }
                     });
                 }
@@ -117,7 +117,7 @@ router.post("/profile/set", async (req: Request, res: Response, next: NextFuncti
 
             case UserCategory.company:
                 // ユーザが企業アカウントの場合
-                await prisma.companyProfiles.upsert({
+                await prisma.companyProfile.upsert({
                     where: {
                         id: req.session.userId
                     },
@@ -204,7 +204,7 @@ router.post("/profile/set", async (req: Request, res: Response, next: NextFuncti
                         welfare: req.body.welfare,
                         corporate_philosophy: req.body.corporate_philosophy,
                         appeal: req.body.appeal,
-                        companyauthentications: {
+                        company: {
                             connect: {
                                 id: req.session.userId
                             }
@@ -238,7 +238,7 @@ router.post("/student/qualification/add", async (req: Request, res: Response, ne
             )
         );
 
-        const data: Prisma.StudentQualificationCreateWithoutStudentprofilesInput[] = [];
+        const data: Prisma.StudentQualificationCreateWithoutStudentInput[] = [];
         for(let qualificationId of req.body.id){
             if(!(existIdObject.includes(qualificationId))) {
                 data.push({
@@ -252,12 +252,12 @@ router.post("/student/qualification/add", async (req: Request, res: Response, ne
         };
 
         // 資格の種類とユーザIDの追加
-        await prisma.studentProfiles.update({
+        await prisma.studentProfile.update({
             where: {
                 id: req.session.userId
             },
             data: {
-                studentqualifications: {
+                qualifications: {
                     create: data
                 }
             }
