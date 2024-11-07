@@ -26,6 +26,7 @@ model Student {
     password String
     active Boolean
     profile StudentProfile?
+    bookmarks StudentBookmark[]
 }
 
 model StudentProfile {
@@ -48,6 +49,24 @@ model StudentQualification {
     qualificationmaster QualificationMaster @relation(fields: [qualificationId], references: [id])
 }
 
+model StudentBookmark {
+    id String @id @default(uuid())
+    userId Int
+    companyId Int
+    addedAt DateTime @default(now())
+    student StudentAuthentications @relation(fields: [userId], references: [id])
+    company CompanyAuthentications @relation(fields: [companyId], references: [id])
+}
+
+model StudentBookmark {
+    id String @id @default(uuid())
+    userId Int
+    companyId Int
+    addedAt DateTime @default(now())
+    student StudentAuthentications @relation(fields: [userId], references: [id])
+    company CompanyAuthentications @relation(fields: [companyId], references: [id])
+}
+
 model Company {
     id Int @id @default(autoincrement())
     email String
@@ -55,6 +74,7 @@ model Company {
     active Boolean
     profile CompanyProfile?
     messsages CompanyMessage[]
+    bookmarks StudentBookmark[]
 }
 
 model CompanyProfile {

@@ -11,6 +11,10 @@
 1. [/user/profile/set](#userprofileset-)
 1. [/user/student/qualification/list](#userstudentqualificationlist-)
 1. [/user/student/qualification/add](#userstudentqualificationadd-)
+1. [/user/student/qualification/delete](#userstudentqualificationdelete-)
+1. [/user/student/bookmark/list](#userstudentbookmarklist-)
+1. [/user/student/bookmark/add](#userstudentbookmarkadd-)
+1. [/user/student/bookmark/delete](#userstudentbookmarkdelete-)
 1. [/user/company/message/new](#usercompanymessagenew-)
 1. [/user/company/message/list](#usercompanymessagelist-)
 1. [/user/company/message/edit](#usercompanymessageedit-)
@@ -19,9 +23,9 @@
 1. [/user/company/message/private](#usercompanymessageprivate-)
 
 ## User
-ユーザーアカウント操作を行います。
+ユーザーアカウント操作を行います
 - ### ./user/profile/get *  
-    保持されている認証情報からユーザー情報を取得します。
+    保持されている認証情報からユーザー情報を取得します
     - パラメータ
         ```
         無し
@@ -45,7 +49,7 @@
 
         // 認証が企業ユーザの場合
         {
-            "message": "情報の取得に成功しました。",
+            "message": "情報の取得に成功しました",
             "result": null | {
                 "id": number,                                                   // 会社ID
                 "code": number | null,                                          // 会社コード
@@ -93,7 +97,7 @@
         ```
 
 - ### ./user/profile/set *  
-    認証しているユーザーのプロフィールを作成若しくは上書きします。
+    認証しているユーザーのプロフィールを作成若しくは上書きします
     - パラメータ
         ```
         // 認証が学生ユーザーの場合
@@ -155,8 +159,8 @@
         ```
 
 - ### ./user/student/qualification/list *
-    学生ユーザーアカウントでの認証状態でのみ利用可能です。  
-    学生ユーザーが設定している資格情報を取得します。
+    学生ユーザーアカウントでの認証状態でのみ利用可能です  
+    学生ユーザーが設定している資格情報を取得します
     - パラメータ
         ```
         perPage?: number                            // ページごとの取得コンテンツ数
@@ -168,26 +172,86 @@
         "result": [
             {
                 "id": number,                       // 資格情報ID
+                "qualificationId": number           // 資格ID
                 "name": string                      // 資格名
             }
         ]
         ```
 
 - ### ./user/student/qualification/add *
-    学生ユーザーアカウントでの認証状態でのみ利用可能です。  
+    学生ユーザーアカウントでの認証状態でのみ利用可能です  
     学生ユーザーに資格情報を追加します
     - パラメータ
         ```
-        id: string                                  // 資格ID
+        id: string[]                                // 資格ID
         ```
     - 戻り値
         ```
         "message": string                           // 応答結果
         ```
 
+- ### ./user/student/qualification/delete *
+    学生ユーザーアカウントでの認証状態でのみ利用可能です  
+    学生ユーザーの資格情報を削除します
+    - パラメータ
+        ```
+        id: string[]                                // 資格ID
+        ```
+    - 戻り値
+        ```
+        "message": string                           // 応答結果
+        ```
+
+- ### ./user/student/bookmark/list *  
+    学生ユーザーアカウントでの認証状態でのみ利用可能です
+    学生ユーザーのブックマーク情報を取得します
+    - パラメータ
+        ```
+        perPage?: number,                           // ページごとの取得コンテンツ数
+        page?: number                               // 開始ページ数
+        ```
+    - 戻り値
+        ```
+        "message": string,                          // 応答結果
+        "result":                                   // ブックマークリスト
+        [
+            "id": string,                           // ブックマークID
+            "companyId": number                     // 会社ID
+            "addedAt": Date                         // 追加日時
+        ]
+        ```
+
+- ### ./user/student/bookmark/add *
+    学生ユーザーアカウントでの認証状態でのみ利用可能です
+    学生ユーザーにブックマークを追加します
+    - パラメータ
+        ```
+        id: number                                  // ブックマークする会社ID
+        ```
+    - 戻り値
+        ```
+        {
+            "message": string                       // 応答結果
+        }
+        ```
+
+- ### ./user/student/bookmark/delete *
+    学生ユーザーアカウントでの認証状態でのみ利用可能です
+    学生ユーザーのブックマークを削除します
+    - パラメータ
+        ```
+        id: number                                  // ブックマークする会社ID
+        ```
+    - 戻り値
+        ```
+        {
+            "message": string                       // 応答結果
+        }
+        ```
+
 - ### ./user/company/message/new *  
-    企業ユーザーアカウントでの認証状態でのみ利用可能です。
-    企業アカウントに紐づいたメッセージを作成します。
+    企業ユーザーアカウントでの認証状態でのみ利用可能です
+    企業アカウントに紐づいたメッセージを作成します
     - パラメータ
         ```
         title: string,                              // メッセージタイトル
@@ -198,22 +262,12 @@
         ```
         {
             "message": string                       // 応答結果
-            "result":                               // メッセージリスト
-            [
-                {
-                    "id": string,                   // メッセージUUID
-                    "companyId": number,            // 企業ID
-                    "publicshed": boolean,          // 公開状況
-                    "title": string,                // メッセージタイトル
-                    "content": string,              // メッセージ内容
-                }, ...
-            ]
         }
         ```
 
 - ### ./user/company/message/list *  
-    企業ユーザーアカウントでの認証状態でのみ利用可能です。
-    企業アカウントに紐づいたメッセージを取得します。
+    企業ユーザーアカウントでの認証状態でのみ利用可能です
+    企業アカウントに紐づいたメッセージを取得します
     - パラメータ
         ```
         perPage?: number,                           // ページごとの取得コンテンツ数
@@ -222,13 +276,21 @@
     - 戻り値
         ```
         {
-            "message": string                       // 応答結果
+            "message": string,                      // 応答結果
+            "result":                               // メッセージリスト
+            [
+                "id": string,                       // メッセージID
+                "postAt": Date,                     // 投稿日時
+                "updateAt": Date,                   // 編集日時
+                "published": boolean,               // 公開状況
+                "title": string,                    // メッセージタイトル
+            ]
         }
         ```
 
 - ### ./user/company/message/edit *  
-    企業ユーザーアカウントでの認証状態でのみ利用可能です。
-    企業アカウントに紐づいたメッセージを更新します。
+    企業ユーザーアカウントでの認証状態でのみ利用可能です
+    企業アカウントに紐づいたメッセージを更新します
     - パラメータ
         ```
         id: string,                                 // メッセージUUID
@@ -243,8 +305,8 @@
         ```
 
 - ### ./user/company/message/delete *  
-    企業ユーザーアカウントでの認証状態でのみ利用可能です。
-    企業アカウントに紐づいたメッセージを削除します。
+    企業ユーザーアカウントでの認証状態でのみ利用可能です
+    企業アカウントに紐づいたメッセージを削除します
     - パラメータ
         ```
         id: string,                                 // メッセージUUID
@@ -257,8 +319,8 @@
         ```
 
 - ### ./user/company/message/publish *  
-    企業ユーザーアカウントでの認証状態でのみ利用可能です。
-    企業アカウントに紐づいたメッセージを公開します。
+    企業ユーザーアカウントでの認証状態でのみ利用可能です
+    企業アカウントに紐づいたメッセージを公開します
     - パラメータ
         ```
         id: string,                                 // メッセージUUID
@@ -271,8 +333,8 @@
         ```
 
 - ### ./user/company/message/private *  
-    企業ユーザーアカウントでの認証状態でのみ利用可能です。
-    企業アカウントに紐づいたメッセージを非公開にします。
+    企業ユーザーアカウントでの認証状態でのみ利用可能です
+    企業アカウントに紐づいたメッセージを非公開にします
     - パラメータ
         ```
         id: string,                                 // メッセージUUID

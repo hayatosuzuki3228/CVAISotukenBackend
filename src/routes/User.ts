@@ -221,6 +221,44 @@ router.post("/profile/set", async (req: Request, res: Response, next: NextFuncti
     }
 });
 
+router.post("/student/qualification/list", async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        // 取得する情報量を制御
+        const skip = (req.body.perPage ? req.body.perPage : 10) * (req.body.page ? req.body.page : 0);
+        const take = (req.body.perPage ? req.body.perPage : 10) * (req.body.page ? req.body.page + 1 : 1);        
+
+        const result = await prisma.studentQualification.findMany({
+            where: {
+                userId: req.session.userId
+            },
+            select: {
+                id: true,
+                qualificationId: true,
+                qualificationmaster: {
+                    select: {
+                        name: true
+                    }
+                }
+            },
+            take: take,
+            skip: skip
+        }).then((result) =>
+            // データを整形
+            result.map((result) =>  
+                ({
+                    id: result.id,
+                    qualificationId: result.qualificationId,
+                    name: result.qualificationmaster?.name
+                })
+            )
+        );
+
+        res.json({message: "データの取得に成功しました", result: result});
+    } catch (e) {
+        next(e);
+    }
+});
+
 router.post("/student/qualification/add", async (req: Request, res: Response, next: NextFunction) => {
     try {
         exist(req.body.id);
@@ -264,57 +302,18 @@ router.post("/student/qualification/add", async (req: Request, res: Response, ne
         });
 
         res.json({message: "ユーザの資格情報を追加しました"});
-        
-
     } catch (e) {
         next(e);
     }    
-
-});
-
-router.post("/student/qualification/list", async (req: Request, res: Response, next: NextFunction) => {
-    try {
-        // 取得する情報量を制御
-        const skip = (req.body.perPage ? req.body.perPage : 10) * (req.body.page ? req.body.page : 0);
-        const take = (req.body.perPage ? req.body.perPage : 10) * (req.body.page ? req.body.page + 1 : 1);        
-
-        const result = await prisma.studentQualification.findMany({
-            where: {
-                userId: req.session.userId,
-            },
-            select: {
-                id: true,
-                qualificationmaster: {
-                    select: {
-                        name: true
-                    }
-                }
-            },
-            take: take,
-            skip: skip
-        }).then((result) =>
-            // データを整形
-            result.map((result) =>  
-                ({
-                    id: result.id,
-                    name: result.qualificationmaster?.name
-                })
-            )
-        );
-
-        res.json({message: "データの取得に成功しました", result: result});
-    } catch (e) {
-        next(e);
-    }
 });
 
 router.post("/student/qualification/delete", async (req: Request, res: Response, next: NextFunction) => {
     try {
         await prisma.studentQualification.deleteMany({
-            where:{
+            where: {
                 userId: req.session.userId,
                 qualificationId: {
-                    in: req.body.qualificationId
+                    in: req.body.id
                 }
             }
         });
@@ -322,9 +321,85 @@ router.post("/student/qualification/delete", async (req: Request, res: Response,
         res.json({message: "選択された資格情報が削除されました"});
     } catch (e) {
         next(e);
-    }    
-
+    }
 });
+
+router.post("/student/bookmark/list", async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        // 取得する情報量を制御
+        const skip = (req.body.perPage ? req.body.perPage : 10) * (req.body.page ? req.body.page : 0);
+        const take = (req.body.perPage ? req.body.perPage : 10) * (req.body.page ? req.body.page + 1 : 1);        
+
+
+        const result = await prisma.studentBookmark.findMany({
+            select:{
+                id: true,
+                companyId: true,
+                addedAt: true
+            },
+            where: {
+                userId: req.session.userId,
+            },
+            skip: skip,
+            take: take,
+            orderBy: {
+                addedAt: "asc"
+            }
+        });
+
+        res.json({message: "情報の取得に成功しました", result: result})
+
+        } catch (e) {
+        next(e);
+    }
+});
+
+router.post("/student/bookmark/add", async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        exist(req.body.id);
+
+        await prisma.studentAuthentications.update({
+            where: {
+                id: req.session.userId
+            },
+            data: {
+                bookmarks: {
+                    create: {
+                        company: {
+                            connect: {
+                                id: req.body.id
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        res.json({message: "ブックマークの追加に成功しました"});
+
+        } catch (e) {
+        next(e);
+    }
+});
+
+router.post("/student/bookmark/delete", async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        exist(req.body.id);
+
+        await prisma.studentBookmark.deleteMany({
+            where: {
+                userId: req.session.userId,
+                companyId: req.body.id
+            }
+        });
+
+        res.json({message: "ブックマークの削除に成功しました"});
+
+        } catch (e) {
+        next(e);
+    }
+});
+
 
 
 router.post("/company/message/new", async (req: Request, res: Response, next: NextFunction) => {
@@ -360,6 +435,14 @@ router.post("/company/message/list", async (req: Request, res: Response, next: N
 
         // セッションに格納されているuserIdからメッセージを全て取得
         const messages = await prisma.companyMessage.findMany({
+            select:{
+                id: true,
+                postAt: true,
+                updateAt: true,
+                publicshed: true,
+                title: true,
+                content: true
+            },
             where: {
                 companyId: req.session.userId
             },
