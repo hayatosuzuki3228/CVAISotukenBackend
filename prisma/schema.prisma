@@ -54,17 +54,8 @@ model StudentBookmark {
     userId Int
     companyId Int
     addedAt DateTime @default(now())
-    student StudentAuthentications @relation(fields: [userId], references: [id])
-    company CompanyAuthentications @relation(fields: [companyId], references: [id])
-}
-
-model StudentBookmark {
-    id String @id @default(uuid())
-    userId Int
-    companyId Int
-    addedAt DateTime @default(now())
-    student StudentAuthentications @relation(fields: [userId], references: [id])
-    company CompanyAuthentications @relation(fields: [companyId], references: [id])
+    student Student @relation(fields: [userId], references: [id])
+    company Company @relation(fields: [companyId], references: [id])
 }
 
 model Company {

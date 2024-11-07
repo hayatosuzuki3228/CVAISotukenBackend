@@ -358,7 +358,7 @@ router.post("/student/bookmark/add", async (req: Request, res: Response, next: N
     try {
         exist(req.body.id);
 
-        await prisma.studentAuthentications.update({
+        await prisma.student.update({
             where: {
                 id: req.session.userId
             },
