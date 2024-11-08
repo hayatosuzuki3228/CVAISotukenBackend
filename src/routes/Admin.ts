@@ -1,9 +1,7 @@
 import { Request, Response, NextFunction } from "express";
-import { exist } from "../common/Validation";
+import { exist } from "../utils/Validation";
 import { prisma } from "../server";
-import { authentication, encryption } from "../common/Encryption";
-import { UserCategory } from "../common/UserCategory";
-import { verifyAdmin } from "../common/Verify";
+import { verifyAdmin } from "../utils/Verify";
 
 // ルーティングモジュールを呼び出し
 const router = require("express").Router();
@@ -21,19 +19,25 @@ router.use(async (req: Request, res: Response, next: NextFunction) => {
 
 router.post("/student/list", async (req: Request, res: Response, next: NextFunction) => {
     try {
+        // 取得する情報量の制御
+        const skip = (req.body.perPage ? req.body.perPage : 10) * (req.body.page ? req.body.page : 0);
+        const take = (req.body.perPage ? req.body.perPage : 10) * (req.body.page ? req.body.page + 1 : 1);
+
         // 学生の一覧を取得
-        const result = await prisma.studentAuthentications.findMany({
+        const result = await prisma.student.findMany({
             select: {
                 id: true,
-                studentprofiles: {select: {name: true},},
+                profile: {select: {name: true},},
                 active: true,
-            }
+            },
+            skip: skip,
+            take: take
         }).then((result) =>
             // データを整形
             result.map((result) => 
                 ({
                     id: result.id,
-                    name: result.studentprofiles?.name,
+                    name: result.profile?.name,
                     active: result.active
                 })
             )
@@ -50,7 +54,7 @@ router.post("/student/activate", async (req: Request, res: Response, next: NextF
     exist(req.body.id);
     try {
         // 学生ユーザーアカウントを有効化
-        await prisma.studentAuthentications.update({
+        await prisma.student.update({
             where: {
                 id: req.body.id
             },
@@ -69,7 +73,7 @@ router.post("/student/deactivate", async (req: Request, res: Response, next: Nex
     exist(req.body.id);
     try {
         // 学生ユーザアカウントを無効化
-        await prisma.studentAuthentications.update({
+        await prisma.student.update({
             where: {
                 id: req.body.id
             },
@@ -86,19 +90,25 @@ router.post("/student/deactivate", async (req: Request, res: Response, next: Nex
 
 router.post("/company/list", async (req: Request, res: Response, next: NextFunction) => {
     try {
+        // 取得する情報量の制御
+        const skip = (req.body.perPage ? req.body.perPage : 10) * (req.body.page ? req.body.page : 0);
+        const take = (req.body.perPage ? req.body.perPage : 10) * (req.body.page ? req.body.page + 1 : 1);
+
         // 会社の一覧を取得
-        const result = await prisma.companyAuthentications.findMany({
+        const result = await prisma.company.findMany({
             select: {
                 id: true,
-                companyprofiles: {select: {name: true},},
+                profile: {select: {name: true},},
                 active: true,
-            }
+            },
+            skip: skip,
+            take: take
         }).then((result) =>
             // データを整形
             result.map((result) => 
                 ({
                     id: result.id,
-                    name: result.companyprofiles?.name,
+                    name: result.profile?.name,
                     active: result.active
                 })
             )
@@ -114,8 +124,9 @@ router.post("/company/list", async (req: Request, res: Response, next: NextFunct
 router.post("/company/activate", async (req: Request, res: Response, next: NextFunction) => {
     try {
         exist(req.body.id);
+
         // 会社ユーザーアカウントを有効化
-        await prisma.companyAuthentications.update({
+        await prisma.company.update({
             where: {
                 id: req.body.id
             },
@@ -133,8 +144,9 @@ router.post("/company/activate", async (req: Request, res: Response, next: NextF
 router.post("/company/deactivate", async (req: Request, res: Response, next: NextFunction) => {
     try {
         exist(req.body.id);
+
         // 企業ユーザーアカウントを無効化
-        await prisma.companyAuthentications.update({
+        await prisma.company.update({
             where: {
                 id: req.body.id
             },
@@ -145,6 +157,143 @@ router.post("/company/deactivate", async (req: Request, res: Response, next: Nex
 
         res.json({message: "データの更新に成功しました"});
     } catch(e) {
+        next(e);
+    }
+});
+
+router.post("/list", async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        // 取得する情報量の制御
+        const skip = (req.body.perPage ? req.body.perPage : 10) * (req.body.page ? req.body.page : 0);
+        const take = (req.body.perPage ? req.body.perPage : 10) * (req.body.page ? req.body.page + 1 : 1);
+
+        // 会社の一覧を取得
+        const result = await prisma.admin.findMany({
+            select: {
+                id: true,
+                active: true,
+            },
+            skip: skip,
+            take: take
+        });
+
+        res.json({message: "データの取得に成功しました", result: result});
+
+    } catch(e) {
+        next(e);
+    }
+});
+
+router.post("/activate", async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        exist(req.body.id);
+
+        // 会社ユーザーアカウントを有効化
+        await prisma.admin.update({
+            where: {
+                id: req.body.id
+            },
+            data: {
+                active: true
+            }
+        });
+
+        res.json({message: "データの更新に成功しました"});
+    } catch(e) {
+        next(e);
+    }
+});
+
+router.post("/deactivate", async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        exist(req.body.id);
+        
+        // 企業ユーザーアカウントを無効化
+        await prisma.admin.update({
+            where: {
+                id: req.body.id
+            },
+            data: {
+                active: false
+            }
+        });
+
+        res.json({message: "データの更新に成功しました"});
+    } catch(e) {
+        next(e);
+    }
+});
+
+router.post("/qualification/list", async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        exist(req.body.id);
+
+        // 取得する情報の制御
+        const skip = (req.body.perPage ? req.body.perPage : 10) * (req.body.page ? req.body.page : 0);
+        const take = (req.body.perPage ? req.body.perPage : 10) * (req.body.page ? req.body.page + 1 : 1);
+
+        // 資格マスタのリストを取得
+        const qualifications = await prisma.qualificationMaster.findMany({
+            skip: skip,
+            take: take
+        });
+
+        res.json({message: "データの取得に成功しました", result: qualifications});
+    } catch (e) {
+        next(e);
+    }
+});
+
+router.post("/qualification/add", async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        exist(req.body.name);
+        
+        // 資格マスタのリストを取得
+        await prisma.qualificationMaster.create({
+            data: {
+                name: req.body.name
+            }
+        });
+
+        res.json({message: "データの追加に成功しました"});
+    } catch (e) {
+        next(e);
+    }
+});
+
+router.post("/qualification/edit", async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        exist(req.body.id, req.body.name);
+        
+        // 資格マスタのリストを取得
+        await prisma.qualificationMaster.update({
+            where: {
+                id: req.body.id
+            },
+            data: {
+                name: req.body.name
+            }
+        });
+
+        res.json({message: "データの変更に成功しました"});
+    } catch (e) {
+        next(e);
+    }
+});
+
+router.post("/qualification/delete", async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        exist(req.body.id);
+        
+        // 資格マスタのリストを取得
+        await prisma.qualificationMaster.delete({
+            where: {
+                id: req.body.id
+            }
+        });
+
+        res.json({message: "データの削除に成功しました"});
+    } catch (e) {
         next(e);
     }
 });

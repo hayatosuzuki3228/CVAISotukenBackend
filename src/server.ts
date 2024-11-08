@@ -4,8 +4,8 @@ import helmet from "helmet";
 import cors from "cors";
 import expressSession from "express-session";
 import { PrismaSessionStore } from "@quixo3/prisma-session-store";
-import { init } from "./common/Init";
-import { UserCategory } from "./common/UserCategory";
+import { init } from "./utils/Init";
+import { UserCategory } from "./utils/UserCategory";
 
 
 declare module 'express-session' {

@@ -20,15 +20,16 @@ model QualificationMaster {
     studentqualifications StudentQualification[]
 }
 
-model StudentAuthentications {
+model Student {
     id Int @id @default(autoincrement())
     email String @unique
     password String
     active Boolean
-    studentprofiles StudentProfiles?
+    profile StudentProfile?
+    bookmarks StudentBookmark[]
 }
 
-model StudentProfiles {
+model StudentProfile {
     id Int @id
     name String
     furigana String
@@ -36,31 +37,42 @@ model StudentProfiles {
     birthday DateTime @db.Date
     residence String
     graduation_year Int @db.Year 
-    studentauthentications StudentAuthentications @relation(fields: [id], references: [id])
-    studentqualifications StudentQualification[]
+    student Student @relation(fields: [id], references: [id])
+    qualifications StudentQualification[]
 }
 
 model StudentQualification {
     id Int @id @default (autoincrement())
     userId Int
-    studentprofiles StudentProfiles @relation(fields: [userId], references: [id])
-    qualificationmaster QualificationMaster @relation(fields: [id], references: [id])
+    qualificationId Int
+    student StudentProfile @relation(fields: [userId], references: [id])
+    qualificationmaster QualificationMaster @relation(fields: [qualificationId], references: [id])
 }
 
-model CompanyAuthentications {
+model StudentBookmark {
+    id String @id @default(uuid())
+    userId Int
+    companyId Int
+    addedAt DateTime @default(now())
+    student Student @relation(fields: [userId], references: [id])
+    company Company @relation(fields: [companyId], references: [id])
+}
+
+model Company {
     id Int @id @default(autoincrement())
     email String
     password String
     active Boolean
-    companyprofiles CompanyProfiles?
+    profile CompanyProfile?
     messsages CompanyMessage[]
+    bookmarks StudentBookmark[]
 }
 
-model CompanyProfiles {
+model CompanyProfile {
     id Int @id @default(autoincrement())
     companyId Int @unique
-    companyauthentications CompanyAuthentications @relation(fields: [companyId], references: [id])
-    code Int
+    company Company @relation(fields: [companyId], references: [id])
+    code Int?
     name String?
     website String?
     furigana String?
@@ -105,13 +117,15 @@ model CompanyProfiles {
 model CompanyMessage {
     id String @id @default(uuid())
     companyId Int
-    company CompanyAuthentications @relation(fields: [companyId], references: [id])
+    postAt DateTime @default(now())
+    updateAt DateTime @updatedAt
+    company Company @relation(fields: [companyId], references: [id])
     publicshed Boolean @default(true)
     title String
     content String
 }
 
-model AdminAuthentications {
+model Admin {
     id Int @id @default(autoincrement())
     email String
     password String

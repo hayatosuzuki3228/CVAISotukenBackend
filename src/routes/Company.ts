@@ -1,7 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import { prisma } from "../server";
-import { exist } from "../common/Validation";
-import { isAwaitKeyword } from "typescript";
+import { exist } from "../utils/Validation";
 
 // ルーティングモジュールを呼び出し
 const router = require("express").Router();
@@ -11,7 +10,7 @@ router.post("/information", async (req: Request, res: Response, next: NextFuncti
         exist(req.body.id);
 
         // idから企業の情報を取得
-        const data = await prisma.companyProfiles.findFirst({
+        const data = await prisma.companyProfile.findFirst({
             where: {
                 id: Number(req.body.id)
             }
@@ -34,6 +33,10 @@ router.post("/search", async (req: Request, res: Response, next: NextFunction) =
     try {
         exist(req.body.subject, req.body.keyword);
 
+        // 取得する情報量を制御
+        const skip = (req.body.perPage ? req.body.perPage : 10) * (req.body.page ? req.body.page : 0);
+        const take = (req.body.perPage ? req.body.perPage : 10) * (req.body.page ? req.body.page + 1 : 1);        
+
         // キーワードを整形
         let keywords: Object[] = [];
 
@@ -42,7 +45,7 @@ router.post("/search", async (req: Request, res: Response, next: NextFunction) =
         }
 
         // 一致するものを全て取得
-        const data = await prisma.companyProfiles.findMany({
+        const data = await prisma.companyProfile.findMany({
             select: {
                 id: true,
                 name: true,
@@ -50,7 +53,9 @@ router.post("/search", async (req: Request, res: Response, next: NextFunction) =
             },
             where: {
                 AND: keywords
-            }
+            },
+            skip: skip,
+            take: take
         });
 
         res.json({message: "リクエストが成功しました", result: data});
@@ -62,6 +67,10 @@ router.post("/search", async (req: Request, res: Response, next: NextFunction) =
 router.post("/message/list", async (req: Request, res: Response, next: NextFunction) => {
     try {
         exist(req.body.id);
+
+        // 取得する情報量の制御
+        const skip = (req.body.perPage ? req.body.perPage : 10) * (req.body.page ? req.body.page : 0);
+        const take = (req.body.perPage ? req.body.perPage : 10) * (req.body.page ? req.body.page + 1 : 1);
         
         // idに一致する会社のメッセージを全て取得
         const messages = await prisma.companyMessage.findMany(
@@ -74,7 +83,9 @@ router.post("/message/list", async (req: Request, res: Response, next: NextFunct
                 where: {
                     companyId: req.body.companyId,
                     publicshed: true
-                }
+                },
+                skip: skip,
+                take: take
             }
         );
 

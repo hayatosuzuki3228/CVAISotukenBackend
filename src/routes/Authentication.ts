@@ -1,8 +1,8 @@
 import { Request, Response, NextFunction } from "express";
-import { authentication } from "../common/Encryption";
-import { exist } from "../common/Validation";
+import { authentication } from "../utils/Encryption";
+import { exist } from "../utils/Validation";
 import { prisma } from "../server";
-import { UserCategory } from "../common/UserCategory";
+import { UserCategory } from "../utils/UserCategory";
 
 // ルーティングモジュールを呼び出し
 const router = require("express").Router();
@@ -12,7 +12,7 @@ router.post("/student", async (req: Request, res: Response, next: NextFunction) 
         exist(req.body.email, req.body.password);
 
         // ハッシュ化パスワードとアカウントの有効性を取得
-        const accountData = (await prisma.studentAuthentications.findFirst({
+        const accountData = (await prisma.student.findFirst({
             where: {
                 email: req.body.email
             }
@@ -48,7 +48,7 @@ router.post("/company", async (req: Request, res: Response, next: NextFunction) 
         exist(req.body.email, req.body.password);
 
         // ハッシュ化パスワードとアカウントの有効性を取得
-        const accountData = (await prisma.companyAuthentications.findFirst({
+        const accountData = (await prisma.company.findFirst({
             where: {
                 email: req.body.email
             }
@@ -84,7 +84,7 @@ router.post("/admin", async (req: Request, res: Response, next: NextFunction) =>
         exist(req.body.email, req.body.password);
 
         // ハッシュ化パスワードとアカウントの有効性を取得
-        const accountData = (await prisma.adminAuthentications.findFirst({
+        const accountData = (await prisma.admin.findFirst({
             where: {
                 email: req.body.email
             }
