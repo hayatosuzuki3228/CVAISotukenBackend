@@ -8,8 +8,7 @@ async function makeRoot() {
     await prisma.admin.create({
         data: {
             email: "root",
-            password: await hashSync('root' + await pepper, 5),
-            active: true
+            password: await hashSync('root' + await pepper, 5)
         }
     });
 }
