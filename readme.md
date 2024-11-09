@@ -39,6 +39,7 @@ and more...
 1. 「.env」ファイルに作成したmysqlユーザ情報に合わせて「DATABSE_URL」を記述
     - ユーザ名: user, パスワード: userの例 「DATABASE_URL="mysql://user:user@localhost:3306/sotsuken"」
 1. 「.env」ファイルに「SECRET=任意の文字列」を記述
+1. 「.env」ファイルに「ORIGINS=許可したいオリジン（複数指定したい場合はスペース区切り）」を記述
 1. 「npx prisma migrate dev」コマンドを実行
 
 ## 実行
