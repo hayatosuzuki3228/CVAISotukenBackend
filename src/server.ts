@@ -31,8 +31,6 @@ app.use(cors({
     credentials: true
 }));
 
-console.log(process.env.ORIGINS?.split(/\s+/))
-
 // 簡単なセキュリティ対策
 app.use(helmet());
 
