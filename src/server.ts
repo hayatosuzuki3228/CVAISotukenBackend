@@ -26,10 +26,12 @@ init();
 
 // cors許可設定
 app.use(cors({
-    origin: ['http://localhost:3000'],
+    origin: process.env.ORIGINS?.split(/\s+/),
     methods: ['POST'],
     credentials: true
 }));
+
+console.log(process.env.ORIGINS?.split(/\s+/))
 
 // 簡単なセキュリティ対策
 app.use(helmet());
