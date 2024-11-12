@@ -26,6 +26,7 @@ model Student {
     password String
     active Boolean
     profile StudentProfile?
+    qualifications StudentQualification[]
     bookmarks StudentBookmark[]
 }
 
@@ -38,14 +39,13 @@ model StudentProfile {
     residence String
     graduation_year Int @db.Year 
     student Student @relation(fields: [id], references: [id])
-    qualifications StudentQualification[]
 }
 
 model StudentQualification {
     id Int @id @default (autoincrement())
     userId Int
     qualificationId Int
-    student StudentProfile @relation(fields: [userId], references: [id])
+    student Student @relation(fields: [userId], references: [id])
     qualificationmaster QualificationMaster @relation(fields: [qualificationId], references: [id])
 }
 

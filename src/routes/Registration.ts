@@ -3,6 +3,7 @@ import { encryption } from "../utils/Encryption";
 import { exist } from "../utils/Validation";
 import { prisma } from "../server";
 import { verifyAdmin } from "../utils/Verify";
+import { Prisma } from "@prisma/client";
 
 // ルーティングモジュールを呼び出し
 const router = require("express").Router();
@@ -38,6 +39,38 @@ router.post("/student", async (req: Request, res: Response, next: NextFunction) 
         }
 
     } catch(e) {
+        next(e);
+    }
+});
+
+router.post("/student/k", async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        exist(req.body.email, req.body.password);
+
+        const data: Prisma.StudentQualificationCreateManyStudentInputEnvelope = {
+            data: req.body.qualificationId.map((id: any) => ({
+                qualificationId: id
+            }))
+        };
+
+        // ユーザのauthenticationと資格情報を追加
+        await prisma.student.create({
+            data: {
+                email: req.body.email,
+                password: req.body.password,
+                active: true,
+                qualifications: {
+                    createMany: data
+                }
+            }
+        });
+
+        console.log("ユーザアカウントおよび資格情報の作成が完了しました");
+
+        // レスポンスを返す
+        res.json({message: "ユーザアカウントおよび資格情報の作成が完了しました"});        
+
+    } catch (e) {
         next(e);
     }
 });
