@@ -64,6 +64,32 @@ router.post("/search", async (req: Request, res: Response, next: NextFunction) =
     }
 });
 
+router.post("/search/count", async(req: Request, res: Response, next: NextFunction) => {
+    try {
+
+        const total = await prisma.companyProfile.count();
+
+        res.json({message: "企業情報の総数を取得しました", result: total});
+
+    } catch (e) {
+        next(e)
+    }
+});
+
+router.post("/search/count/pages", async(req: Request, res: Response, next: NextFunction) => {
+    try {
+        exist(req.body.perPage);
+
+        const total = await prisma.companyProfile.count();
+        const result = Math.ceil(total / req.body.perPage);
+
+        res.json({message: "総ページ数を取得しました", result: result});
+
+    } catch (e) {
+        next(e)
+    }
+});
+
 router.post("/message/list", async (req: Request, res: Response, next: NextFunction) => {
     try {
         exist(req.body.id);
@@ -82,7 +108,7 @@ router.post("/message/list", async (req: Request, res: Response, next: NextFunct
                 },
                 where: {
                     companyId: req.body.companyId,
-                    publicshed: true
+                    published: true
                 },
                 skip: skip,
                 take: take
@@ -93,6 +119,32 @@ router.post("/message/list", async (req: Request, res: Response, next: NextFunct
 
     } catch (e) {
         next(e);
+    }
+});
+
+router.post("/message/count/", async(req: Request, res: Response, next: NextFunction) => {
+    try {
+
+        const total = await prisma.companyMessage.count();
+
+        res.json({message: "メッセージの総数を取得しました", result: total});
+
+    } catch (e) {
+        next(e)
+    }
+});
+
+router.post("/message/count/pages", async(req: Request, res: Response, next: NextFunction) => {
+    try {
+        exist(req.body.perPage);
+
+        const total = await prisma.companyMessage.count();
+        const result = Math.ceil(total / req.body.perPage);
+
+        res.json({message: "総ページ数を取得しました", result: result});
+
+    } catch (e) {
+        next(e)
     }
 });
 

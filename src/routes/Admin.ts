@@ -50,9 +50,37 @@ router.post("/student/list", async (req: Request, res: Response, next: NextFunct
     }
 });
 
-router.post("/student/activate", async (req: Request, res: Response, next: NextFunction) => {
-    exist(req.body.id);
+router.post("/student/count", async(req: Request, res: Response, next: NextFunction) => {
     try {
+
+        // 生徒の総数を取得
+        const total = await prisma.student.count();
+
+        res.json({message: "生徒アカウントの総数を取得しました", result: total});
+
+    } catch (e) {
+        next(e)
+    }
+});
+
+router.post("/student/count/pages", async(req: Request, res: Response, next: NextFunction) => {
+    try {
+        exist(req.body.perPage);
+
+        // 総ページ数を計算(切り上げ)
+        const total = await prisma.student.count();
+        const result = Math.ceil(total / req.body.perPage);
+
+        res.json({message: "総ページ数を取得しました", result: result});
+
+    } catch (e) {
+        next(e)
+    }
+});
+
+router.post("/student/activate", async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        exist(req.body.id);
         // 学生ユーザーアカウントを有効化
         await prisma.student.update({
             where: {
@@ -70,8 +98,8 @@ router.post("/student/activate", async (req: Request, res: Response, next: NextF
 });
 
 router.post("/student/deactivate", async (req: Request, res: Response, next: NextFunction) => {
-    exist(req.body.id);
     try {
+        exist(req.body.id);
         // 学生ユーザアカウントを無効化
         await prisma.student.update({
             where: {
@@ -120,6 +148,34 @@ router.post("/company/list", async (req: Request, res: Response, next: NextFunct
         next(e);
     }
 });
+
+router.post("/company/count", async(req: Request, res: Response, next: NextFunction) => {
+    try {
+        exist(req.body.perPage);
+
+        const total = await prisma.company.count();
+
+        res.json({message: "企業アカウントの総数を取得しました", result: total});
+
+    } catch (e) {
+        next(e)
+    }
+});
+
+router.post("/company/count/pages", async(req: Request, res: Response, next: NextFunction) => {
+    try {
+        exist(req.body.perPage);
+
+        const total = await prisma.company.count();
+        const result = Math.ceil(total / req.body.perPage);
+
+        res.json({message: "総ページ数を取得しました", result: result});
+
+    } catch (e) {
+        next(e)
+    }
+});
+
 
 router.post("/company/activate", async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -181,6 +237,32 @@ router.post("/list", async (req: Request, res: Response, next: NextFunction) => 
 
     } catch(e) {
         next(e);
+    }
+});
+
+router.post("/count", async(req: Request, res: Response, next: NextFunction) => {
+    try {
+
+        const total = await prisma.admin.count();
+
+        res.json({message: "管理者アカウントの総数を取得しました", result: total});
+
+    } catch (e) {
+        next(e)
+    }
+});
+
+router.post("/count/pages", async(req: Request, res: Response, next: NextFunction) => {
+    try {
+        exist(req.body.perPage);
+
+        const total = await prisma.admin.count();
+        const result = Math.ceil(total / req.body.perPage);
+
+        res.json({message: "総ページ数を取得しました", result: result});
+
+    } catch (e) {
+        next(e)
     }
 });
 
@@ -293,6 +375,32 @@ router.post("/qualification/delete", async (req: Request, res: Response, next: N
         res.json({message: "データの削除に成功しました"});
     } catch (e) {
         next(e);
+    }
+});
+
+router.post("/qualification/count", async(req: Request, res: Response, next: NextFunction) => {
+    try {
+
+        const total = await prisma.qualificationMaster.count();
+
+        res.json({message: "資格情報の総数を取得しました", result: total});
+
+    } catch (e) {
+        next(e)
+    }
+});
+
+router.post("/qualification/count/pages", async(req: Request, res: Response, next: NextFunction) => {
+    try {
+        exist(req.body.perPage);
+
+        const total = await prisma.qualificationMaster.count();
+        const result = Math.ceil(total / req.body.perPage);
+
+        res.json({message: "総ページ数を取得しました", result: result});
+
+    } catch (e) {
+        next(e)
     }
 });
 

@@ -223,10 +223,6 @@ router.post("/profile/set", async (req: Request, res: Response, next: NextFuncti
 
 router.post("/student/qualification/list", async (req: Request, res: Response, next: NextFunction) => {
     try {
-        // 取得する情報量を制御
-        const skip = (req.body.perPage ? req.body.perPage : 10) * (req.body.page ? req.body.page : 0);
-        const take = (req.body.perPage ? req.body.perPage : 10) * (req.body.page ? req.body.page + 1 : 1);        
-
         const result = await prisma.studentQualification.findMany({
             where: {
                 userId: req.session.userId
@@ -239,9 +235,7 @@ router.post("/student/qualification/list", async (req: Request, res: Response, n
                         name: true
                     }
                 }
-            },
-            take: take,
-            skip: skip
+            }
         }).then((result) =>
             // データを整形
             result.map((result) =>  
@@ -400,7 +394,31 @@ router.post("/student/bookmark/delete", async (req: Request, res: Response, next
     }
 });
 
+router.post("/student/bookmark/count", async(req: Request, res: Response, next: NextFunction) => {
+    try {
 
+        const total = await prisma.studentBookmark.count();
+
+        res.json({message: "生徒のブックマークの総数を取得しました", result: total});
+
+    } catch (e) {
+        next(e)
+    }
+});
+
+router.post("/student/bookmark/count/pages", async(req: Request, res: Response, next: NextFunction) => {
+    try {
+        exist(req.body.perPage);
+
+        const total = await prisma.studentBookmark.count();
+        const result = Math.ceil(total / req.body.perPage);
+
+        res.json({message: "総ページ数を取得しました", result: result});
+
+    } catch (e) {
+        next(e)
+    }
+});
 
 router.post("/company/message/new", async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -411,7 +429,7 @@ router.post("/company/message/new", async (req: Request, res: Response, next: Ne
             data: {
                 title: req.body.title,
                 content: req.body.content,
-                publicshed: req.body.published == undefined ? true : req.body.published,
+                published: req.body.published == undefined ? true : req.body.published,
                 company: {
                     connect: {
                         id: req.session.userId
@@ -439,7 +457,7 @@ router.post("/company/message/list", async (req: Request, res: Response, next: N
                 id: true,
                 postAt: true,
                 updateAt: true,
-                publicshed: true,
+                published: true,
                 title: true,
                 content: true
             },
@@ -513,7 +531,7 @@ router.post("/company/message/publish", async (req: Request, res: Response, next
                 id: req.body.id
             },
             data: {
-                publicshed: true
+                published: true
             }
         });
 
@@ -535,7 +553,7 @@ router.post("/company/message/private", async (req: Request, res: Response, next
                 id: req.body.id
             },
             data: {
-                publicshed: false
+                published: false
             }
         });
 
@@ -546,5 +564,30 @@ router.post("/company/message/private", async (req: Request, res: Response, next
     }
 });
 
+router.post("/company/message/count", async(req: Request, res: Response, next: NextFunction) => {
+    try {
+
+        const total = await prisma.companyMessage.count();
+
+        res.json({message: "メッセージの総数を取得しました", result: total});
+
+    } catch (e) {
+        next(e)
+    }
+});
+
+router.post("/company/message/count/pages", async(req: Request, res: Response, next: NextFunction) => {
+    try {
+        exist(req.body.perPage);
+
+        const total = await prisma.companyMessage.count();
+        const result = Math.ceil(total / req.body.perPage);
+
+        res.json({message: "総ページ数を取得しました", result: result});
+
+    } catch (e) {
+        next(e)
+    }
+});
 
 module.exports = router;

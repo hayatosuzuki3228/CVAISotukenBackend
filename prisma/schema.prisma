@@ -120,7 +120,7 @@ model CompanyMessage {
     postAt DateTime @default(now())
     updateAt DateTime @updatedAt
     company Company @relation(fields: [companyId], references: [id])
-    publicshed Boolean @default(true)
+    published Boolean @default(true)
     title String
     content String
 }
