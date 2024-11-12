@@ -24,7 +24,7 @@ model Student {
     id Int @id @default(autoincrement())
     email String @unique
     password String
-    active Boolean
+    active Boolean @default(true)
     profile StudentProfile?
     qualifications StudentQualification[]
     bookmarks StudentBookmark[]
@@ -62,7 +62,7 @@ model Company {
     id Int @id @default(autoincrement())
     email String
     password String
-    active Boolean
+    active Boolean @default(true)
     profile CompanyProfile?
     messsages CompanyMessage[]
     bookmarks StudentBookmark[]
@@ -129,5 +129,5 @@ model Admin {
     id Int @id @default(autoincrement())
     email String
     password String
-    active Boolean
+    active Boolean @default(true)
 }

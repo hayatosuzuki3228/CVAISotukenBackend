@@ -24,8 +24,7 @@ router.post("/student", async (req: Request, res: Response, next: NextFunction) 
             const user = await prisma.student.create({
                 data: {
                     email: req.body.email,
-                    password: await encryption(req.body.password),
-                    active: true,
+                    password: await encryption(req.body.password)
                 },
             });
 
@@ -142,8 +141,7 @@ router.post("/company", async (req: Request, res: Response, next: NextFunction) 
             const company = await prisma.company.create({
                 data: {
                     email: req.body.email,
-                    password: await encryption(req.body.password),
-                    active: true
+                    password: await encryption(req.body.password)
                 },
             });
 
@@ -226,8 +224,7 @@ router.post("/admin", async (req: Request, res: Response, next: NextFunction) =>
             const user = await prisma.admin.create({
                 data: {
                     email: req.body.email,
-                    password: await encryption(req.body.password),
-                    active: true,
+                    password: await encryption(req.body.password)
                 },
             });
 

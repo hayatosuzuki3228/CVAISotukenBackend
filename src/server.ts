@@ -25,7 +25,11 @@ const port = 8000;
 init();
 
 // cors許可設定
-app.use(cors());
+app.use(cors({
+    origin: process.env.ORIGINS?.split(/\s+/),
+    methods: ['POST'],
+    credentials: true
+}));
 
 // 簡単なセキュリティ対策
 app.use(helmet());
