@@ -290,7 +290,7 @@ router.post("/student/qualification/add", async (req: Request, res: Response, ne
         };
 
         // 資格の種類とユーザIDの追加
-        await prisma.studentProfile.update({
+        await prisma.student.update({
             where: {
                 id: req.session.userId
             },
