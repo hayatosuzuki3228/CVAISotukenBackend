@@ -25,7 +25,11 @@ const port = 8000;
 init();
 
 // cors許可設定
-app.use(cors());
+app.use(cors({
+    origin: process.env.ORIGINS?.split(/\s+/),
+    methods: ['POST'],
+    credentials: true
+}));
 
 // 簡単なセキュリティ対策
 app.use(helmet());
@@ -35,12 +39,14 @@ app.use(
     expressSession({
         name: "sotsuken.sid",
         cookie: {
-            maxAge: 1000 * 60 * 60
+            maxAge: 1000 * 60 * 60,
+            secure: true,
+            httpOnly: true
         },
         secret: String(process.env.SECRET),
         unset: "destroy",
-        resave: true,
-        saveUninitialized: true,
+        resave: false,
+        saveUninitialized: false,
         store: new PrismaSessionStore(
                new PrismaClient(),
                {
