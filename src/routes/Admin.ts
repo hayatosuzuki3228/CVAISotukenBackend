@@ -226,8 +226,6 @@ router.post("/deactivate", async (req: Request, res: Response, next: NextFunctio
 
 router.post("/qualification/list", async (req: Request, res: Response, next: NextFunction) => {
     try {
-        exist(req.body.id);
-
         // 取得する情報の制御
         const skip = (req.body.perPage ? req.body.perPage : 10) * (req.body.page ? req.body.page : 0);
         const take = (req.body.perPage ? req.body.perPage : 10) * (req.body.page ? req.body.page + 1 : 1);

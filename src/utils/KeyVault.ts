@@ -9,7 +9,7 @@ let credential: any = null;
 
 
 // Lastly, create our keys client and connect to the service
-if( process.platform !== "win32" ) credential = new DefaultAzureCredential();
+if( process.env.ENVIRONMENT !== "develop" ) credential = new DefaultAzureCredential();
 
 async function getPepper() {
     if (credential) {

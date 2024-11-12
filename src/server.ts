@@ -40,7 +40,7 @@ app.use(
         name: "sotsuken.sid",
         cookie: {
             maxAge: 1000 * 60 * 60,
-            secure: true,
+            secure: process.env.ENVIRONMENT !== "develop",
             httpOnly: true
         },
         secret: String(process.env.SECRET),
