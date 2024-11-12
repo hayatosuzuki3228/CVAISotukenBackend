@@ -13,7 +13,7 @@
 
 ## Company
 会社情報操作を行います。
-- ## ./company/information  
+- ### ./company/information  
     idから会社の詳細情報を取得します
     - パラメータ  
         ```
@@ -69,7 +69,7 @@
             }
         }
         ```
-- ## ./company/search  
+- ### ./company/search  
     検索対象とキーワードから会社を検索します  
     検索対象は会社情報スキーマのカラム名から選択できます  
     キーワードはスペース区切りにすることで、複数のキーワードをAND検索できます
@@ -95,7 +95,7 @@
         }
         ```
 
-- ## ./company/message/list  
+- ### ./company/message/list  
     会社のIDから公開されているメッセージを取得します
     - パラメータ  
         ```
@@ -115,5 +115,33 @@
                     "content": string               // 内容
                 }, ...
             ]
+        }
+        ```
+
+- ### ./company/message/count *
+    企業が登録したメッセージ数を取得します
+    - パラメータ
+        ```
+        無し
+        ```
+    - 戻り値
+        ```
+        {
+            "message": string,                      // 応答結果
+            "result": number                        // メッセージ数
+        }
+        ```
+
+- ### ./comapny/message/count/pages *
+    企業が登録したメッセージをページ数として取得します
+    - パラメータ
+        ```
+        perPage: number                             // ページごとのメッセージ数
+        ```
+    - 戻り値
+        ```
+        {
+            "message": string,                      // 応答結果
+            "result": number                        // ページ数
         }
         ```

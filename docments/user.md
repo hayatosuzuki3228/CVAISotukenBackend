@@ -13,10 +13,14 @@
 1. [/user/student/qualification/add](#userstudentqualificationadd-)
 1. [/user/student/qualification/delete](#userstudentqualificationdelete-)
 1. [/user/student/bookmark/list](#userstudentbookmarklist-)
+1. [/user/student/bookmark/count](#userstudentbookmarkcount-)
+1. [/user/student/bookmark/count/pages](#userstudentbookmarkcountpages-)
 1. [/user/student/bookmark/add](#userstudentbookmarkadd-)
 1. [/user/student/bookmark/delete](#userstudentbookmarkdelete-)
 1. [/user/company/message/new](#usercompanymessagenew-)
 1. [/user/company/message/list](#usercompanymessagelist-)
+1. [/user/company/message/count](#userstudentmessagecount-)
+1. [/user/company/message/count/pages](#userstudentmessagecountpages-)
 1. [/user/company/message/edit](#usercompanymessageedit-)
 1. [/user/company/message/delete](#usercompanymessagedelete-)
 1. [/user/company/message/publish](#usercompanymessagepublish-)
@@ -163,8 +167,7 @@
     認証された学生ユーザーが設定している資格情報を取得します
     - パラメータ
         ```
-        perPage?: number                            // ページごとの取得コンテンツ数
-        page?: number                               // 開始ページ数
+        無し
         ```
     - 戻り値
         ```
@@ -219,6 +222,34 @@
             "companyId": number                     // 会社ID
             "addedAt": Date                         // 追加日時
         ]
+        ```
+
+- ### ./user/student/bookmark/count *
+    ユーザーに登録されているブックマーク数を取得します
+    - パラメータ
+        ```
+        無し
+        ```
+    - 戻り値
+        ```
+        {
+            "message": string,                      // 応答結果
+            "result": number                        // ブックマーク数
+        }
+        ```
+
+- ### ./user/student/bookmark/count/pages *
+    ユーザーに登録されているブックマークをページ数として取得します
+    - パラメータ
+        ```
+        perPage: number                             // ページごとのブックマーク数
+        ```
+    - 戻り値
+        ```
+        {
+            "message": string,                      // 応答結果
+            "result": number                        // ページ数
+        }
         ```
 
 - ### ./user/student/bookmark/add *
@@ -285,6 +316,34 @@
                 "published": boolean,               // 公開状況
                 "title": string,                    // メッセージタイトル
             ]
+        }
+        ```
+    
+- ### ./user/student/message/count *
+    ユーザーに登録されているメッセージ数を取得します
+    - パラメータ
+        ```
+        無し
+        ```
+    - 戻り値
+        ```
+        {
+            "message": string,                      // 応答結果
+            "result": number                        // メッセージ数
+        }
+        ```
+
+- ### ./user/student/message/count/pages *
+    ユーザーに登録されているメッセージをページ数として取得します
+    - パラメータ
+        ```
+        perPage: number                             // ページごとのメッセージ数
+        ```
+    - 戻り値
+        ```
+        {
+            "message": string,                      // 応答結果
+            "result": number                        // ページ数
         }
         ```
 
