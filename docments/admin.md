@@ -8,15 +8,23 @@
 
 ## 目次
 1. [/admin/student/list](#adminstudentlist-)
+1. [/admin/student/count](#adminstudentlist-)
+1. [/admin/student/count/pages](#adminstudentcountpages-)
 1. [/admin/student/activate](#adminstudentactivate-)
 1. [/admin/student/deactivate](#adminstudentdeactivate-)
 1. [/admin/company/list](#adminstudentlist-)
+1. [/admin/company/count](#admincompanycount-)
+1. [/admin/company/count/pages](#admincompanycountpages-)
 1. [/admin/company/activate](#admincompanyactivate-)
 1. [/admin/company/deactivate](#admincompanydeactivate-)
 1. [/admin/list](#adminlist-)
+1. [/admin/count](#admincount-)
+1. [/admin/count/pages](#admincountpages-)
 1. [/admin/activate](#adminactivate-)
 1. [/admin/deactivate](#admindeactivate-)
 1. [/admin/qualification/list](#adminqualificationlist-)
+1. [/admin/qualification/count](#adminqualificationcount-)
+1. [/admin/qualification/count/pages](#adminqualificationcountpages-)
 1. [/admin/qualification/add](#adminqualificationadd-)
 1. [/admin/qualification/edit](#adminqualificationedit-)
 1. [/admin/qualification/delete](#adminqualificationdelete-)
@@ -45,8 +53,35 @@
             ]
         }
         ```
+- ### ./admin/student/count *
+    登録されている生徒数を取得します
+    - パラメータ
+        ```
+        無し
+        ```
+    - 戻り値
+        ```
+        {
+            "message": string,                      // 応答結果
+            "result": number                        // 生徒数
+        }
+        ```
 
-- ## ./admin/student/activate *  
+- ### ./admin/student/count/pages *
+    登録されている生徒をページ数として取得します
+    - パラメータ
+        ```
+        perPage: number                             // ページごとの生徒数
+        ```
+    - 戻り値
+        ```
+        {
+            "message": string,                      // 応答結果
+            "result": number                        // ページ数
+        }
+        ```
+
+- ### ./admin/student/activate *  
     登録されている生徒のアカウントを有効にします
     - パラメータ  
         ```
@@ -59,7 +94,7 @@
         }
         ```
 
-- ## ./admin/student/deactivate *  
+- ### ./admin/student/deactivate *  
     登録されている生徒のアカウントを無効にします
     - パラメータ  
         ```
@@ -72,7 +107,7 @@
         }
         ```
 
-- ## ./admin/company/list *  
+- ### ./admin/company/list *  
     登録されている企業の一覧を取得します
     - パラメータ  
         ```
@@ -94,7 +129,35 @@
         }
         ```
 
-- ## ./admin/company/activate *  
+- ### ./admin/company/count *
+    登録されている企業数を取得します
+    - パラメータ
+        ```
+        無し
+        ```
+    - 戻り値
+        ```
+        {
+            "message": string,                      // 応答結果
+            "result": number                        // 企業数
+        }
+        ```
+
+- ### ./admin/company/count/pages *
+    登録されている企業をページ数として取得します
+    - パラメータ
+        ```
+        perPage: number                             // ページごとの企業数
+        ```
+    - 戻り値
+        ```
+        {
+            "message": string,                      // 応答結果
+            "result": number                        // ページ数
+        }
+        ```
+
+- ### ./admin/company/activate *  
     登録されている企業のアカウントを有効にします
     - パラメータ  
         ```
@@ -107,7 +170,7 @@
         }
         ```
 
-- ## ./admin/company/deactivate *  
+- ### ./admin/company/deactivate *  
     登録されている企業のアカウントを無効にします
     - パラメータ  
         ```
@@ -120,7 +183,7 @@
         }
         ```
 
-- ## ./admin/list *  
+- ### ./admin/list *  
     登録されている管理者の一覧を取得します
     - パラメータ  
         ```
@@ -141,7 +204,35 @@
         }
         ```
 
-- ## ./admin/activate *  
+- ### ./admin/count *
+    登録されている管理者数を取得します
+    - パラメータ
+        ```
+        無し
+        ```
+    - 戻り値
+        ```
+        {
+            "message": string,                      // 応答結果
+            "result": number                        // 管理者数
+        }
+        ```
+
+- ### ./admin/count/pages *
+    登録されている管理者をページ数として取得します
+    - パラメータ
+        ```
+        perPage: number                             // ページごとの管理者数
+        ```
+    - 戻り値
+        ```
+        {
+            "message": string,                      // 応答結果
+            "result": number                        // ページ数
+        }
+        ```
+
+- ### ./admin/activate *  
     登録されている管理者のアカウントを有効にします
     - パラメータ  
         ```
@@ -154,7 +245,7 @@
         }
         ```
 
-- ## ./admin/deactivate *  
+- ### ./admin/deactivate *  
     登録されている管理者のアカウントを無効にします
     - パラメータ  
         ```
@@ -167,7 +258,7 @@
         }
         ```
 
-- ## ./admin/qualification/list *
+- ### ./admin/qualification/list *
     登録されている資格マスタの一覧を取得します
     - パラメータ
         ```
@@ -186,7 +277,35 @@
         }
         ```
 
-- ## ./admin/qualification/add *
+- ### ./admin/qualification/count *
+    登録されている資格数を取得します
+    - パラメータ
+        ```
+        無し
+        ```
+    - 戻り値
+        ```
+        {
+            "message": string,                      // 応答結果
+            "result": number                        // 資格数
+        }
+        ```
+
+- ### ./admin/qualification/count/pages *
+    登録されている資格をページ数として取得します
+    - パラメータ
+        ```
+        perPage: number                             // ページごとの資格数
+        ```
+    - 戻り値
+        ```
+        {
+            "message": string,                      // 応答結果
+            "result": number                        // ページ数
+        }
+        ```
+
+- ### ./admin/qualification/add *
     資格マスタに新しい資格を追加します
     - パラメータ
         ```
@@ -199,7 +318,7 @@
         }
         ```
 
-- ## ./admin/qualification/edit *
+- ### ./admin/qualification/edit *
     資格マスタに登録されている情報を編集します
     - パラメータ
         ```
@@ -213,7 +332,7 @@
         }
         ```
 
-- ## ./admin/qualification/delete *
+- ### ./admin/qualification/delete *
     資格マスタから資格を削除します
     - パラメータ
         ```
