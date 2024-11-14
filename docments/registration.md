@@ -28,8 +28,23 @@
         }
         ```
 
-- ### ./registration/student/all  
-    学生ユーザーアカウントと同時にプロフィールを設定します
+- ### ./registration/student/qualification
+    学生ユーザーアカウントを資格情報と共に作成します
+    - パラメータ
+        ```
+        email: string,                              // メールアドレス  
+        password: string,                           // 8-24文字、英数字によるパスワード
+        qualificationId: int[]                      // 資格IDリスト
+        ```
+    - 戻り値
+        ```
+            {
+                "message": string                   // 応答結果
+            }
+        ```
+
+- ### ./registration/student/status  
+    学生ユーザーアカウントをプロフィールと共に作成します
     - パラメータ
         ```
         email: string,                              // メールアドレス  
@@ -40,7 +55,27 @@
         birthday: date,                             // 誕生年月日 format: yyyy-mm-dd or yyyy/mm/dd
         residence: string,                          // 居住地
         graduation_year: number,                    // 卒業年 format: yyyy
-        qualification: number,                      // 資格
+        ```
+    - 戻り値
+        ```
+            {
+                "message": string                   // 応答結果
+            }
+        ```
+
+- ### ./registration/student/all  
+    学生ユーザーアカウントをプロフィール、資格情報と共に作成します
+    - パラメータ
+        ```
+        email: string,                              // メールアドレス  
+        password: string,                           // 8-24文字、英数字によるパスワード
+        name: string,                               // 名前
+        furigana: string,                           // ふりがな
+        gender: string,                             // 性別 (0: 男性, 1: 女性, 9: その他)
+        birthday: date,                             // 誕生年月日 format: yyyy-mm-dd or yyyy/mm/dd
+        residence: string,                          // 居住地
+        graduation_year: number,                    // 卒業年 format: yyyy
+        qualificationId: number[]                   // 資格ID
         ```
     - 戻り値
         ```

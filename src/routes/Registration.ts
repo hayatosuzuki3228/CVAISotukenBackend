@@ -44,7 +44,7 @@ router.post("/student", async (req: Request, res: Response, next: NextFunction) 
 
 router.post("/student/qulification", async (req: Request, res: Response, next: NextFunction) => {
     try {
-        exist(req.body.email, req.body.password);
+        exist(req.body.email, req.body.password, req.body.qualificationId);
 
         const data: Prisma.StudentQualificationCreateManyStudentInputEnvelope = {
             data: req.body.qualificationId.map((id: any) => ({
@@ -129,7 +129,7 @@ router.post("/student/status", async (req: Request, res: Response, next: NextFun
 
 router.post("/student/all", async (req: Request, res: Response, next: NextFunction) => {
     try {
-        exist(req.body.email, req.body.password);
+        exist(req.body.email, req.body.password, req.body.qualificationId);
         exist(req.body.name, req.body.furigana, req.body.gender, req.body.birthday, req.body.residence, req.body.graduation_year, req.body.class);
 
         const data: Prisma.StudentQualificationCreateManyStudentInputEnvelope = {
