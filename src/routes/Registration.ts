@@ -42,7 +42,7 @@ router.post("/student", async (req: Request, res: Response, next: NextFunction) 
     }
 });
 
-router.post("/student/k", async (req: Request, res: Response, next: NextFunction) => {
+router.post("/student/qulification", async (req: Request, res: Response, next: NextFunction) => {
     try {
         exist(req.body.email, req.body.password);
 
@@ -56,7 +56,7 @@ router.post("/student/k", async (req: Request, res: Response, next: NextFunction
         await prisma.student.create({
             data: {
                 email: req.body.email,
-                password: req.body.password,
+                password: await encryption(req.body.password),
                 active: true,
                 qualifications: {
                     createMany: data
@@ -74,7 +74,7 @@ router.post("/student/k", async (req: Request, res: Response, next: NextFunction
     }
 });
 
-router.post("/student/all", async (req: Request, res: Response, next: NextFunction) => {
+router.post("/student/status", async (req: Request, res: Response, next: NextFunction) => {
     try {
         exist(req.body.email, req.body.password);
         exist(req.body.name, req.body.furigana, req.body.gender, req.body.birthday, req.body.residence, req.body.graduation_year);
@@ -94,6 +94,67 @@ router.post("/student/all", async (req: Request, res: Response, next: NextFuncti
                     email: req.body.email,
                     password: await encryption(req.body.password),
                     active: true,
+                    profile: {
+                        create: {
+                            name: req.body.name,
+                            furigana: req.body.furigana,
+                            gender: req.body.gender,
+                            birthday: new Date(req.body.birthday),
+                            residence: req.body.residence,
+                            graduation_year: Number(req.body.graduation_year),
+                        },
+                    },
+                },
+                include: {
+                    profile: true,
+                }
+            });
+
+            console.log(req.body)
+
+            // ログ出力
+            console.log(`ユーザアカウントおよびプロフィールの作成が完了しました。ユーザID: ${user.id}, Eメール: ${user.email}`);
+
+            // レスポンスを返す
+            res.json(
+                {message: "ユーザアカウントの作成が完了しました"}
+            );
+        }
+
+    } catch(e) {
+        next(e);
+    }
+});
+
+router.post("/student/all", async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        exist(req.body.email, req.body.password);
+        exist(req.body.name, req.body.furigana, req.body.gender, req.body.birthday, req.body.residence, req.body.graduation_year);
+
+        const data: Prisma.StudentQualificationCreateManyStudentInputEnvelope = {
+            data: req.body.qualificationId.map((id: any) => ({
+                qualificationId: id
+            }))
+        };
+
+        if (await prisma.student.findFirst({
+            where: {
+                email: req.body.email
+            }
+        })) {
+            // メールアドレスが登録済みの場合はじく
+            throw new Error("そのメールアドレスはすでに使われています");
+        } else {
+
+            // 登録
+            const user = await prisma.student.create({
+                data: {
+                    email: req.body.email,
+                    password: await encryption(req.body.password),
+                    active: true,
+                    qualifications: {
+                        createMany: data
+                    },
                     profile: {
                         create: {
                             name: req.body.name,
