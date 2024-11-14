@@ -97,6 +97,27 @@ router.post("/student/activate", async (req: Request, res: Response, next: NextF
     }
 });
 
+router.post("/student/activate/k", async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        exist(req.body.classId);
+        // 学生ユーザーアカウントを有効化
+        await prisma.student.updateMany({
+            where: {
+                profile: {
+                    classId: req.body.classId
+                }
+            },
+            data: {
+                active: true
+            }
+        });
+
+        res.json({message: "データの更新に成功しました"});
+    } catch(e) {
+        next(e);
+    }
+});
+
 router.post("/student/deactivate", async (req: Request, res: Response, next: NextFunction) => {
     try {
         exist(req.body.id);
