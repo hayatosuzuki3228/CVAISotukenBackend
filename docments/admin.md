@@ -29,6 +29,12 @@
 1. [/admin/qualification/add](#adminqualificationadd-)
 1. [/admin/qualification/edit](#adminqualificationedit-)
 1. [/admin/qualification/delete](#adminqualificationdelete-)
+1. [/admin/class/list](#adminclasslist-)
+1. [/admin/class/count](#adminclasscount-)
+1. [/admin/class/count/pages](#adminclasscountpages-)
+1. [/admin/class/add](#adminclassadd-)
+1. [/admin/class/edit](#adminclassedit-)
+1. [/admin/class/delete](#adminclassdelete-)
 
 ## Admin
 管理者による操作を行います。
@@ -365,7 +371,7 @@
         }
         ```
 
-- ### ./admin/qualification/count *
+- ### ./admin/class/count *
     登録されているクラス数を取得します
     - パラメータ
         ```
@@ -379,7 +385,7 @@
         }
         ```
 
-- ### ./admin/qualification/count/pages *
+- ### ./admin/class/count/pages *
     登録されているクラスをページ数として取得します
     - パラメータ
         ```
@@ -393,7 +399,7 @@
         }
         ```
 
-- ### ./admin/qualification/add *
+- ### ./admin/class/add *
     クラスマスタに新しいクラスを追加します
     - パラメータ
         ```
@@ -406,7 +412,7 @@
         }
         ```
 
-- ### ./admin/qualification/edit *
+- ### ./admin/class/edit *
     クラスマスタに登録されている情報を編集します
     - パラメータ
         ```
@@ -420,7 +426,7 @@
         }
         ```
 
-- ### ./admin/qualification/delete *
+- ### ./admin/class/delete *
     クラスマスタから資格を削除します
     - パラメータ
         ```
