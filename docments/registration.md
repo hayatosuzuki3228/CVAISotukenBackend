@@ -5,6 +5,7 @@
 1. [User](user.md)
 1. [Company](company.md)
 1. [Admin](admin.md)
+1. [Master](master.md)
 
 ## 目次
 1. [/registration/student](#registrationstudent)
@@ -54,6 +55,7 @@
         gender: string,                             // 性別 (0: 男性, 1: 女性, 9: その他)
         birthday: date,                             // 誕生年月日 format: yyyy-mm-dd or yyyy/mm/dd
         residence: string,                          // 居住地
+        classId: number,                            // クラスID
         graduation_year: number,                    // 卒業年 format: yyyy
         ```
     - 戻り値
@@ -74,6 +76,7 @@
         gender: string,                             // 性別 (0: 男性, 1: 女性, 9: その他)
         birthday: date,                             // 誕生年月日 format: yyyy-mm-dd or yyyy/mm/dd
         residence: string,                          // 居住地
+        classId: number,                            // クラスID
         graduation_year: number,                    // 卒業年 format: yyyy
         qualificationId: number[]                   // 資格ID
         ```

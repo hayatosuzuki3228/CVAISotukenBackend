@@ -5,6 +5,7 @@
 1. [User](user.md)
 1. [Company](company.md)
 1. [Admin](admin.md)
+1. [Master](master.md)
 
 ## 目次
 1. [/authentication/student](#authenticationstudent)
