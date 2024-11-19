@@ -97,18 +97,22 @@ router.post("/message/list", async (req: Request, res: Response, next: NextFunct
         // 取得する情報量の制御
         const skip = (req.body.perPage ? req.body.perPage : 10) * (req.body.page ? req.body.page : 0);
         const take = (req.body.perPage ? req.body.perPage : 10) * (req.body.page ? req.body.page + 1 : 1);
-        
+    
         // idに一致する会社のメッセージを全て取得
         const messages = await prisma.companyMessage.findMany(
             {
                 select:{
                     id: true,
                     title: true,
-                    content: true
+                    content: true,
+                    link: true
                 },
                 where: {
                     companyId: req.body.companyId,
-                    published: true
+                    published: true,
+                    class: {
+                        none: {}
+                    }
                 },
                 skip: skip,
                 take: take
@@ -125,7 +129,12 @@ router.post("/message/list", async (req: Request, res: Response, next: NextFunct
 router.post("/message/count/", async(req: Request, res: Response, next: NextFunction) => {
     try {
 
-        const total = await prisma.companyMessage.count();
+        const total = await prisma.companyMessage.count({
+            where: {
+                published: true,
+
+            }
+        });
 
         res.json({message: "メッセージの総数を取得しました", result: total});
 
@@ -138,7 +147,11 @@ router.post("/message/count/pages", async(req: Request, res: Response, next: Nex
     try {
         exist(req.body.perPage);
 
-        const total = await prisma.companyMessage.count();
+        const total = await prisma.companyMessage.count({
+            where: {
+                published: true
+            }
+        });
         const result = Math.ceil(total / req.body.perPage);
 
         res.json({message: "総ページ数を取得しました", result: result});
