@@ -23,6 +23,7 @@ model QualificationMaster {
 model ClassMaster {
     id Int @id @default(autoincrement())
     name String
+    abbreviation String
     student StudentProfile[]
 }
 

@@ -2,6 +2,7 @@ import { Request, Response, NextFunction } from "express";
 import { exist } from "../utils/Validation";
 import { prisma } from "../server";
 import { verifyAdmin } from "../utils/Verify";
+import { encryption } from "../utils/Encryption";
 
 // ルーティングモジュールを呼び出し
 const router = require("express").Router();
@@ -16,6 +17,25 @@ router.use(async (req: Request, res: Response, next: NextFunction) => {
         next(e);
     }
 });
+
+// router.post("/student/batch/update", async (req: Request, res: Response, next: NextFunction) =>{
+//     try {
+//         exist(req.body.classId, req.body.update_classId)
+        
+//         await prisma.studentProfile.update({
+//             where: {
+//                 classId: req.body.classId
+//             },
+//             data:{
+//                 classId: req.body.update_classId
+//             }
+//         });
+
+//         res.json({message: "クラス情報が一括更新されました"})
+//     } catch (e) {
+//       next(e);  
+//     }
+// })
 
 router.post("/student/list", async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -97,7 +117,7 @@ router.post("/student/activate", async (req: Request, res: Response, next: NextF
     }
 });
 
-router.post("/student/activate/k", async (req: Request, res: Response, next: NextFunction) => {
+router.post("/student/class/activate", async (req: Request, res: Response, next: NextFunction) => {
     try {
         exist(req.body.classId);
         // 学生ユーザーアカウントを有効化
@@ -136,6 +156,48 @@ router.post("/student/deactivate", async (req: Request, res: Response, next: Nex
         next(e);
     }
 });
+
+router.post("/student/class/deactivate", async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        exist(req.body.classId);
+        // 学生ユーザーアカウントを有効化
+        await prisma.student.updateMany({
+            where: {
+                profile: {
+                    classId: req.body.classId
+                }
+            },
+            data: {
+                active: false
+            }
+        });
+
+        res.json({message: "データの更新に成功しました"});
+    } catch(e) {
+        next(e);
+    }
+});
+
+router.post("/student/password/reset", async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        exist(req.body.id, req.body.password);
+
+        // IDに合致したユーザのパスワードを更新
+        await prisma.student.update({
+            where: {
+                id: req.body.id
+            },
+            data:{
+                password: await encryption(req.body.password),
+            }
+        });
+
+        res.json({message: "パスワードが更新されました。"});
+
+    } catch (e) {
+        next(e);
+    }
+})
 
 router.post("/company/list", async (req: Request, res: Response, next: NextFunction) => {
     try {
