@@ -76,3 +76,7 @@ APIサーバー用ソフトウェアを起動したサーバーのIPアドレス
 1. [/admin/qualification/add](admin.md#adminqualificationadd-)
 1. [/admin/qualification/edit](admin.md#adminqualificationedit-)
 1. [/admin/qualification/delete](admin.md#adminqualificationdelete-)
+
+### [admin](master.md)
+1. [/master/qualification](master.md#masterqualification)
+1. [/master/class](master.md#masterqualification)
