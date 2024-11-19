@@ -509,7 +509,7 @@ router.post("/class/list", async (req: Request, res: Response, next: NextFunctio
 
 router.post("/class/add", async (req: Request, res: Response, next: NextFunction) => {
     try {
-        exist(req.body.name);
+        exist(req.body.name, req.body.abbreviation);
 
         await prisma.classMaster.create({
             data: {

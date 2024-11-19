@@ -41,7 +41,7 @@ router.post("/profile/get", async (req: Request, res: Response, next: NextFuncti
                     where: {
                         id: req.session.userId
                     }
-                });
+                })
                 break;
             
             case UserCategory.company:

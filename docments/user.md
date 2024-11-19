@@ -43,6 +43,7 @@
                 "id": number,                                                   // ユーザID
                 "name": string,                                                 // ユーザ名
                 "furigana": string,                                             // ふりがな
+                "classId": number,                                              // クラスID
                 "gender": string,                                               // 性別 0: 男性, 1: 女性, 9: その他
                 "birthday": date,                                               // 誕生日 format: yyyy-mm-dd or yyyy/mm/dd
                 "residence": string,                                            // 居住地
@@ -358,8 +359,11 @@
     - パラメータ
         ```
         id: string,                                 // メッセージUUID
+        published: boolean?,                        // 公開状況
         title: string?,                             // メッセージタイトル
         content: string?,                           // メッセージ内容 
+        link: string?,                              // メッセージに付与するリンク
+        class: number[]                             // メッセージを送信するクラスIDリスト
         ```
     - 戻り値
         ```
