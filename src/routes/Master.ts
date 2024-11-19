@@ -14,4 +14,14 @@ router.post("/qualification", async (req: Request, res: Response, next: NextFunc
     }
 });
 
+router.post("/class", async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const classes = await prisma.classMaster.findMany();
+
+        res.json({message: "情報の取得に成功しました", result: classes});
+    } catch (e) {
+        next(e);
+    }
+})
+
 module.exports = router;

@@ -24,6 +24,7 @@ model ClassMaster {
     id Int @id @default(autoincrement())
     name String
     student StudentProfile[]
+    companyMessage CompanyMessageTo[]
 }
 
 model Student {
@@ -131,6 +132,16 @@ model CompanyMessage {
     published Boolean @default(true)
     title String
     content String
+    link String?
+    class CompanyMessageTo[]
+}
+
+model CompanyMessageTo {
+    id String @id @default(uuid())
+    companyMessageId String
+    classId Int
+    companyMessage CompanyMessage @relation(fields: [companyMessageId], references: [id])
+    class ClassMaster @relation(fields: [classId], references: [id])
 }
 
 model Admin {
