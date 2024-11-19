@@ -225,7 +225,6 @@ router.post("/company", async (req: Request, res: Response, next: NextFunction) 
 router.post("/company/all", async (req: Request, res: Response, next: NextFunction) => {
     try {
         exist(req.body.email, req.body.password);
-        exist(req.body.code);
         
         if (await prisma.company.findFirst({
             where: {
@@ -245,46 +244,45 @@ router.post("/company/all", async (req: Request, res: Response, next: NextFuncti
                     profile: {
                         create: {
                             code: Number (req.body.code),
-                            name: req.body.name ,
-                            website:  req.body.website ,
-                            furigana:  req.body.furigana ,
-                            category:  req.body.category ,
-                            detail:  req.body.detail ,
-                            office:  req.body.office ,
-                            representative:  req.body.representative ,
-                            foundation_date:  req.body.foundation_date ,
-                            capital:  req.body.capital ,
-                            amount_of_sales:  req.body.amount_of_sales ,
-                            number_of_employees:  req.body.number_of_employees ,
-                            phone_number:  req.body.phone_number ,
-                            email:  req.body.email ,
-                            recruitment_numbers:  req.body.recruitment_numbers ,
-                            this_year_graduate_recruitment_results:  req.body.this_year_graduate_recruitment_results ,
-                            last_year_graduate_recruitment_results:  req.body.last_year_graduate_recruitment_results ,
-                            recruitment_grade:  req.body.recruitment_grade ,
-                            qualification:  req.body.qualification ,
-                            ideal_candidate_profile:  req.body.ideal_candidate_profile ,
-                            work_location:  req.body.work_location ,
-                            working_hours:  req.body.working_hours ,
-                            holiday:  req.body.holiday ,
-                            four_year_course_basic_salary:  req.body.four_year_course_basic_salary ,
-                            four_year_course_allowances:  req.body.four_year_course_allowances ,
-                            four_year_course_salary_total:  req.body.four_year_course_salary_total ,
-                            three_year_course_basic_salary:  req.body.three_year_course_basic_salary ,
-                            three_year_course_allowances:  req.body.three_year_course_allowances ,
-                            three_year_course_salary_total:  req.body.three_year_course_salary_total ,
-                            two_year_course_basic_salary:  req.body.two_year_course_basic_salary ,
-                            two_year_course_allowances:  req.body.two_year_course_allowances ,
-                            two_year_course_salary_total:  req.body.two_year_course_salary_total ,
-                            one_year_course_basic_salary:  req.body.one_year_course_basic_salary ,
-                            one_year_course_allowances:  req.body.one_year_course_allowances ,
-                            one_year_course_salary_total:  req.body.one_year_course_salary_total ,
-                            others:  req.body.others ,
-                            allowances:  req.body.allowances ,
-                            welfare:  req.body.welfare ,
-                            corporate_philosophy:  req.body.corporate_philosophy ,
+                            name: req.body.name,
+                            website:  req.body.website,
+                            furigana:  req.body.furigana,
+                            category:  req.body.category,
+                            detail:  req.body.detail,
+                            office:  req.body.office,
+                            representative:  req.body.representative,
+                            foundation_date:  req.body.foundation_date,
+                            capital:  req.body.capital,
+                            amount_of_sales:  req.body.amount_of_sales,
+                            number_of_employees:  req.body.number_of_employees,
+                            phone_number:  req.body.phone_number,
+                            email:  req.body.email,
+                            recruitment_numbers:  req.body.recruitment_numbers,
+                            this_year_graduate_recruitment_results:  req.body.this_year_graduate_recruitment_results,
+                            last_year_graduate_recruitment_results:  req.body.last_year_graduate_recruitment_results,
+                            recruitment_grade:  req.body.recruitment_grade,
+                            qualification:  req.body.qualification,
+                            ideal_candidate_profile:  req.body.ideal_candidate_profile,
+                            work_location:  req.body.work_location,
+                            working_hours:  req.body.working_hours,
+                            holiday:  req.body.holiday,
+                            four_year_course_basic_salary:  req.body.four_year_course_basic_salary,
+                            four_year_course_allowances:  req.body.four_year_course_allowances,
+                            four_year_course_salary_total:  req.body.four_year_course_salary_total,
+                            three_year_course_basic_salary:  req.body.three_year_course_basic_salary,
+                            three_year_course_allowances:  req.body.three_year_course_allowances,
+                            three_year_course_salary_total:  req.body.three_year_course_salary_total,
+                            two_year_course_basic_salary:  req.body.two_year_course_basic_salary,
+                            two_year_course_allowances:  req.body.two_year_course_allowances,
+                            two_year_course_salary_total:  req.body.two_year_course_salary_total,
+                            one_year_course_basic_salary:  req.body.one_year_course_basic_salary,
+                            one_year_course_allowances:  req.body.one_year_course_allowances,
+                            one_year_course_salary_total:  req.body.one_year_course_salary_total,
+                            others:  req.body.others,
+                            allowances:  req.body.allowances,
+                            welfare:  req.body.welfare,
+                            corporate_philosophy:  req.body.corporate_philosophy,
                             appeal:  req.body.appeal
-                        
                         },
                     },
                 },
@@ -308,7 +306,6 @@ router.post("/company/all", async (req: Request, res: Response, next: NextFuncti
         next(e);
     }
 });
-
 
 router.post("/admin", async (req: Request, res: Response, next: NextFunction) => {
     try {
