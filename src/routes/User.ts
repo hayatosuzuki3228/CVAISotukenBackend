@@ -423,7 +423,14 @@ router.post("/student/bookmark/count/pages", async(req: Request, res: Response, 
 
 router.post("/company/message/new", async (req: Request, res: Response, next: NextFunction) => {
     try {
-        exist(req.body.title, req.body.content);
+        exist(req.body.title, req.body.content, req.body.class);
+
+        const classes: number[] = req.body.class;
+
+        const sendTo: Prisma.CompanyMessageToCreateManyCompanyMessageInput[] = 
+            classes.map(id => ({
+                classId: id
+            }));
 
         // メッセージの作成
         await prisma.companyMessage.create({
@@ -431,9 +438,15 @@ router.post("/company/message/new", async (req: Request, res: Response, next: Ne
                 title: req.body.title,
                 content: req.body.content,
                 published: req.body.published == undefined ? true : req.body.published,
+                link: req.body.link,
                 company: {
                     connect: {
                         id: req.session.userId
+                    }
+                },
+                class: {
+                    createMany: {
+                        data: sendTo
                     }
                 }
             }
@@ -460,7 +473,17 @@ router.post("/company/message/list", async (req: Request, res: Response, next: N
                 updateAt: true,
                 published: true,
                 title: true,
-                content: true
+                content: true,
+                link: true,
+                class: {
+                    select: {
+                        class: {
+                            select: {
+                                name: true
+                            }
+                        }
+                    }
+                }
             },
             where: {
                 companyId: req.session.userId
@@ -470,7 +493,16 @@ router.post("/company/message/list", async (req: Request, res: Response, next: N
             orderBy: {
                 postAt: 'asc'
             }
-        });
+        }).then(data => data.map(data => ({
+            id: data.id,
+            postAt: data.postAt,
+            updateAt: data.updateAt,
+            published: data.published,
+            title: data.title,
+            content: data.content,
+            link: data.link,
+            class: data.class.map(data => (data.class.name))
+        })));
 
         res.json({message: "メッセージの取得に成功しました", result: messages});
 
@@ -483,6 +515,21 @@ router.post("/company/message/edit", async (req: Request, res: Response, next: N
     try {
         exist(req.body.id);
 
+        let classes: number[];
+        let sendTo: Prisma.CompanyMessageToCreateManyCompanyMessageInput[];
+
+        if (req.body.class) {
+            await prisma.companyMessageTo.deleteMany();
+
+            classes = req.body.class;
+
+            sendTo = classes?.map(id => ({
+                    classId: id
+                }));
+        } else {
+            sendTo = [];
+        }
+
         // パラメータから取得したIDのメッセージのタイトル、コンテンツの更新
         await prisma.companyMessage.update({
             where: {
@@ -491,7 +538,14 @@ router.post("/company/message/edit", async (req: Request, res: Response, next: N
             },
             data: {
                 title: req.body.title,
-                content: req.body.content
+                content: req.body.content,
+                published: req.body.published,
+                link: req.body.link,
+                class: {
+                    createMany: {
+                        data: sendTo
+                    }
+                }
             }
         });
 
@@ -513,6 +567,8 @@ router.post("/company/message/delete", async (req: Request, res: Response, next:
                 id: req.body.id
             }
         });
+
+        await prisma.companyMessageTo.deleteMany();
 
         res.json({message: "メッセージの更新に削除に成功しました"});
 

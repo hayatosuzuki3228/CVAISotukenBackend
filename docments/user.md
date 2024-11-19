@@ -287,7 +287,9 @@
         ```
         title: string,                              // メッセージタイトル
         content: string,                            // メッセージ内容
-        published: boolean?                         // 公開状況　省略した場合true 
+        published: boolean?,                        // 公開状況　省略した場合true
+        link: string?,                              // メッセージに付加するリンク
+        class: number[]                             // メッセージを送付するクラスIDリスト
         ```
     - 戻り値
         ```
@@ -315,6 +317,9 @@
                 "updateAt": Date,                   // 編集日時
                 "published": boolean,               // 公開状況
                 "title": string,                    // メッセージタイトル
+                "content": string,                  // メッセージ内容
+                "link": string,                     // メッセージに付加するリンク
+                "class": string[]                   // メッセージを送信するクラス一覧
             ]
         }
         ```

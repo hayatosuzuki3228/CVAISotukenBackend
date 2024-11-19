@@ -63,7 +63,7 @@ router.post("/student/list", async (req: Request, res: Response, next: NextFunct
             )
         );
 
-        res.json({message: "データの取得に成功しました", result: result});
+        res.json({message: "情報の取得に成功しました", result: result});
 
     } catch(e) {
         next(e);
@@ -76,7 +76,7 @@ router.post("/student/count", async(req: Request, res: Response, next: NextFunct
         // 生徒の総数を取得
         const total = await prisma.student.count();
 
-        res.json({message: "生徒アカウントの総数を取得しました", result: total});
+        res.json({message: "情報の取得に成功しました", result: total});
 
     } catch (e) {
         next(e)
@@ -91,7 +91,7 @@ router.post("/student/count/pages", async(req: Request, res: Response, next: Nex
         const total = await prisma.student.count();
         const result = Math.ceil(total / req.body.perPage);
 
-        res.json({message: "総ページ数を取得しました", result: result});
+        res.json({message: "情報の取得に成功しました", result: result});
 
     } catch (e) {
         next(e)
@@ -111,7 +111,7 @@ router.post("/student/activate", async (req: Request, res: Response, next: NextF
             }
         });
 
-        res.json({message: "データの更新に成功しました"});
+        res.json({message: "情報の更新に成功しました"});
     } catch(e) {
         next(e);
     }
@@ -132,7 +132,7 @@ router.post("/student/class/activate", async (req: Request, res: Response, next:
             }
         });
 
-        res.json({message: "データの更新に成功しました"});
+        res.json({message: "情報の更新に成功しました"});
     } catch(e) {
         next(e);
     }
@@ -151,7 +151,7 @@ router.post("/student/deactivate", async (req: Request, res: Response, next: Nex
             }
         });
 
-        res.json({message: "データの更新に成功しました"});
+        res.json({message: "情報の更新に成功しました"});
     } catch(e) {
         next(e);
     }
@@ -225,7 +225,7 @@ router.post("/company/list", async (req: Request, res: Response, next: NextFunct
             )
         );
 
-        res.json({message: "データの取得に成功しました", result: result});
+        res.json({message: "情報の取得に成功しました", result: result});
 
     } catch(e) {
         next(e);
@@ -238,7 +238,7 @@ router.post("/company/count", async(req: Request, res: Response, next: NextFunct
 
         const total = await prisma.company.count();
 
-        res.json({message: "企業アカウントの総数を取得しました", result: total});
+        res.json({message: "情報の取得に成功しました", result: total});
 
     } catch (e) {
         next(e)
@@ -252,7 +252,7 @@ router.post("/company/count/pages", async(req: Request, res: Response, next: Nex
         const total = await prisma.company.count();
         const result = Math.ceil(total / req.body.perPage);
 
-        res.json({message: "総ページ数を取得しました", result: result});
+        res.json({message: "情報の取得に成功しました", result: result});
 
     } catch (e) {
         next(e)
@@ -274,7 +274,7 @@ router.post("/company/activate", async (req: Request, res: Response, next: NextF
             }
         });
 
-        res.json({message: "データの更新に成功しました"});
+        res.json({message: "情報の更新に成功しました"});
     } catch(e) {
         next(e);
     }
@@ -294,7 +294,7 @@ router.post("/company/deactivate", async (req: Request, res: Response, next: Nex
             }
         });
 
-        res.json({message: "データの更新に成功しました"});
+        res.json({message: "情報の更新に成功しました"});
     } catch(e) {
         next(e);
     }
@@ -316,7 +316,7 @@ router.post("/list", async (req: Request, res: Response, next: NextFunction) => 
             take: take
         });
 
-        res.json({message: "データの取得に成功しました", result: result});
+        res.json({message: "情報の取得に成功しました", result: result});
 
     } catch(e) {
         next(e);
@@ -328,7 +328,7 @@ router.post("/count", async(req: Request, res: Response, next: NextFunction) => 
 
         const total = await prisma.admin.count();
 
-        res.json({message: "管理者アカウントの総数を取得しました", result: total});
+        res.json({message: "情報の取得に成功しました", result: total});
 
     } catch (e) {
         next(e)
@@ -342,7 +342,7 @@ router.post("/count/pages", async(req: Request, res: Response, next: NextFunctio
         const total = await prisma.admin.count();
         const result = Math.ceil(total / req.body.perPage);
 
-        res.json({message: "総ページ数を取得しました", result: result});
+        res.json({message: "情報の取得に成功しました", result: result});
 
     } catch (e) {
         next(e)
@@ -363,7 +363,7 @@ router.post("/activate", async (req: Request, res: Response, next: NextFunction)
             }
         });
 
-        res.json({message: "データの更新に成功しました"});
+        res.json({message: "情報の更新に成功しました"});
     } catch(e) {
         next(e);
     }
@@ -383,7 +383,7 @@ router.post("/deactivate", async (req: Request, res: Response, next: NextFunctio
             }
         });
 
-        res.json({message: "データの更新に成功しました"});
+        res.json({message: "情報の更新に成功しました"});
     } catch(e) {
         next(e);
     }
@@ -401,7 +401,7 @@ router.post("/qualification/list", async (req: Request, res: Response, next: Nex
             take: take
         });
 
-        res.json({message: "データの取得に成功しました", result: qualifications});
+        res.json({message: "情報の取得に成功しました", result: qualifications});
     } catch (e) {
         next(e);
     }
@@ -418,7 +418,7 @@ router.post("/qualification/add", async (req: Request, res: Response, next: Next
             }
         });
 
-        res.json({message: "データの追加に成功しました"});
+        res.json({message: "情報の追加に成功しました"});
     } catch (e) {
         next(e);
     }
@@ -438,7 +438,7 @@ router.post("/qualification/edit", async (req: Request, res: Response, next: Nex
             }
         });
 
-        res.json({message: "データの変更に成功しました"});
+        res.json({message: "情報の変更に成功しました"});
     } catch (e) {
         next(e);
     }
@@ -455,7 +455,7 @@ router.post("/qualification/delete", async (req: Request, res: Response, next: N
             }
         });
 
-        res.json({message: "データの削除に成功しました"});
+        res.json({message: "情報の削除に成功しました"});
     } catch (e) {
         next(e);
     }
@@ -466,7 +466,7 @@ router.post("/qualification/count", async(req: Request, res: Response, next: Nex
 
         const total = await prisma.qualificationMaster.count();
 
-        res.json({message: "資格情報の総数を取得しました", result: total});
+        res.json({message: "情報の取得に成功しました", result: total});
 
     } catch (e) {
         next(e)
@@ -480,7 +480,87 @@ router.post("/qualification/count/pages", async(req: Request, res: Response, nex
         const total = await prisma.qualificationMaster.count();
         const result = Math.ceil(total / req.body.perPage);
 
-        res.json({message: "総ページ数を取得しました", result: result});
+        res.json({message: "情報の取得に成功しました", result: result});
+
+    } catch (e) {
+        next(e)
+    }
+});
+
+router.post("/class/list", async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        exist(req.body.name);
+
+        // 取得する情報の制御
+        const skip = (req.body.perPage ? req.body.perPage : 10) * (req.body.page ? req.body.page : 0);
+        const take = (req.body.perPage ? req.body.perPage : 10) * (req.body.page ? req.body.page + 1 : 1);
+
+        const data = await prisma.classMaster.findMany({
+            skip: skip,
+            take: take
+        });
+
+        res.json({message: "情報の追加に成功しました", result: data})
+
+    } catch (e) {
+        next(e);
+    }
+});
+
+router.post("/class/add", async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        exist(req.body.name);
+
+        await prisma.classMaster.create({
+            data: {
+                name: req.body.name
+            }
+        });
+
+        res.json({message: "情報の追加に成功しました"})
+
+    } catch (e) {
+        next(e);
+    }
+});
+
+router.post("/class/delete", async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        exist(req.body.id);
+
+        await prisma.classMaster.delete({
+            where: {
+                id: req.body.id
+            }
+        });
+
+        res.json({message: "情報の削除に成功しました"})
+
+    } catch (e) {
+        next(e);
+    }
+});
+
+router.post("/class/count", async(req: Request, res: Response, next: NextFunction) => {
+    try {
+
+        const total = await prisma.classMaster.count();
+
+        res.json({message: "情報の取得に成功しました", result: total});
+
+    } catch (e) {
+        next(e)
+    }
+});
+
+router.post("/class/count/pages", async(req: Request, res: Response, next: NextFunction) => {
+    try {
+        exist(req.body.perPage);
+
+        const total = await prisma.classMaster.count();
+        const result = Math.ceil(total / req.body.perPage);
+
+        res.json({message: "情報の取得に成功しました", result: result});
 
     } catch (e) {
         next(e)

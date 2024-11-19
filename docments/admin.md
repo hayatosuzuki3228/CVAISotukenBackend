@@ -344,3 +344,90 @@
             "message": string                       // 応答結果
         }
         ```
+
+- ### ./admin/class/list *
+    登録されているクラスマスタの一覧を取得します
+    - パラメータ
+        ```
+        perPage?: number                            // ページごとの取得コンテンツ数
+        page?: number                               // 取得開始ページ数
+        ```
+    - 戻り値
+        ```
+        {
+            "message": string,                      // 応答結果
+            "result":                               // クラスリスト
+            [
+                "id": number,                       // クラスID
+                "name": string                      // クラス名
+            ]
+        }
+        ```
+
+- ### ./admin/qualification/count *
+    登録されているクラス数を取得します
+    - パラメータ
+        ```
+        無し
+        ```
+    - 戻り値
+        ```
+        {
+            "message": string,                      // 応答結果
+            "result": number                        // クラス数
+        }
+        ```
+
+- ### ./admin/qualification/count/pages *
+    登録されているクラスをページ数として取得します
+    - パラメータ
+        ```
+        perPage: number                             // ページごとのクラス数
+        ```
+    - 戻り値
+        ```
+        {
+            "message": string,                      // 応答結果
+            "result": number                        // ページ数
+        }
+        ```
+
+- ### ./admin/qualification/add *
+    クラスマスタに新しいクラスを追加します
+    - パラメータ
+        ```
+        "name": string                              // クラス名
+        ```
+    - 戻り値
+        ```
+        {
+            "message": string                       // 応答結果
+        }
+        ```
+
+- ### ./admin/qualification/edit *
+    クラスマスタに登録されている情報を編集します
+    - パラメータ
+        ```
+        "id": number,                               // クラスID
+        "name": string                              // クラス名
+        ```
+    - 戻り値
+        ```
+        {
+            "message": string                       // 応答結果
+        }
+        ```
+
+- ### ./admin/qualification/delete *
+    クラスマスタから資格を削除します
+    - パラメータ
+        ```
+        "id": number                                // クラス名
+        ```
+    - 戻り値
+        ```
+        {
+            "message": string                       // 応答結果
+        }
+        ```
