@@ -513,7 +513,8 @@ router.post("/class/add", async (req: Request, res: Response, next: NextFunction
 
         await prisma.classMaster.create({
             data: {
-                name: req.body.name
+                name: req.body.name,
+                abbreviation: req.body.abbreviation
             }
         });
 
