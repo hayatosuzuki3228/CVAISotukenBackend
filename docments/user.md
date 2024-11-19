@@ -291,7 +291,7 @@
         content: string,                            // メッセージ内容
         published: boolean?,                        // 公開状況　省略した場合true
         link: string?,                              // メッセージに付加するリンク
-        class: number[]                             // メッセージを送付するクラスIDリスト
+        classId: number[]?                          // メッセージを送付するクラスIDリスト
         ```
     - 戻り値
         ```
@@ -363,8 +363,9 @@
         published: boolean?,                        // 公開状況
         title: string?,                             // メッセージタイトル
         content: string?,                           // メッセージ内容 
+        publish: boolean?,                          // メッセージの公開状況
         link: string?,                              // メッセージに付与するリンク
-        class: number[]                             // メッセージを送信するクラスIDリスト
+        classId: number[]?                          // メッセージを送信するクラスIDリスト
         ```
     - 戻り値
         ```
