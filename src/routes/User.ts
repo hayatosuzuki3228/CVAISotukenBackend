@@ -90,7 +90,7 @@ router.post("/profile/set", async (req: Request, res: Response, next: NextFuncti
                     })
                 } else {
                     // プロフィールが存在しない場合
-                    exist(req.body.name, req.body.furigana, req.body.gender, req.body.birthday, req.body.residence, req.body.graduation_year, req.body.class);
+                    exist(req.body.name, req.body.furigana, req.body.gender, req.body.birthday, req.body.residence, req.body.graduation_year, req.body.classId);
                     await prisma.student.update({
                         where: {
                             id: req.session.userId
@@ -104,7 +104,8 @@ router.post("/profile/set", async (req: Request, res: Response, next: NextFuncti
                                     birthday: new Date(req.body.birthday),
                                     residence: req.body.residence,
                                     graduation_year: Number(req.body.graduation_year),
-                                    class: req.body.class
+                                    class: req.body.classId,
+                                    work_location: req.body.work_location
                                     // qualification: Number(req.body.qualification)
                                 }
                             }
