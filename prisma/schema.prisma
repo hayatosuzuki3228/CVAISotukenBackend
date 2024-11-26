@@ -47,6 +47,7 @@ model StudentProfile {
     birthday DateTime @db.Date
     residence String
     graduation_year Int @db.Year 
+    work_location String
     student Student @relation(fields: [id], references: [id])
     class ClassMaster @relation(fields: [classId], references: [id])
 }
