@@ -8,11 +8,16 @@
 1. [Master](master.md)
 
 ## 目次
+1. [/admin/student/batch/registaration](#adminstudentbatchregistartion-)
+1. [/admin/student/batch/update](#adminstudentbatchupdate-)
 1. [/admin/student/list](#adminstudentlist-)
 1. [/admin/student/count](#adminstudentlist-)
 1. [/admin/student/count/pages](#adminstudentcountpages-)
 1. [/admin/student/activate](#adminstudentactivate-)
+1. [/admin/student/batch/activate](#adminstudentbatchactivate-)
 1. [/admin/student/deactivate](#adminstudentdeactivate-)
+1. [/admin/student/deactivate](#adminstudentbatchdeactivate-)
+1. [/admin/student/password/reset](#adminstudentpasswordreset-)
 1. [/admin/company/list](#adminstudentlist-)
 1. [/admin/company/count](#admincompanycount-)
 1. [/admin/company/count/pages](#admincompanycountpages-)
@@ -39,6 +44,43 @@
 ## Admin
 管理者による操作を行います。
 全ての操作に管理者アカウントによる認証が必要になります
+
+- ### ./admin/student/batch/registration *
+    生徒の情報を一括で登録します
+    - パラメータ
+        ```
+        email: string,                              // メールアドレス
+        password: string,                           // パスワード
+        qualificationId: int[],                     // 資格IDリスト
+        name: string,                               // 名前
+        furigana: string,                           // ふりがな
+        gender: string,                             // 性別(0: 男性, 1: 女性, 9: その他)
+        birthday: date,                             // 誕生年月日(format: yyyy-mm-dd もしくは yyyy/mm/dd)
+        residence: string                           // 居住地
+        graduation_year: number,                    // 卒業年(format: yyyy)
+        classId: number,                            // クラスID
+        work_location: string                       // 希望勤務地
+        ```
+    - 戻り値
+        ```
+        {
+            "message": string,                      // 応答結果
+        }
+        ```
+
+- ### ./admin/student/batch/update *
+    登録されている生徒のクラスIDを一括で更新します
+    - パラメータ
+        ```
+        classId: number,                            // 更新前のクラスID
+        update_classId?: number                     // 更新後のクラスID
+        ```
+    - 戻り値
+        ```
+        {
+            "message": string,                      // 応答結果
+        }
+        ```
 
 - ### ./admin/student/list *  
     登録されている生徒の一覧を取得します
@@ -102,6 +144,19 @@
         }
         ```
 
+- ### ./admin/student/batch/activate *  
+    登録されている生徒のアカウントを一括で有効にします
+    - パラメータ  
+        ```
+        classId: number                                  // クラスID
+        ```
+    - 戻り値  
+        ```
+        {
+            "message": string                       // 応答結果
+        }
+        ```
+
 - ### ./admin/student/deactivate *  
     登録されている生徒のアカウントを無効にします
     - パラメータ  
@@ -109,6 +164,33 @@
         id: number                                  // 生徒ユーザID
         ```
     - 戻り値  
+        ```
+        {
+            "message": string                       // 応答結果
+        }
+        ```
+
+- ### ./admin/student/batch/deactivate *  
+    登録されている生徒のアカウントを一括で無効にします
+    - パラメータ  
+        ```
+        classId: number                                  // クラスID
+        ```
+    - 戻り値  
+        ```
+        {
+            "message": string                       // 応答結果
+        }
+        ```
+
+- ### ./admin/student/password/reset *
+    登録されている生徒のパスワードを更新します
+    - パラメータ
+        ```
+        id: number,                                 // 生徒ユーザID
+        password: string,                           // パスワード
+        ```
+    - 戻り値
         ```
         {
             "message": string                       // 応答結果
