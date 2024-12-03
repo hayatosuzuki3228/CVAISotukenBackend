@@ -10,7 +10,8 @@
 ## 目次
 1. [/company/information](#companyinformation)
 1. [/company/search](#companysearch)
-1. [/company/message/list](#companymessagelist)
+1. [/company/search/count](#companysearchcount)
+1. [/company/search/count/pages](#companysearchcountpages)
 
 ## Company
 会社情報操作を行います。
@@ -96,53 +97,35 @@
         }
         ```
 
-- ### ./company/message/list  
-    会社のIDから公開されているメッセージを取得します
+- ### ./company/search/count
+検索対象とキーワードから会社を検索し、総数を取得します   
+    検索対象は会社情報スキーマのカラム名から選択できます  
+    キーワードはスペース区切りにすることで、複数のキーワードをAND検索できます
     - パラメータ  
         ```
-        id: number,                                 // 会社ID
-        perPage: number?,                           // ページごとの取得コンテンツ数
-        page: number?                               // 取得開始ページ数
+        subject: string,                            // 検索対象
+        keyword: string                             // 検索キーワード  
         ```
     - 戻り値  
         ```
         {
             "message": string,                      // 応答結果
-            "result":                               // メッセージリスト
-            [
-                {
-                    "id": number,                   // メッセージID
-                    "title": string,                // メッセージタイトル
-                    "content": string               // 内容
-                }, ...
-            ]
+            "result": number                        // 総数
         }
-        ```
 
-- ### ./company/message/count *
-    企業が登録したメッセージ数を取得します
-    - パラメータ
+- ### ./company/search/count/pages
+検索対象とキーワードから会社を検索し、ページ数を取得します   
+    検索対象は会社情報スキーマのカラム名から選択できます  
+    キーワードはスペース区切りにすることで、複数のキーワードをAND検索できます
+    - パラメータ  
         ```
-        無し
+        subject: string,                            // 検索対象
+        keyword: string,                            // 検索キーワード  
+        perPage: number                             // ページごとのコンテンツ数
         ```
-    - 戻り値
-        ```
-        {
-            "message": string,                      // 応答結果
-            "result": number                        // メッセージ数
-        }
-        ```
-
-- ### ./comapny/message/count/pages *
-    企業が登録したメッセージをページ数として取得します
-    - パラメータ
-        ```
-        perPage: number                             // ページごとのメッセージ数
-        ```
-    - 戻り値
+    - 戻り値  
         ```
         {
             "message": string,                      // 応答結果
             "result": number                        // ページ数
         }
-        ```

@@ -57,6 +57,7 @@
         gender: string,                             // 性別 (0: 男性, 1: 女性, 9: その他)
         birthday: date,                             // 誕生年月日 format: yyyy-mm-dd or yyyy/mm/dd
         residence: string,                          // 居住地
+        work_location: string,                      // 希望勤務地
         classId: number,                            // クラスID
         graduation_year: number,                    // 卒業年 format: yyyy
         ```
@@ -80,6 +81,7 @@
         residence: string,                          // 居住地
         classId: number,                            // クラスID
         graduation_year: number,                    // 卒業年 format: yyyy
+        work_location: string,                      // 希望勤務地
         qualificationId: number[]                   // 資格ID
         ```
     - 戻り値
