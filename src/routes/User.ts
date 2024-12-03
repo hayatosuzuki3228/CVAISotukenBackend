@@ -421,13 +421,81 @@ router.post("/student/bookmark/count/pages", async(req: Request, res: Response, 
     }
 });
 
+router.post("/student/message/list", async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        // 取得する情報量を制御
+        const skip = (req.body.perPage ? req.body.perPage : 10) * (req.body.page ? req.body.page : 0);
+        const take = (req.body.perPage ? req.body.perPage : 10) * (req.body.page ? req.body.page + 1 : 1);   
+
+        const classId = await prisma.studentProfile.findFirst({
+            select: {
+                classId: true
+            },
+            where: {
+                id: req.session.userId
+            }
+        }).then((data) => data?.classId);
+
+        const data = await prisma.companyMessage.findMany({
+            select: {
+                postAt: true,
+                updateAt: true,
+                company: {
+                    select: {
+                        id: true,
+                        profile: {
+                            select: {
+                                name: true
+                            }
+                        }
+                    }
+                },
+                title: true,
+                content: true,
+                link: true
+            },
+            where: {
+                OR: [
+                    {
+                        class: {
+                            some: {
+                                classId: classId,
+                            }
+                        }
+                    },
+                    {
+                        class: {
+                            none: {}
+                        }
+                    }
+                ]
+            },
+            take: take,
+            skip: skip
+        }).then(data => data.map(data => ({
+            postAt: data.postAt,
+            updateAt: data.updateAt,
+            company: data.company.profile?.name,
+            compayId: data.company.id,
+            title: data.title,
+            content: data.content,
+            link: data.link,
+        })));
+
+        res.json({message: "情報の取得に成功しました", result: data});
+    } catch (e) {
+        next(e);
+    }
+});
+
+
 router.post("/company/message/new", async (req: Request, res: Response, next: NextFunction) => {
     try {
         exist(req.body.title, req.body.content);
 
         let sendTo: Prisma.CompanyMessageToCreateManyCompanyMessageInput[]
         if (req.body.classId ) {
-            const classes: number[] = req.body.class;
+            const classes: number[] = req.body.classId;
 
             sendTo = classes.map(id => ({
                 classId: id
