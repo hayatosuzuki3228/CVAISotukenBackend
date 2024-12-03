@@ -42,6 +42,8 @@ APIサーバー用ソフトウェアを起動したサーバーのIPアドレス
 1. [/user/student/bookmark/add](user.md#userstudentbookmarkadd-)
 1. [/user/student/bookmark/delete](user.md#userstudentbookmarkdelete-)
 1. [/user/student/message/list](user.md#userstudentmessagelist-)
+1. [/user/student/message/count](user.md#userstudentmessagecount-)
+1. [/user/student/message/count/pages](user.md#userstudentmessagecountpages-)
 1. [/user/company/message/new](user.md#usercompanymessagenew-)
 1. [/user/company/message/list](user.md#usercompanymessagelist-)
 1. [/user/company/message/count](user.md#usercompanymessagecount-)

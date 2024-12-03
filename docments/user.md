@@ -19,6 +19,8 @@
 1. [/user/student/bookmark/add](#userstudentbookmarkadd-)
 1. [/user/student/bookmark/delete](#userstudentbookmarkdelete-)
 1. [/user/student/message/list](#userstudentmessagelist-)
+1. [/user/student/message/count](#userstudentmessagecount-)
+1. [/user/student/message/count/pages](#userstudentmessagecountpages-)
 1. [/user/company/message/new](#usercompanymessagenew-)
 1. [/user/company/message/list](#usercompanymessagelist-)
 1. [/user/company/message/count](#usercompanymessagecount-)
