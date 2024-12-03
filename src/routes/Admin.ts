@@ -304,6 +304,7 @@ router.post("/company/count/pages", async(req: Request, res: Response, next: Nex
         exist(req.body.perPage);
 
         const total = await prisma.company.count();
+        console.log(total);
         const result = Math.ceil(total / req.body.perPage);
 
         res.json({message: "情報の取得に成功しました", result: result});
@@ -543,8 +544,6 @@ router.post("/qualification/count/pages", async(req: Request, res: Response, nex
 
 router.post("/class/list", async (req: Request, res: Response, next: NextFunction) => {
     try {
-        exist(req.body.name);
-
         // 取得する情報の制御
         const skip = (req.body.perPage ? req.body.perPage : 10) * (req.body.page ? req.body.page : 0);
         const take = (req.body.perPage ? req.body.perPage : 10) * (req.body.page ? req.body.page + 1 : 1);
@@ -554,7 +553,7 @@ router.post("/class/list", async (req: Request, res: Response, next: NextFunctio
             take: take
         });
 
-        res.json({message: "情報の追加に成功しました", result: data})
+        res.json({message: "情報の取得に成功しました", result: data})
 
     } catch (e) {
         next(e);

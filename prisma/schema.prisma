@@ -40,14 +40,14 @@ model Student {
 
 model StudentProfile {
     id Int @id
-    name String
-    furigana String
+    name String?
+    furigana String?
     classId Int
-    gender String @db.VarChar(1)
-    birthday DateTime @db.Date
-    residence String
-    graduation_year Int @db.Year 
-    work_location String
+    gender String? @db.VarChar(1)
+    birthday DateTime? @db.Date
+    residence String?
+    graduation_year Int? @db.Year 
+    work_location String?
     student Student @relation(fields: [id], references: [id])
     class ClassMaster @relation(fields: [classId], references: [id])
 }
