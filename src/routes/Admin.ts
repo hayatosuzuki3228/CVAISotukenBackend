@@ -3,6 +3,8 @@ import { exist } from "../utils/Validation";
 import { prisma } from "../server";
 import { verifyAdmin } from "../utils/Verify";
 import { encryption } from "../utils/Encryption";
+import { Result } from "@prisma/client/runtime/library";
+import { Prisma } from "@prisma/client";
 
 // ルーティングモジュールを呼び出し
 const router = require("express").Router();
@@ -18,24 +20,76 @@ router.use(async (req: Request, res: Response, next: NextFunction) => {
     }
 });
 
-// router.post("/student/batch/update", async (req: Request, res: Response, next: NextFunction) =>{
-//     try {
-//         exist(req.body.classId, req.body.update_classId)
-        
-//         await prisma.studentProfile.update({
-//             where: {
-//                 classId: req.body.classId
-//             },
-//             data:{
-//                 classId: req.body.update_classId
-//             }
-//         });
+router.post("/student/batch/registration", async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        for(const student of req.body){
+        exist(student.email, student.password, student.qualificationId);
+        exist(student.name, student.furigana, student.gender, student.birthday, student.residence, student.graduation_year, student.classId, student.work_location);
+        }
 
-//         res.json({message: "クラス情報が一括更新されました"})
-//     } catch (e) {
-//       next(e);  
-//     }
-// })
+        const studentData = req.body;
+
+        // 登録処理
+        for(const student of studentData){
+            const qualificationdata: Prisma.StudentQualificationCreateManyStudentInputEnvelope = {
+                data: student.qualificationId.map((id: any) => ({
+                    qualificationId: id
+                }))
+            };
+
+            await prisma.student.create({
+                data: {
+                    email: student.email,
+                    password: await encryption(student.password),
+                    active: true,
+                    profile: {
+                        create: {
+                            name: student.name,
+                            furigana: student.furigana,
+                            gender: student.gender,
+                            birthday: new Date(student.birthday),
+                            residence: student.residence,
+                            graduation_year: Number(student.graduation_year),
+                            classId: student.classId,
+                            work_location: student.work_location
+                        },
+                    },
+                    qualifications: {
+                        createMany: qualificationdata
+                    }
+                },
+                include: {
+                    profile: true,
+                }
+            });
+        };
+
+        res.json({message: "生徒の一括登録が完了しました"});
+
+    } catch (e) {
+        next(e);
+    }
+})
+
+router.post("/student/batch/update", async (req: Request, res: Response, next: NextFunction) =>{
+    try {
+        exist(req.body.classId)
+        
+        await prisma.studentProfile.updateMany({
+            where: {
+                classId: req.body.classId
+            },
+            data:{
+                classId: req.body.update_classId,
+                
+            }
+        });
+
+        res.json({message: "クラス情報が一括更新されました"});
+    } catch (e) {
+      next(e);  
+    }
+})
 
 router.post("/student/list", async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -117,7 +171,7 @@ router.post("/student/activate", async (req: Request, res: Response, next: NextF
     }
 });
 
-router.post("/student/class/activate", async (req: Request, res: Response, next: NextFunction) => {
+router.post("/student/batch/activate", async (req: Request, res: Response, next: NextFunction) => {
     try {
         exist(req.body.classId);
         // 学生ユーザーアカウントを有効化
@@ -157,7 +211,7 @@ router.post("/student/deactivate", async (req: Request, res: Response, next: Nex
     }
 });
 
-router.post("/student/class/deactivate", async (req: Request, res: Response, next: NextFunction) => {
+router.post("/student/batch/deactivate", async (req: Request, res: Response, next: NextFunction) => {
     try {
         exist(req.body.classId);
         // 学生ユーザーアカウントを有効化
