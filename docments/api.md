@@ -12,6 +12,7 @@ APIサーバー用ソフトウェアを起動したサーバーのIPアドレス
 1. [User](user.md)
 1. [Company](company.md)
 1. [Admin](admin.md)
+1. [Master](master.md)
 
 ## 目次
 ### [echo](echo.md)
@@ -26,6 +27,7 @@ APIサーバー用ソフトウェアを起動したサーバーのIPアドレス
 1. [/registration/student](registration.md#registrationstudent)
 1. [/registration/student/all](registration.md#registrationstudentall)
 1. [/registration/company](registration.md#registrationcompany)
+1. [/registration/company/all](registration.md#registrationcompanyall)
 1. [/registration/admin](registration.md#registrationadmin-)
 
 ### [user](user.md)
@@ -75,3 +77,7 @@ APIサーバー用ソフトウェアを起動したサーバーのIPアドレス
 1. [/admin/qualification/add](admin.md#adminqualificationadd-)
 1. [/admin/qualification/edit](admin.md#adminqualificationedit-)
 1. [/admin/qualification/delete](admin.md#adminqualificationdelete-)
+
+### [master](master.md)
+1. [/master/qualification](master.md#masterqualification)
+1. [/master/class](master.md#masterqualification)

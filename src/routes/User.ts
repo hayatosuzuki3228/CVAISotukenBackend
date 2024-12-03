@@ -41,7 +41,7 @@ router.post("/profile/get", async (req: Request, res: Response, next: NextFuncti
                     where: {
                         id: req.session.userId
                     }
-                });
+                })
                 break;
             
             case UserCategory.company:
@@ -249,7 +249,7 @@ router.post("/student/qualification/list", async (req: Request, res: Response, n
             )
         );
 
-        res.json({message: "データの取得に成功しました", result: result});
+        res.json({message: "情報の取得に成功しました", result: result});
     } catch (e) {
         next(e);
     }
@@ -297,7 +297,7 @@ router.post("/student/qualification/add", async (req: Request, res: Response, ne
             }
         });
 
-        res.json({message: "ユーザの資格情報を追加しました"});
+        res.json({message: "情報の追加に成功しました"});
     } catch (e) {
         next(e);
     }    
@@ -314,7 +314,7 @@ router.post("/student/qualification/delete", async (req: Request, res: Response,
             }
         });
 
-        res.json({message: "選択された資格情報が削除されました"});
+        res.json({message: "情報の削除に成功しました"});
     } catch (e) {
         next(e);
     }
@@ -371,7 +371,7 @@ router.post("/student/bookmark/add", async (req: Request, res: Response, next: N
             }
         });
 
-        res.json({message: "ブックマークの追加に成功しました"});
+        res.json({message: "情報の追加に成功しました"});
 
         } catch (e) {
         next(e);
@@ -389,7 +389,7 @@ router.post("/student/bookmark/delete", async (req: Request, res: Response, next
             }
         });
 
-        res.json({message: "ブックマークの削除に成功しました"});
+        res.json({message: "情報の削除に成功しました"});
 
         } catch (e) {
         next(e);
@@ -401,7 +401,7 @@ router.post("/student/bookmark/count", async(req: Request, res: Response, next: 
 
         const total = await prisma.studentBookmark.count();
 
-        res.json({message: "生徒のブックマークの総数を取得しました", result: total});
+        res.json({message: "情報を取得しました", result: total});
 
     } catch (e) {
         next(e)
@@ -415,7 +415,7 @@ router.post("/student/bookmark/count/pages", async(req: Request, res: Response, 
         const total = await prisma.studentBookmark.count();
         const result = Math.ceil(total / req.body.perPage);
 
-        res.json({message: "総ページ数を取得しました", result: result});
+        res.json({message: "情報を取得しました", result: result});
 
     } catch (e) {
         next(e)
@@ -424,15 +424,19 @@ router.post("/student/bookmark/count/pages", async(req: Request, res: Response, 
 
 router.post("/company/message/new", async (req: Request, res: Response, next: NextFunction) => {
     try {
-        exist(req.body.title, req.body.content, req.body.class);
+        exist(req.body.title, req.body.content);
 
-        const classes: number[] = req.body.class;
+        let sendTo: Prisma.CompanyMessageToCreateManyCompanyMessageInput[]
+        if (req.body.classId ) {
+            const classes: number[] = req.body.class;
 
-        const sendTo: Prisma.CompanyMessageToCreateManyCompanyMessageInput[] = 
-            classes.map(id => ({
+            sendTo = classes.map(id => ({
                 classId: id
             }));
-
+        } else {
+            sendTo = []
+        }
+        
         // メッセージの作成
         await prisma.companyMessage.create({
             data: {
@@ -453,7 +457,7 @@ router.post("/company/message/new", async (req: Request, res: Response, next: Ne
             }
         });
 
-        res.json({message: "メッセージの送信に成功しました"});
+        res.json({message: "情報の送信に成功しました"});
 
     } catch (e) {
         next(e);
@@ -505,10 +509,36 @@ router.post("/company/message/list", async (req: Request, res: Response, next: N
             class: data.class.map(data => (data.class.name))
         })));
 
-        res.json({message: "メッセージの取得に成功しました", result: messages});
+        res.json({message: "情報の取得に成功しました", result: messages});
 
     } catch (e) {
         next(e);
+    }
+});
+
+router.post("/company/message/count", async(req: Request, res: Response, next: NextFunction) => {
+    try {
+
+        const total = await prisma.companyMessage.count();
+
+        res.json({message: "情報の取得に成功しました", result: total});
+
+    } catch (e) {
+        next(e)
+    }
+});
+
+router.post("/company/message/count/pages", async(req: Request, res: Response, next: NextFunction) => {
+    try {
+        exist(req.body.perPage);
+
+        const total = await prisma.companyMessage.count();
+        const result = Math.ceil(total / req.body.perPage);
+
+        res.json({message: "情報の取得に成功しました", result: result});
+
+    } catch (e) {
+        next(e)
     }
 });
 
@@ -519,10 +549,10 @@ router.post("/company/message/edit", async (req: Request, res: Response, next: N
         let classes: number[];
         let sendTo: Prisma.CompanyMessageToCreateManyCompanyMessageInput[];
 
-        if (req.body.class) {
+        if (req.body.classId) {
             await prisma.companyMessageTo.deleteMany();
 
-            classes = req.body.class;
+            classes = req.body.classId;
 
             sendTo = classes?.map(id => ({
                     classId: id
@@ -550,7 +580,7 @@ router.post("/company/message/edit", async (req: Request, res: Response, next: N
             }
         });
 
-        res.json({message: "メッセージの更新に成功しました"});
+        res.json({message: "情報の更新に成功しました"});
 
     } catch (e) {
         next(e);
@@ -571,7 +601,7 @@ router.post("/company/message/delete", async (req: Request, res: Response, next:
 
         await prisma.companyMessageTo.deleteMany();
 
-        res.json({message: "メッセージの更新に削除に成功しました"});
+        res.json({message: "情報の更新に削除に成功しました"});
 
     } catch (e) {
         next(e);
@@ -593,7 +623,7 @@ router.post("/company/message/publish", async (req: Request, res: Response, next
             }
         });
 
-        res.json({message: "メッセージの公開に成功しました"});
+        res.json({message: "情報の公開に成功しました"});
 
     } catch (e) {
         next(e);
@@ -615,36 +645,10 @@ router.post("/company/message/private", async (req: Request, res: Response, next
             }
         });
 
-        res.json({message: "メッセージの非公開に成功しました"});
+        res.json({message: "情報の非公開に成功しました"});
 
     } catch (e) {
         next(e);
-    }
-});
-
-router.post("/company/message/count", async(req: Request, res: Response, next: NextFunction) => {
-    try {
-
-        const total = await prisma.companyMessage.count();
-
-        res.json({message: "メッセージの総数を取得しました", result: total});
-
-    } catch (e) {
-        next(e)
-    }
-});
-
-router.post("/company/message/count/pages", async(req: Request, res: Response, next: NextFunction) => {
-    try {
-        exist(req.body.perPage);
-
-        const total = await prisma.companyMessage.count();
-        const result = Math.ceil(total / req.body.perPage);
-
-        res.json({message: "総ページ数を取得しました", result: result});
-
-    } catch (e) {
-        next(e)
     }
 });
 

@@ -5,6 +5,7 @@
 1. [User](user.md)
 1. [Company](company.md)
 1. [Admin](admin.md)
+1. [Master](master.md)
 
 ## 目次
 1. [/user/profile/get](#userprofileget-)
@@ -43,6 +44,7 @@
                 "id": number,                                                   // ユーザID
                 "name": string,                                                 // ユーザ名
                 "furigana": string,                                             // ふりがな
+                "classId": number,                                              // クラスID
                 "gender": string,                                               // 性別 0: 男性, 1: 女性, 9: その他
                 "birthday": date,                                               // 誕生日 format: yyyy-mm-dd or yyyy/mm/dd
                 "residence": string,                                            // 居住地
@@ -289,7 +291,7 @@
         content: string,                            // メッセージ内容
         published: boolean?,                        // 公開状況　省略した場合true
         link: string?,                              // メッセージに付加するリンク
-        class: number[]                             // メッセージを送付するクラスIDリスト
+        classId: number[]?                          // メッセージを送付するクラスIDリスト
         ```
     - 戻り値
         ```
@@ -358,8 +360,12 @@
     - パラメータ
         ```
         id: string,                                 // メッセージUUID
+        published: boolean?,                        // 公開状況
         title: string?,                             // メッセージタイトル
         content: string?,                           // メッセージ内容 
+        publish: boolean?,                          // メッセージの公開状況
+        link: string?,                              // メッセージに付与するリンク
+        classId: number[]?                          // メッセージを送信するクラスIDリスト
         ```
     - 戻り値
         ```
