@@ -66,8 +66,18 @@ router.post("/search", async (req: Request, res: Response, next: NextFunction) =
 
 router.post("/search/count", async(req: Request, res: Response, next: NextFunction) => {
     try {
+        // キーワードを整形
+        let keywords: Object[] = [];
 
-        const total = await prisma.companyProfile.count();
+        for (const keyword of req.body.keyword.split(/\s+/)) {
+            keywords.push({[req.body.subject]: {contains: keyword}});
+        }
+
+        const total = await prisma.companyProfile.count({
+            where: {
+                AND: keywords
+            }
+        });
 
         res.json({message: "企業情報の総数を取得しました", result: total});
 
@@ -80,76 +90,16 @@ router.post("/search/count/pages", async(req: Request, res: Response, next: Next
     try {
         exist(req.body.perPage);
 
-        const total = await prisma.companyProfile.count();
-        const result = Math.ceil(total / req.body.perPage);
+        // キーワードを整形
+        let keywords: Object[] = [];
 
-        res.json({message: "総ページ数を取得しました", result: result});
+        for (const keyword of req.body.keyword.split(/\s+/)) {
+            keywords.push({[req.body.subject]: {contains: keyword}});
+        }
 
-    } catch (e) {
-        next(e)
-    }
-});
-
-router.post("/message/list", async (req: Request, res: Response, next: NextFunction) => {
-    try {
-        exist(req.body.id);
-
-        // 取得する情報量の制御
-        const skip = (req.body.perPage ? req.body.perPage : 10) * (req.body.page ? req.body.page : 0);
-        const take = (req.body.perPage ? req.body.perPage : 10) * (req.body.page ? req.body.page + 1 : 1);
-    
-        // idに一致する会社のメッセージを全て取得
-        const messages = await prisma.companyMessage.findMany(
-            {
-                select:{
-                    id: true,
-                    title: true,
-                    content: true,
-                    link: true
-                },
-                where: {
-                    companyId: req.body.companyId,
-                    published: true,
-                    class: {
-                        none: {}
-                    }
-                },
-                skip: skip,
-                take: take
-            }
-        );
-
-        res.json({message: "メッセージの取得に成功しました", result: messages});
-
-    } catch (e) {
-        next(e);
-    }
-});
-
-router.post("/message/count/", async(req: Request, res: Response, next: NextFunction) => {
-    try {
-
-        const total = await prisma.companyMessage.count({
+        const total = await prisma.companyProfile.count({
             where: {
-                published: true,
-
-            }
-        });
-
-        res.json({message: "メッセージの総数を取得しました", result: total});
-
-    } catch (e) {
-        next(e)
-    }
-});
-
-router.post("/message/count/pages", async(req: Request, res: Response, next: NextFunction) => {
-    try {
-        exist(req.body.perPage);
-
-        const total = await prisma.companyMessage.count({
-            where: {
-                published: true
+                AND: keywords
             }
         });
         const result = Math.ceil(total / req.body.perPage);

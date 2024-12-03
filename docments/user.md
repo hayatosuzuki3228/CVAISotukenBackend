@@ -18,10 +18,11 @@
 1. [/user/student/bookmark/count/pages](#userstudentbookmarkcountpages-)
 1. [/user/student/bookmark/add](#userstudentbookmarkadd-)
 1. [/user/student/bookmark/delete](#userstudentbookmarkdelete-)
+1. [/user/student/message/list](#userstudentmessagelist-)
 1. [/user/company/message/new](#usercompanymessagenew-)
 1. [/user/company/message/list](#usercompanymessagelist-)
-1. [/user/company/message/count](#userstudentmessagecount-)
-1. [/user/company/message/count/pages](#userstudentmessagecountpages-)
+1. [/user/company/message/count](#usercompanymessagecount-)
+1. [/user/company/message/count/pages](#usercompanymessagecountpages-)
 1. [/user/company/message/edit](#usercompanymessageedit-)
 1. [/user/company/message/delete](#usercompanymessagedelete-)
 1. [/user/company/message/publish](#usercompanymessagepublish-)
@@ -49,7 +50,8 @@
                 "birthday": date,                                               // 誕生日 format: yyyy-mm-dd or yyyy/mm/dd
                 "residence": string,                                            // 居住地
                 "graduation_year": number,                                      // 卒業年 format: yyyy
-                "qualification": int                                            // 資格
+                "qualification": int,                                           // 資格
+                work_location: string                                           // 希望勤務地
             }
         }
 
@@ -107,13 +109,15 @@
     - パラメータ
         ```
         // 認証が学生ユーザーの場合
-        name: string,                                           // 名前
-        furigana: string,                                       // ふりがな
-        gender: string,                                         // 性別 0: 男性, 1: 女性, 9: その他
-        birthday: date,                                         // 誕生日 format: yyyy-mm-dd or yyyy/mm/dd
-        residence: string,                                      // 居住地
-        graduation_year: number,                                // 卒業年 format: yyyy
-        qualification: number                                   // 資格
+        name: string?,                                          // 名前
+        furigana: string?,                                      // ふりがな
+        gender: string?,                                        // 性別 0: 男性, 1: 女性, 9: その他
+        birthday: date?,                                        // 誕生日 format: yyyy-mm-dd or yyyy/mm/dd
+        residence: string?,                                     // 居住地
+        graduation_year: number?,                               // 卒業年 format: yyyy
+        qualification: number?,                                 // 資格
+        work_location: string?,                                 // 希望勤務地
+
 
         // 認証が企業ユーザーの場合
         "code": number?,                                        // 会社コード
@@ -188,7 +192,7 @@
     認証された学生ユーザーに資格情報を追加します
     - パラメータ
         ```
-        id: string[]                                // 資格ID
+        id: number[]                                // 資格ID
         ```
     - 戻り値
         ```
@@ -200,7 +204,7 @@
     認証された学生ユーザーの資格情報を削除します
     - パラメータ
         ```
-        id: string[]                                // 資格ID
+        id: number[]                                // 資格ID
         ```
     - 戻り値
         ```
@@ -282,6 +286,27 @@
         }
         ```
 
+- ### ./user/student/message/list *
+    学生ユーザが対象となっているメッセージを取得します
+    - パラメータ
+        ```
+        perPage?: number,                           // ページごとの取得コンテンツ数
+        page?: number                               // 開始ページ数
+        ```
+    - 戻り値
+        ```
+            "message": string,                      // 応答結果
+            "result": [
+                "postAt": date,                     // 送信日時
+                "updateAt": date,                   // 更新日時
+                "company": string,                  // 会社名
+                "compayId": number,                 // 会社ID
+                "title": string,                    // メッセージタイトル
+                "content": string,                  // メッセージ内容
+                "link": string                      // 付属リンク
+            ]
+        ```
+
 - ### ./user/company/message/new *  
     企業ユーザーアカウントでの認証状態でのみ利用可能です
     認証された企業アカウントに紐づいたメッセージを作成します
@@ -326,7 +351,7 @@
         }
         ```
     
-- ### ./user/student/message/count *
+- ### ./user/company/message/count *
     ユーザーに登録されているメッセージ数を取得します
     - パラメータ
         ```
@@ -340,7 +365,7 @@
         }
         ```
 
-- ### ./user/student/message/count/pages *
+- ### ./user/company/message/count/pages *
     ユーザーに登録されているメッセージをページ数として取得します
     - パラメータ
         ```
