@@ -489,6 +489,81 @@ router.post("/student/message/list", async (req: Request, res: Response, next: N
     }
 });
 
+router.post("/student/message/count", async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const classId = await prisma.studentProfile.findFirst({
+            select: {
+                classId: true
+            },
+            where: {
+                id: req.session.userId
+            }
+        }).then((data) => data?.classId);
+
+        const data = await prisma.companyMessage.count({
+            where: {
+                OR: [
+                    {
+                        class: {
+                            some: {
+                                classId: classId,
+                            }
+                        }
+                    },
+                    {
+                        class: {
+                            none: {}
+                        }
+                    }
+                ]
+            }
+        })
+
+        res.json({message: "情報の取得に成功しました", result: data})
+    } catch (e) {
+        next(e);
+    }
+});
+
+router.post("/student/message/count/pages", async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        exist(req.body.perPage);
+        
+        const classId = await prisma.studentProfile.findFirst({
+            select: {
+                classId: true
+            },
+            where: {
+                id: req.session.userId
+            }
+        }).then((data) => data?.classId);
+
+        const total = await prisma.companyMessage.count({
+            where: {
+                OR: [
+                    {
+                        class: {
+                            some: {
+                                classId: classId,
+                            }
+                        }
+                    },
+                    {
+                        class: {
+                            none: {}
+                        }
+                    }
+                ]
+            }
+        });
+
+        const data = Math.ceil(total / req.body.perPage);
+
+        res.json({message: "情報の取得に成功しました", result: data})
+    } catch (e) {
+        next(e);
+    }
+});
 
 router.post("/company/message/new", async (req: Request, res: Response, next: NextFunction) => {
     try {

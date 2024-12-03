@@ -307,6 +307,30 @@
             ]
         ```
 
+- ### ./user/student/message/count *
+    学生ユーザが対象となっているメッセージの総数取得します
+    - パラメータ
+        ```
+        無し
+        ```
+    - 戻り値
+        ```
+            "message": string,                      // 応答結果
+            "result": number                        // 総数
+        ```
+
+- ### ./user/student/message/count/pages *
+    学生ユーザが対象となっているメッセージの総数取得します
+    - パラメータ
+        ```
+        perPage: number                             // ページごとのコンテンツ数
+        ```
+    - 戻り値
+        ```
+            "message": string,                      // 応答結果
+            "result": number                        // 総数
+        ```
+
 - ### ./user/company/message/new *  
     企業ユーザーアカウントでの認証状態でのみ利用可能です
     認証された企業アカウントに紐づいたメッセージを作成します
